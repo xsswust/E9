@@ -70,6 +70,10 @@ int g_mpn_test_val[MPN_MAX_NUM] ={0};   //记录测试结果 查表用
 
 int g_work_Test_type[BOTTLE_MAX_NUM] ={ NULL_ID, NULL_ID,NULL_ID, NULL_ID, NULL_ID};  // 测试菌
 
+int gpio_out[] = {MAIN_GPIO_OUT0, MAIN_GPIO_OUT1,MAIN_GPIO_OUT2, MAIN_GPIO_OUT3,MAIN_GPIO_OUT4, MAIN_GPIO_OUT5,MAIN_GPIO_OUT6, MAIN_GPIO_OUT7};
+int gpio_in[] = {MAIN_GPIO_IN0, MAIN_GPIO_IN1,MAIN_GPIO_IN2, MAIN_GPIO_IN3,MAIN_GPIO_IN4, MAIN_GPIO_IN5,MAIN_GPIO_IN6, MAIN_GPIO_IN7};
+UINT8 gExt_out[MAX_EXT_OUT_GPIO];
+UINT8 gExt_in[MAX_EXT_IN_GPIO];
 
 float g_temp1 = 0.0;		// 实时温度1
 float g_temp2 = 0.0;		// 实时温度2
@@ -165,6 +169,7 @@ ushort CRC16(uchar *ba, int size)
 // 硬件初始化
 void HardWare_Init(void)
 {
+	int i = 0;
 	// 打开 gpio 驱动
 	Gpio_Init(); // 打开gpio 驱动
 	LED_Power(0, 0); // 关闭 EN 引脚
@@ -177,6 +182,19 @@ void HardWare_Init(void)
 #endif
 
     Gpio_set(AD_EN, GPIO_LOW);  //使能 EN
+// 初始化扩展板输入状态
+	for(i = 0 ; i < MAX_EXT_IN_GPIO; i++){
+		gExt_in[i] = 0;
+	}
+// 初始化扩展板输出状态
+	for(i = 0 ; i < MAX_EXT_OUT_GPIO; i++){
+		gExt_out[i] = 0;
+	}
+// 初始化 接口板输出状态
+	for(i = 0; i < MAX_MAIN_OUT_GPIO; i++){
+		Set_Main_Gpio(i, GPIO_LOW);
+	}
+
 }
 // 硬件解除
 void HardWare_UnInit(void)
@@ -653,3 +671,144 @@ void str2char(QString str, char *data)
 
     printf("data== %s \r\n",ba.data());
 }
+
+int gPwm1_flag = false;
+//电机1 转向控制
+// flag -> true  正转    flag--->false 反转
+void SetMaDa1_Dir(bool flag)
+{
+	if(flag == true){
+		Gpio_set(gpio_out[0], 1);
+		gPwm1_flag = false;
+	}
+	else{
+		Gpio_set(gpio_out[0], 0);
+		gPwm1_flag = true;
+	}
+}
+
+
+int gPwm2_flag = false;
+//电机2 转向控制
+void SetMaDa2_Dir(bool flag)
+{
+	if(flag == true){
+		Gpio_set(gpio_out[1], 1);
+		gPwm2_flag = false;
+	}
+	else{
+		Gpio_set(gpio_out[1], 0);
+		gPwm2_flag = true;
+	}
+}
+
+
+// pwm1  设置转速
+// flag --> true 开始转  flag---> false 停止转
+void SetMaDa1_Start(bool flag)
+{
+	if(true == flag){
+		pwm_init(1, 1000, 50, 1);
+	//	gpio_flag = false;
+	}
+	else{
+		pwm_init(1, 1000, 50, 0);
+	//	gpio_flag = true;
+	}
+}
+// pwm2
+
+// pwm2  设置转速
+// flag --> true 开始转  flag---> false 停止转
+void SetMaDa2_Start(bool flag)
+{
+//	gFlag = PWM2_INTERFACE;
+
+	if(true == flag){
+		pwm_init(2, 1000, 50, GPIO_HIGH);
+	//	gpio_flag = false;
+	}
+	else{
+		pwm_init(2, 1000, 50, GPIO_LOW);
+	//	gpio_flag = true;
+	}
+}
+// 设置接口板GPIO值
+//num ---> 接口板gpio号 0----7
+// flag --> 数值  true --> 1   false --> 0
+
+void Set_Main_Gpio(int num, int val){
+
+	if(num < 0 || num >= MAX_MAIN_OUT_GPIO){
+		return ;
+	}
+
+	Gpio_set(gpio_out[num], val);
+}
+
+// 设置接口板GPIO值
+//num ---> 接口板gpio号 0----7
+// val --> 数值
+
+int Get_Main_Gpio(int num){
+
+	if(num < 0 || (num >= MAX_MAIN_IN_GPIO)){
+		return -1;
+	}
+
+	return Gpio_get(gpio_in[num]);
+}
+
+// 设置扩展口输出
+bool Set_Ext_Gpio(int num, int val){
+
+	if((num < 0) || (num >= MAX_EXT_OUT_GPIO)){
+		return false;
+	}
+	gExt_out[num] = val;
+	UpdateExtOutGpio();
+	return true;
+}
+
+// 更新全部扩展板输出状态
+void UpdateExtOutGpio(){
+	int i = 0;
+
+	for(i = 0; i < MAX_EXT_OUT_GPIO; i++)
+	{
+		Gpio_set(OUT_SDI, gExt_out[i]);
+		Gpio_set(OUT_CLK, GPIO_HIGH);
+
+		Gpio_set(OUT_CLK, GPIO_LOW);
+	}
+
+	Gpio_set(OUT_LE, GPIO_HIGH);
+}
+
+// 获取扩展口输入值
+int Get_Ext_Gpio(int num){
+
+	if((num < 0) || (num >= MAX_EXT_OUT_GPIO)){
+		return false;
+	}
+	UpdateExtInGpio();
+	return gExt_in[num] ;
+}
+
+// 更新全部扩展板输入状态
+void UpdateExtInGpio(){
+	int i = 0;
+
+	Gpio_set(IN_CLK, GPIO_LOW);
+	Gpio_set(IN_LE, GPIO_HIGH);  // 先置高在置地进行本芯片的数据保存
+//	Sleep(1);
+	Gpio_set(IN_LE, GPIO_LOW);
+	gExt_in[0] = (bool)Gpio_get(IN_DATA);
+	for(i = 1; i < MAX_EXT_IN_GPIO ; i++)
+	{
+		Gpio_set(IN_CLK, GPIO_HIGH);
+		gExt_in[i] = (bool)Gpio_get(IN_DATA);
+		Gpio_set(IN_CLK, GPIO_LOW);
+	}
+}
+

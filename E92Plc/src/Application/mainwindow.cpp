@@ -85,11 +85,12 @@ void MainWindow::MainWindow_Init()
 	timeUpdate();
 	ShowTemp();
 	ShowUnit();
-	connect(ui->pb_gpio_ex_in, SIGNAL(released()),this,SLOT(on_pb_gpio_ex_in_released()));
+	//connect(ui->pb_gpio_ex_in, SIGNAL(released()),this,SLOT(on_pb_gpio_ex_in_released()));
 	//connect(pb->,SIGNAL(emitNustr(QString)),this,SLOT(insertValue(QString)));
 	ptimerUpdateTime->start(TIMER_LEN_1S);   // 时间显示 500MS
 	qDebug()<<("==***===init============\r\n");
 
+	connect(ui->pb_debug, SIGNAL(released()),this,SLOT(pbdebug_Reless()));
 }
 /*
 	函数名称：
@@ -136,7 +137,8 @@ void MainWindow::pbhisdata_Reless()
 */
 void MainWindow::pbdebug_Reless()
 {
-
+	Debugging *debug = new Debugging();
+	debug->showFullScreen();
 }
 
 /*
@@ -192,127 +194,11 @@ void MainWindow::pbst_Reless()
     输出参数：
     修改记录：
 */
-int gpio_out[] = {MAIN_GPIO_OUT0, MAIN_GPIO_OUT1,MAIN_GPIO_OUT2, MAIN_GPIO_OUT3,MAIN_GPIO_OUT4, MAIN_GPIO_OUT5,MAIN_GPIO_OUT6, MAIN_GPIO_OUT7};
-int gpio_in[] = {MAIN_GPIO_IN0, MAIN_GPIO_IN1,MAIN_GPIO_IN2, MAIN_GPIO_IN3,MAIN_GPIO_IN4, MAIN_GPIO_IN5,MAIN_GPIO_IN6, MAIN_GPIO_IN7};
+
 bool gpio_flag = true;
 void MainWindow::timeUpdate()
 {
 //	printf("\r\ntimeUpdate == []gFlag == %d gpio_flag === %d\r\n ", gFlag, gpio_flag);
-	// gpio 测试输出
-	if(gFlag == GPIO_OUT_INTERFACE){
-		for(int i = 0; i < 8; i++){
-			if(true == gpio_flag){
-				Gpio_set(gpio_out[i], 1);
-			}
-			else {
-				Gpio_set(gpio_out[i], 0);
-			}
-		}
-		if(true == gpio_flag){
-			gpio_flag = false;
-		}
-		else{
-			gpio_flag = true;
-		}
-
-	}
-	else if(gFlag == GPIO_IN_INTERFACE){  // 输入接口
-		for(int i = 0; i < 8; i++){
-			printf("gpio_in[%d] === %d\r\n", i, Gpio_get(gpio_in[i]));
-		}
-	}
-	else if(gFlag == GPIO_EXT_OUT_INTERFACE)  // 扩展IO 输出  OK
-	{
-		Gpio_set(OUT_CLK, 0);  // 注意 clk 为上升沿时有效
-		Gpio_set(OUT_LE, 0);
-		Gpio_set(OUT_SDI, 0);
-#if 0
-		for(int i = 0; i < GPIO_EXT_OUT_NUM; i++)
-		{
-			if(true == gpio_flag){
-				if(i%2 == 0){
-					Gpio_set(OUT_SDI, 1);
-				}
-				else {
-					Gpio_set(OUT_SDI,0);
-				}
-			}
-			else{
-				if(i% 2 == 0){
-					Gpio_set(OUT_SDI, 0);
-				}
-				else{
-					Gpio_set(OUT_SDI, 1);
-				}
-			}
-
-//			Sleep(1);
-			Gpio_set(OUT_CLK, 1);
-//			Sleep(1);
-			Gpio_set(OUT_CLK, 0);
-
-		}
-#else  // 先进先出原则， 先进入的为 高位
-		for(int i = 0; i < 32; i++)
-		{
-			if(i < 16 ){
-				if(i < 1){
-					Gpio_set(OUT_SDI, 0);
-				}
-				else{
-					Gpio_set(OUT_SDI,1);
-				}
-			}
-			else{
-				if(i < 30){
-					Gpio_set(OUT_SDI, 1);
-				}
-				else{
-					Gpio_set(OUT_SDI, 0);
-				}
-			}
-
-//			Sleep(1);
-			Gpio_set(OUT_CLK, 1);
-//			Sleep(1);
-			Gpio_set(OUT_CLK, 0);
-
-		}
-#endif
-		Gpio_set(OUT_LE, 1);
-
-		if(true == gpio_flag){
-			gpio_flag = false;
-		}
-		else{
-			gpio_flag = true;
-		}
-	}
-	else if(gFlag == GPIO_EXT_IN_INTERFACE){
-		Gpio_set(IN_CLK, 0);
-		Gpio_set(IN_LE, 1);  // 先置高在置地进行本芯片的数据保存
-	//	Sleep(1);
-		Gpio_set(IN_LE, 0);
-		printf(" get[%d] == %d \r\n", 0, (bool)Gpio_get(IN_DATA));
-		for(int i = 0; i < GPIO_EXT_IN_NUM*2 -1; i++)
-		{
-
-//			Sleep(1);
-			Gpio_set(IN_CLK, 1);
-			printf(" get[%d] == %d \r\n", i+1, (bool)Gpio_get(IN_DATA));
-//			Sleep(1);
-			Gpio_set(IN_CLK, 0);
-
-		}
-	}
-	else if(gFlag == PWM1_INTERFACE)
-	{
-
-	}
-	else if(gFlag == PWM2_INTERFACE)
-	{
-
-	}
 
 }
 
@@ -349,87 +235,5 @@ void MainWindow::Show_system_Info()
 void MainWindow::ShowUnit()
 {
 
-}
-
-// 接口板 gpio 测试  out
-
-void MainWindow::on_pb_gpio_released()
-{
-	gFlag = GPIO_OUT_INTERFACE;
-}
-// 接口板 gpio 测试  in
-void MainWindow::on_pb_gpio_in_released()
-{
-	gFlag = GPIO_IN_INTERFACE;
-}
-// 接口板 gpio ext 测试  out
-void MainWindow::on_pb_gpio_ex_out_released()
-{
-	gFlag = GPIO_EXT_OUT_INTERFACE;
-}
-// 扩展板 gpio ext in
-void MainWindow::on_pb_gpio_ex_in_released()
-{
-	printf("\r\n on_pb_gpio_ex_in_released ==== gFlag = %d \r\n", gFlag);
-	gFlag = GPIO_EXT_IN_INTERFACE;
-}
-// pwm1
-void MainWindow::on_pb_pwm1_released()
-{
-	gFlag = PWM1_INTERFACE;
-
-    if(true == gpio_flag){
-        pwm_init(1, 1000, 50, 1);
-        gpio_flag = false;
-    }
-    else{
-        pwm_init(1, 1000, 50, 0);
-        gpio_flag = true;
-    }
-}
-// pwm2
-
-void MainWindow::on_pb_pwm2_released()
-{
-	gFlag = PWM2_INTERFACE;
-
-    if(true == gpio_flag){
-        pwm_init(2, 1000, 50, 1);
-        gpio_flag = false;
-    }
-    else{
-        pwm_init(2, 1000, 50, 0);
-        gpio_flag = true;
-    }
-}
-
-
-int gPwm1_flag = false;
-//电机1 转向控制
-
-void MainWindow::on_pb_pwm1_DIR_released()
-{
-    if(gPwm1_flag == true){
-        Gpio_set(gpio_out[0], 1);
-        gPwm1_flag = false;
-    }
-    else{
-        Gpio_set(gpio_out[0], 0);
-        gPwm1_flag = true;
-    }
-}
-
-int gPwm2_flag = false;
-//电机2 转向控制
-void MainWindow::on_pb_pwm2_DIR_released()
-{
-    if(gPwm2_flag == true){
-        Gpio_set(gpio_out[1], 1);
-        gPwm2_flag = false;
-    }
-    else{
-        Gpio_set(gpio_out[1], 0);
-        gPwm2_flag = true;
-    }
 }
 

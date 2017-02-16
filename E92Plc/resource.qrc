@@ -10,6 +10,58 @@
         <file>image/系统帮助.png</file>
         <file>image/系统调试.png</file>
         <file>image/用户设置.png</file>
+        <file>image/dataManage.jpg</file>
+        <file>image/dataInfo.jpg</file>
+        <file>image/help.jpg</file>
+        <file>image/main.jpg</file>
+        <file>image/pumTest.jpg</file>
+        <file>image/setting.jpg</file>
+        <file>image/singleTest.jpg</file>
+        <file>image/systemSt.jpg</file>
+        <file>image/systemTest.jpg</file>
+        <file>image/testSt.jpg</file>
+        <file>image/warring.jpg</file>
+        <file>image/plc/comTest.png</file>
+        <file>image/plc/dataInfo.png</file>
+        <file>image/plc/dataManage.png</file>
+        <file>image/plc/help.png</file>
+        <file>image/plc/main.png</file>
+        <file>image/plc/pumTest.png</file>
+        <file>image/plc/setting.png</file>
+        <file>image/plc/singleTest.png</file>
+        <file>image/plc/systemSt.png</file>
+        <file>image/plc/systemTest.png</file>
+        <file>image/plc/testSt.png</file>
+        <file>image/plc/warring.png</file>
+        <file>image/0.png</file>
+        <file>image/01.png</file>
+        <file>image/02.png</file>
+        <file>image/1.png</file>
+        <file>image/2.png</file>
+        <file>image/3.png</file>
+        <file>image/4.png</file>
+        <file>image/5.png</file>
+        <file>image/6.png</file>
+        <file>image/7.png</file>
+        <file>image/8.png</file>
+        <file>image/9.png</file>
+        <file>image/alarm.png</file>
+        <file>image/back.png</file>
+        <file>image/button_back.png</file>
+        <file>image/comTest.jpg</file>
+        <file>image/config.png</file>
+        <file>image/datasys.png</file>
+        <file>image/hisdata.png</file>
+        <file>image/login.png</file>
+        <file>image/save.png</file>
+        <file>image/singletest.png</file>
+        <file>image/syshelp.png</file>
+        <file>image/sysmanage.png</file>
+        <file>image/syspara.png</file>
+        <file>image/sysset.png</file>
+        <file>image/testing.png</file>
+        <file>image/testmode.png</file>
+        <file>image/报警信息.png</file>
     </qresource>
     <qresource prefix="/">
         <file>Microbial.rc</file>

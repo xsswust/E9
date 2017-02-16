@@ -29,13 +29,8 @@ public slots:
 private slots:
     void on_pbExit_clicked();
 
-	void on_pbSingleLight_clicked();
 
-	void on_pbCloseLight_clicked();
-
-	void on_pbSignal_clicked();
-
-	void on_pbCurLight_clicked();
+	void on_pb_single_clicked();
 
 private:
     Ui::Debugging *ui;

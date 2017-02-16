@@ -53,24 +53,6 @@ private slots:
 
 	void pbst_Reless();
 
-	void on_pb_gpio_released();
-
-	//  void on_lbTempValue2_linkActivated(const QString &link);
-  //  void on_lbTemp2_linkActivated(const QString &link);
-
-	void on_pb_gpio_in_released();
-    void on_pb_pwm1_DIR_released();
-
-
-	void on_pb_gpio_ex_out_released();
-
-	void on_pb_gpio_ex_in_released();
-
-	void on_pb_pwm1_released();
-
-	void on_pb_pwm2_released();
-
-    void on_pb_pwm2_DIR_released();
 
 private:
     QTimer *ptimerUpdateTime;

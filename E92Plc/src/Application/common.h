@@ -16,6 +16,8 @@
 #include "libFoo.h"
 #include "QDesktopWidget"
 #include "QScreen"
+#include "e92plc_cfg.h"
+#include "pwm.h"
 
 #define HARDWARE_V101			1                  //版本 V1.0.1
 #define HARDWARE_V100			0                //版本 V1.0.0
@@ -86,7 +88,22 @@
 
 #define GPIO_DRIVE_NAME		"/dev/gpio-ext"   // gpio 驱动位置
 #define AD_DRIVE_NAME		"/dev/icsadc"   // ad 驱动位置
-// 系统状态
+
+
+#define MAX_MAIN_OUT_GPIO		8 // 接口板上 输出IO数
+#define MAX_MAIN_IN_GPIO		8 // 接口板上 输入IO数
+
+#define ONE_EXT_IN_GPIO		8 // 扩展板上 输入IO数
+#define ONE_EXT_OUT_GPIO		16 // 扩展板上 输出IO数
+
+#define MAX_EXT_NUM				2 // 接口板上 扩展板数量
+#define MAX_EXT_IN_GPIO			(MAX_EXT_NUM*ONE_EXT_IN_GPIO) // 扩展板上 最多输入IO数
+#define MAX_EXT_OUT_GPIO		(MAX_EXT_NUM*ONE_EXT_OUT_GPIO) // 扩展板上 最多输出IO数
+
+
+extern UINT8 gExt_out[MAX_EXT_OUT_GPIO];
+extern UINT8 gExt_in[MAX_EXT_IN_GPIO];
+
 extern int g_System_Info;  // 系统状态
 #define SYSTEM_OK			0   // 系统正常
 #define	ERROR_GPIO_DRIVER_NOT_EXIST		-1  // gpio 驱动不存在
@@ -274,6 +291,7 @@ typedef struct Para_setting
 
 #define	PIC_BACKGROUND_PNG			"/home/root/appData/images/Background.png"  // 背景图片
 #define	PIC_BACKGROUND2_PNG			"/home/root/appData/images/Background2.png"  // 背景图片
+#define	PIC_BACKGROUND_SYSTEMTEST_JPG			"/home/root/appData/pic-plc/systemTest.jpg"  // 背景图片
 
 
 #define LEN_TEMP_DATA			10 // 温度数据长度
@@ -459,131 +477,13 @@ typedef struct Para_setting
 #define STR_TPC_UNIT	"TPC_Unit"  // 单位
 #define STR_E_UNIT	"E_Unit"  // 单位
 
-// 总大肠参数
-#define	STR_TOLCOIL_CLASS1_A	"Tol_Class1_A"
-#define	STR_TOLCOIL_CLASS1_B	"Tol_Class1_B"
-#define	STR_TOLCOIL_CLASS1_C	"Tol_Class1_C"
-#define	STR_TOLCOIL_CLASS1_D	"Tol_Class1_D"
-#define	STR_TOLCOIL_CLASS1_Q	"Tol_Class1_Q"  // 合格线
-#define	STR_TOLCOIL_CLASS1_R	"Tol_Class1_R"	// 相关系数
 
-#define	STR_TOLCOIL_CLASS2_A	"Tol_Class2_A"
-#define	STR_TOLCOIL_CLASS2_B	"Tol_Class2_B"
-#define	STR_TOLCOIL_CLASS2_C	"Tol_Class2_C"
-#define	STR_TOLCOIL_CLASS2_D	"Tol_Class2_D"
-#define	STR_TOLCOIL_CLASS2_Q	"Tol_Class2_Q"  // 合格线
-#define	STR_TOLCOIL_CLASS2_R	"Tol_Class2_R"	// 相关系数
-
-#define	STR_TOLCOIL_CLASS3_A	"Tol_Class3_A"
-#define	STR_TOLCOIL_CLASS3_B	"Tol_Class3_B"
-#define	STR_TOLCOIL_CLASS3_C	"Tol_Class3_C"
-#define	STR_TOLCOIL_CLASS3_D	"Tol_Class3_D"
-#define	STR_TOLCOIL_CLASS3_Q	"Tol_Class3_Q"  // 合格线
-#define	STR_TOLCOIL_CLASS3_R	"Tol_Class3_R"	// 相关系数
-
-#define	STR_TOLCOIL_CLASS4_A	"Tol_Class4_A"
-#define	STR_TOLCOIL_CLASS4_B	"Tol_Class4_B"
-#define	STR_TOLCOIL_CLASS4_C	"Tol_Class4_C"
-#define	STR_TOLCOIL_CLASS4_D	"Tol_Class4_D"
-#define	STR_TOLCOIL_CLASS4_Q	"Tol_Class4_Q"  // 合格线
-#define	STR_TOLCOIL_CLASS4_R	"Tol_Class4_R"	// 相关系数
-// 耐热大肠参数
-#define	STR_FECCOIL_CLASS1_A	"Fec_Class1_A"
-#define	STR_FECCOIL_CLASS1_B	"Fec_Class1_B"
-#define	STR_FECCOIL_CLASS1_C	"Fec_Class1_C"
-#define	STR_FECCOIL_CLASS1_D	"Fec_Class1_D"
-#define	STR_FECCOIL_CLASS1_Q	"Fec_Class1_Q"  // 合格线
-#define	STR_FECCOIL_CLASS1_R	"Fec_Class1_R"	// 相关系数
-
-#define	STR_FECCOIL_CLASS2_A	"Fec_Class2_A"
-#define	STR_FECCOIL_CLASS2_B	"Fec_Class2_B"
-#define	STR_FECCOIL_CLASS2_C	"Fec_Class2_C"
-#define	STR_FECCOIL_CLASS2_D	"Fec_Class2_D"
-#define	STR_FECCOIL_CLASS2_Q	"Fec_Class2_Q"  // 合格线
-#define	STR_FECCOIL_CLASS2_R	"Fec_Class2_R"	// 相关系数
-
-#define	STR_FECCOIL_CLASS3_A	"Fec_Class3_A"
-#define	STR_FECCOIL_CLASS3_B	"Fec_Class3_B"
-#define	STR_FECCOIL_CLASS3_C	"Fec_Class3_C"
-#define	STR_FECCOIL_CLASS3_D	"Fec_Class3_D"
-#define	STR_FECCOIL_CLASS3_Q	"Fec_Class3_Q"  // 合格线
-#define	STR_FECCOIL_CLASS3_R	"Fec_Class3_R"	// 相关系数
-
-#define	STR_FECCOIL_CLASS4_A	"Fec_Class4_A"
-#define	STR_FECCOIL_CLASS4_B	"Fec_Class4_B"
-#define	STR_FECCOIL_CLASS4_C	"Fec_Class4_C"
-#define	STR_FECCOIL_CLASS4_D	"Fec_Class4_D"
-#define	STR_FECCOIL_CLASS4_Q	"Fec_Class4_Q"  // 合格线
-#define	STR_FECCOIL_CLASS4_R	"Fec_Class4_R"	// 相关系数
-
-// 菌落总数
-#define	STR_TPCCOIL_CLASS1_A	"TPC_Class1_A"
-#define	STR_TPCCOIL_CLASS1_B	"TPC_Class1_B"
-#define	STR_TPCCOIL_CLASS1_C	"TPC_Class1_C"
-#define	STR_TPCCOIL_CLASS1_D	"TPC_Class1_D"
-#define	STR_TPCCOIL_CLASS1_Q	"TPC_Class1_Q"  // 合格线
-#define	STR_TPCCOIL_CLASS1_R	"TPC_Class1_R"	// 相关系数
-
-#define	STR_TPCCOIL_CLASS2_A	"TPC_Class2_A"
-#define	STR_TPCCOIL_CLASS2_B	"TPC_Class2_B"
-#define	STR_TPCCOIL_CLASS2_C	"TPC_Class2_C"
-#define	STR_TPCCOIL_CLASS2_D	"TPC_Class2_D"
-#define	STR_TPCCOIL_CLASS2_Q	"TPC_Class2_Q"  // 合格线
-#define	STR_TPCCOIL_CLASS2_R	"TPC_Class2_R"	// 相关系数
-
-#define	STR_TPCCOIL_CLASS3_A	"TPC_Class3_A"
-#define	STR_TPCCOIL_CLASS3_B	"TPC_Class3_B"
-#define	STR_TPCCOIL_CLASS3_C	"TPC_Class3_C"
-#define	STR_TPCCOIL_CLASS3_D	"TPC_Class3_D"
-#define	STR_TPCCOIL_CLASS3_Q	"TPC_Class3_Q"  // 合格线
-#define	STR_TPCCOIL_CLASS3_R	"TPC_Class3_R"	// 相关系数
-
-#define	STR_TPCCOIL_CLASS4_A	"TPC_Class4_A"
-#define	STR_TPCCOIL_CLASS4_B	"TPC_Class4_B"
-#define	STR_TPCCOIL_CLASS4_C	"TPC_Class4_C"
-#define	STR_TPCCOIL_CLASS4_D	"TPC_Class4_D"
-#define	STR_TPCCOIL_CLASS4_Q	"TPC_Class4_Q"  // 合格线
-#define	STR_TPCCOIL_CLASS4_R	"TPC_Class4_R"	// 相关系数
-
-
-// 埃希氏
-#define	STR_ECOIL_CLASS1_A	"E_Class1_A"
-#define	STR_ECOIL_CLASS1_B	"E_Class1_B"
-#define	STR_ECOIL_CLASS1_C	"E_Class1_C"
-#define	STR_ECOIL_CLASS1_D	"E_Class1_D"
-#define	STR_ECOIL_CLASS1_Q	"E_Class1_Q"  // 合格线
-#define	STR_ECOIL_CLASS1_R	"E_Class1_R"	// 相关系数
-
-#define	STR_ECOIL_CLASS2_A	"E_Class2_A"
-#define	STR_ECOIL_CLASS2_B	"E_Class2_B"
-#define	STR_ECOIL_CLASS2_C	"E_Class2_C"
-#define	STR_ECOIL_CLASS2_D	"E_Class2_D"
-#define	STR_ECOIL_CLASS2_Q	"E_Class2_Q"  // 合格线
-#define	STR_ECOIL_CLASS2_R	"E_Class2_R"	// 相关系数
-
-#define	STR_ECOIL_CLASS3_A	"E_Class3_A"
-#define	STR_ECOIL_CLASS3_B	"E_Class3_B"
-#define	STR_ECOIL_CLASS3_C	"E_Class3_C"
-#define	STR_ECOIL_CLASS3_D	"E_Class3_D"
-#define	STR_ECOIL_CLASS3_Q	"E_Class3_Q"  // 合格线
-#define	STR_ECOIL_CLASS3_R	"E_Class3_R"	// 相关系数
-
-#define	STR_ECOIL_CLASS4_A	"E_Class4_A"
-#define	STR_ECOIL_CLASS4_B	"E_Class4_B"
-#define	STR_ECOIL_CLASS4_C	"E_Class4_C"
-#define	STR_ECOIL_CLASS4_D	"E_Class4_D"
-#define	STR_ECOIL_CLASS4_Q	"E_Class4_Q"  // 合格线
-#define	STR_ECOIL_CLASS4_R	"E_Class4_R"	// 相关系数
 
 //class ID
 #define COIL_CLASS_NO1	0
 #define COIL_CLASS_NO2	1
 #define COIL_CLASS_NO3	2
 #define COIL_CLASS_NO4	3
-
-
-
-
 
 
 // testing 相关
@@ -823,5 +723,11 @@ inline std::string gbk2utf8(const QString &inStr);
 
 void str2char(QString str, char *data);
 QString UTF82GBK(const QString inStr);
-
+void Set_Main_Gpio(int num, int val);
+void UpdateExtInGpio();
+int Get_Ext_Gpio(int num);
+int Get_Main_Gpio(int num);
+bool Set_Ext_Gpio(int num, int val);
+void Set_Main_Gpio(int num, int val);
+void UpdateExtOutGpio();
 #endif // COMMON_H
