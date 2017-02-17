@@ -148,7 +148,7 @@ sql_control::sql_control()
 			qDebug()<<QObject::tr("error%1 \n").arg(STR_TEMP6);
 		}
 		// 建立 记录
-		for(int i = 0; i < MAX_TEST_NUM; i++)
+/*		for(int i = 0; i < MAX_TEST_NUM; i++)
 		{
 
 			success = g_query->exec(QObject::tr(CMD_CREAT_ID_TABLE).arg(bottle_no[i])); // 建立
@@ -159,7 +159,7 @@ sql_control::sql_control()
 				qDebug()<<QObject::tr("error%1 \n").arg(bottle_no[i]);
 			}
 		}
-
+*/
 	}
 }
 #if 0
@@ -1183,11 +1183,12 @@ bool sql_control::Add_One_Data_forTest(int id, ST_HISTORY_DATA *pst_his_data)
 {
 	unsigned int max_id;
 
-
+/*
 	if(id < 0 || id >= MAX_TEST_NUM )
 	{
 		return false;
 	}
+	*/
 #if !DEBUD_TEST //HARDWARE_V101
     return  true;
 #endif

@@ -100,9 +100,50 @@
 #define MAX_EXT_IN_GPIO			(MAX_EXT_NUM*ONE_EXT_IN_GPIO) // 扩展板上 最多输入IO数
 #define MAX_EXT_OUT_GPIO		(MAX_EXT_NUM*ONE_EXT_OUT_GPIO) // 扩展板上 最多输出IO数
 
+// 保存IO口状态
+extern UINT8 gExt_out[MAX_EXT_OUT_GPIO + 1]; // 扩展板输出IO数
+extern UINT8 gExt_in[MAX_EXT_IN_GPIO + 1];	// 扩展板输入IO数
 
-extern UINT8 gExt_out[MAX_EXT_OUT_GPIO];
-extern UINT8 gExt_in[MAX_EXT_IN_GPIO];
+#define FA_SHIJI		(MAX_EXT_OUT_GPIO - 1)   // 扩展输出 1号pin   试剂阀
+#define FA_SHUIYANG		(MAX_EXT_OUT_GPIO - 2)   // 扩展输出 2号pin   水样阀
+#define FA_HUNHEYE		(MAX_EXT_OUT_GPIO - 3)   // 扩展输出 3号pin   混合阀
+#define FA_XIAODUYE		(MAX_EXT_OUT_GPIO - 4)   // 扩展输出 4号pin   消毒液阀
+
+#define FA_WUJUNSHUI	(MAX_EXT_OUT_GPIO - 5)   // 扩展输出 5号pin  无菌水阀
+#define FA_KONGQI		(MAX_EXT_OUT_GPIO - 6)   // 扩展输出 6号pin		空气阀
+#define FA_JINYE1		(MAX_EXT_OUT_GPIO - 7)   // 扩展输出 7号pin		进液阀1
+#define FA_JINYE2		(MAX_EXT_OUT_GPIO - 8)   // 扩展输出 8号pin		进液阀2
+
+#define FA_JINYE3		(MAX_EXT_OUT_GPIO - 9)   // 扩展输出 9号pin		进液阀3
+#define FA_JINYE4		(MAX_EXT_OUT_GPIO - 10)   // 扩展输出 10号pin		进液阀4
+#define FA_JINYE5		(MAX_EXT_OUT_GPIO - 11)   // 扩展输出 11号pin		进液阀5
+#define FA_JINYE6		(MAX_EXT_OUT_GPIO - 12)   // 扩展输出 12号pin		进液阀6
+
+#define FA_PAIYE1		(MAX_EXT_OUT_GPIO - 13)   // 扩展输出 13号pin		排液阀1
+#define FA_PAIYE2		(MAX_EXT_OUT_GPIO - 14)   // 扩展输出 14号pin		排液阀2
+#define FA_JILIANGSHANG		(MAX_EXT_OUT_GPIO - 15)   // 扩展输出 15号pin	计量阀上
+#define FA_JILIANGXIA		(MAX_EXT_OUT_GPIO - 16)   // 扩展输出 16号pin	计量阀下
+
+#define FA_PAIYE3		(MAX_EXT_OUT_GPIO - 17)   // 扩展输出 17号pin		排液阀3
+#define FA_PAIYE4		(MAX_EXT_OUT_GPIO - 18)   // 扩展输出 18号pin		排液阀4
+#define FA_PAIYE5		(MAX_EXT_OUT_GPIO - 19)   // 扩展输出 19号pin		排液阀5
+#define FA_PAIYE6		(MAX_EXT_OUT_GPIO - 20)   // 扩展输出 20号pin		排液阀6
+
+#define FA_RUDONGBENGZHENG		(MAX_EXT_OUT_GPIO - 21)   // 扩展输出 17号pin		蠕动泵正
+#define FA_RUDONGBENGFAN		(MAX_EXT_OUT_GPIO - 22)   // 扩展输出 18号pin		蠕动泵反
+#define FA_WAIPAIYEBENG		(MAX_EXT_OUT_GPIO - 23)   // 扩展输出 19号pin		外排液泵
+#define FA_PAIYEBENG		(MAX_EXT_OUT_GPIO - 24)   // 扩展输出 20号pin		排液泵
+
+#define FA_ZAILIUHUAN		(MAX_EXT_OUT_GPIO - 25)   // 扩展输出 17号pin		载流环
+#define FA_ZIWAIDENG		(MAX_EXT_OUT_GPIO - 26)   // 扩展输出 18号pin		紫外灯
+#define FA_NULL1		(MAX_EXT_OUT_GPIO - 27)   // 扩展输出 19号pin
+#define FA_NULL2		(MAX_EXT_OUT_GPIO - 28)   // 扩展输出 20号pin
+
+#define FA_NULL3		(MAX_EXT_OUT_GPIO - 29)   // 扩展输出 19号pin
+#define FA_NULL4		(MAX_EXT_OUT_GPIO - 30)   // 扩展输出 20号pin
+#define FA_NULL5		(MAX_EXT_OUT_GPIO - 31)   // 扩展输出 19号pin
+#define FA_NULL6		(MAX_EXT_OUT_GPIO - 32)   // 扩展输出 20号pin
+
 
 extern int g_System_Info;  // 系统状态
 #define SYSTEM_OK			0   // 系统正常
@@ -276,22 +317,13 @@ typedef struct Para_setting
 #define PRAR_TPC_START   (PRAR_FEC_START + PRAR_MAX_NUM*PRAR_ST_DATA_LEN)  // 菌落总数曲线开始位置
 #define PRAR_E_START   (PRAR_TPC_START + PRAR_MAX_NUM*PRAR_ST_DATA_LEN)  //埃希氏菌曲线开始位置
 
-#define FILE_TOL_HIS					"/opt/PDA/app/datas/HistaryDensityTol.ini"   //总大肠历史浓度数据
-#define FILE_FEC_HIS					"/opt/PDA/app/datas/HistaryDensityFec.ini"   //耐热大肠历史浓度数据
-#define FILE_E_HIS						"/opt/PDA/app/datas/HistaryDensityE.ini"   //艾希氏菌历史浓度数据
-#define FILE_TPC_HIS					"/opt/PDA/app/datas/HistaryDensityTPC.ini"   //菌落总数历史浓度数据
-
-
-#define  FILE_CON_PARA_CALIBRATE		"/opt/PDA/app/datas/ParaCalibrate.ini"   //
-//#define	FILE_HIS_DATA_MODE				"/opt/PDA/app/datas/HisDataMode.ini"  //历史数据模式
-#define	FILE_HIS_TEMP1							"/opt/PDA/app/datas/HistaryTemp1.ini"   // 温区１历史数据
-#define	FILE_HIS_TEMP2							"/opt/PDA/app/datas/HistaryTemp2.ini"   // 温区１历史数据
-
-#define	FILE_SYS_ST							"/opt/PDA/app/datas/sys_st.bin"   // 系统信息
+#define	FILE_SYS_ST							"/opt/PDA/app/datas/sys_st.bin"   // 系统信
 
 #define	PIC_BACKGROUND_PNG			"/home/root/appData/images/Background.png"  // 背景图片
 #define	PIC_BACKGROUND2_PNG			"/home/root/appData/images/Background2.png"  // 背景图片
 #define	PIC_BACKGROUND_SYSTEMTEST_JPG			"/home/root/appData/pic-plc/systemTest.jpg"  // 背景图片
+#define	PIC_BACKGROUND_SYSTEMTEST_PNG			"/home/root/appData/pic-plc/systemTest.png"  // 背景图片
+#define	PIC_BACKGROUND_SINGLETEST_PNG			"/home/root/appData/pic-plc/singleTest.png"  // 背景图片
 
 
 #define LEN_TEMP_DATA			10 // 温度数据长度
@@ -487,18 +519,6 @@ typedef struct Para_setting
 
 
 // testing 相关
-#define MAX_TEST_NUM	100//32	 // 最大测试值
-#define MAX_ONE_TEST_NUM	25	 // 一种菌最大测试个数
-
-#define ONE_TEST_NUM	20	 // 一种菌最大测试个数
-
-#define MAX_ONE_GROUP_NUM	5	 // 一组个数
-
-#define TOLCOLI_START_NUM	0	 //总大肠开始序号
-#define FECCOLI_START_NUM	25	 //耐热 开始序号
-#define TPCCOLI_START_NUM	50	 //菌落总数 开始序号
-#define ECOLI_START_NUM		75	 //埃希氏 开始序号
-
 #define	TEST_ST_IDEL	0	// 空闲
 #define	TEST_ST_ZERO	1	// 较零
 #define	TEST_ST_TESTING	2	// 正在测试
@@ -510,10 +530,6 @@ typedef struct Para_setting
 #define STR_TEST_START	"开始"
 #define STR_TEST_STOP	"停止"
 #define STR_TEST_BOTTLE_NUM	"号瓶"
-
-#define MAX_THOU_DATA	10 // 平滑 保存数据
-
-
 
 // 一条历史记录信息
 typedef struct History
@@ -541,7 +557,6 @@ typedef struct History
 }ST_HISTORY_DATA;
 
 #define BOTTLE_MAX_NUM			5 //在线测试相对瓶数
-extern ST_HISTORY_DATA gst_His_Info[MAX_TEST_NUM];  //
 
 extern ST_HISTORY_DATA gst_His_Info_to_plc[BOTTLE_MAX_NUM];  //
 //#define MAX__TITER_VALUE_MAX
@@ -569,7 +584,7 @@ typedef struct test_info
 	double 	Last_ThouData;			//上一次的透过率
 
 	int		sThouDataNum;						// 保存的数据
-	double	sThouDataTemp[MAX_THOU_DATA+1];					// 用于平滑校正
+	//double	sThouDataTemp[MAX_THOU_DATA+1];					// 用于平滑校正
 
 	unsigned int sThouData_Cnt;						// 检测次数 就是时间
 
@@ -577,14 +592,11 @@ typedef struct test_info
 	//QString Time;	// 时间
 
 }ST_TEST_INFO;
-extern ST_TEST_INFO gst_Test_Info[MAX_TEST_NUM];
-
+//extern ST_TEST_INFO gst_Test_Info[MAX_TEST_NUM];
 
 #define LOG_FILE_SIZE		(10*1024*1024)  // 5M log信息 文件大小
 
 #define MAX_LED_GROUP_NUM		15  //  LED 一组的个数
-
-
 
 #define GPIO_HIGH		1  // 高电平
 #define GPIO_LOW		0  // 低电平
@@ -633,28 +645,6 @@ extern ST_TEST_INFO gst_Test_Info[MAX_TEST_NUM];
 #define AD_GET_TIME						(200*1000)  // 200ms
 #define AD_GET_TIME2						(20*1000)  // 10ms
 //有效数据(判断数据的变化率不超过正负10%) 则转到完成
-#define ZERO_STANDARD			10 //
-#define FULL_STANDARD			100 // 100%
-
-#define	 STANDARD_PARAM			100  // 倍数
-#define START_STANDARD			(30*STANDARD_PARAM) //	30%
-#define END_STANDARD			(70*STANDARD_PARAM) //	70%
-//#define END_STANDARD			(60*STANDARD_PARAM) //	60%
-#define END_MAX_STANDARD		(70*STANDARD_PARAM) //	70%
-
-
-
-#define END_MAX_STANDARD_60		(60*STANDARD_PARAM) //	60%
-#define END_MAX_STANDARD_50		(50*STANDARD_PARAM) //	50%
-#define END_MAX_STANDARD_40		(40*STANDARD_PARAM) //	40%
-#define END_MAX_STANDARD_30		(30*STANDARD_PARAM) //	30%
-#define END_MAX_STANDARD_20		(20*STANDARD_PARAM) //	20%
-#define END_MAX_STANDARD_10		(10*STANDARD_PARAM) //	10%
-#define END_MAX_STANDARD_5		(5*STANDARD_PARAM)	//	5%
-
-
-
-
 #define THOU_DATA_STANARD		20	// 上下波动范围
 
 #define  FAST_TIME_LIMIT              1080//18小时  最大检测时间
@@ -673,13 +663,6 @@ extern ST_TEST_INFO gst_Test_Info[MAX_TEST_NUM];
 #define	WORK_MODE_TEST		0	// 台式
 
 extern int g_workmode;   // 声明 工作模式
-extern int mpn_0[][6];
-extern int mpn_1[][6] ;
-extern int mpn_2[][6] ;
-extern int mpn_3[][6] ;
-extern int mpn_4[][6] ;
-extern int mpn_5[][6] ;
-
 
 #define MPN_TEST_IDLE       0  // 空闲
 #define MPN_TEST_FEC       1  // 耐热
@@ -730,4 +713,8 @@ int Get_Main_Gpio(int num);
 bool Set_Ext_Gpio(int num, int val);
 void Set_Main_Gpio(int num, int val);
 void UpdateExtOutGpio();
+void SetMaDa2_Start(bool flag);
+void SetMaDa1_Start(bool flag);
+void SetMaDa1_Dir(bool flag);
+void SetMaDa2_Dir(bool flag);
 #endif // COMMON_H

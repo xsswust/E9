@@ -12,7 +12,7 @@
 
 
 
-ST_TEST_INFO gst_Test_Info[MAX_TEST_NUM];
+//ST_TEST_INFO gst_Test_Info[MAX_TEST_NUM];
 
 void Get_Sys_st(void)
 {
@@ -39,18 +39,18 @@ void Get_Sys_st(void)
 	if(true == flag)
 	{
 		g_test_st = flag;
-		file.read((char*)&gst_Test_Info, sizeof(ST_TEST_INFO)*MAX_TEST_NUM);
-		for(int i = 0; i < MAX_TEST_NUM; i++)
-		{
-			qDebug()<<QString("gst_Test_Info[%1] = %2 ").arg(i).arg(gst_Test_Info[i].Test_st);
-		}
+		//file.read((char*)&gst_Test_Info, sizeof(ST_TEST_INFO)*MAX_TEST_NUM);
+//		for(int i = 0; i < MAX_TEST_NUM; i++)
+//		{
+//			qDebug()<<QString("gst_Test_Info[%1] = %2 ").arg(i).arg(gst_Test_Info[i].Test_st);
+//		}
 		file.read((char *)&gst_His_Info_to_plc, sizeof(ST_HISTORY_DATA)*BOTTLE_MAX_NUM);
 		for(int i = 0; i < BOTTLE_MAX_NUM; i++)
 		{
 			qDebug()<<QString("gst_His_Info_to_plc.bt_id[%1] = %2 ").arg(i).arg(gst_His_Info_to_plc[i].bt_id);
 		}
 		file.read((char *)&g_work_Test_type, sizeof(g_work_Test_type));
-		file.read((char *)&gst_His_Info, sizeof(gst_His_Info));
+	//	file.read((char *)&gst_His_Info, sizeof(gst_His_Info));
 	}
 	else
 	{
@@ -78,8 +78,8 @@ int main(int argc, char *argv[])
 
 	HardWare_Init();  //硬件初始化
 
-	memset(gst_His_Info, 0, sizeof(ST_HISTORY_DATA)*MAX_TEST_NUM);
-	memset(gst_Test_Info, 0, sizeof(ST_TEST_INFO)*MAX_TEST_NUM);
+//	memset(gst_His_Info, 0, sizeof(ST_HISTORY_DATA)*MAX_TEST_NUM);
+//	memset(gst_Test_Info, 0, sizeof(ST_TEST_INFO)*MAX_TEST_NUM);
 	memset(gst_His_Info_to_plc, 0, sizeof(ST_TEST_INFO)*BOTTLE_MAX_NUM);
 	// 打开sql 数据库
 	gp_sql = new sql_control();			// 建立sql
@@ -102,18 +102,9 @@ int main(int argc, char *argv[])
 	pUDPCommunication=new UDPCommunication();
 
 	g_workmode = pUDPCommunication->getWorkMode();
-	// 初始化 全局变量
-	memset(&gst_Test_Info, 0, sizeof(ST_TEST_INFO)*MAX_TEST_NUM);
-	for(int i= 0; i < MAX_TEST_NUM; i++)
-	{
-		gst_Test_Info[i].Test_st = TEST_ST_IDEL;
-		//gst_Test_Info[i].Test_st = TEST_ST_TESTING;
-	}
 
 	// 获取系统状态
 	Get_Sys_st();
-
-
 
 	//MainWindow mainwin;  // 主界面
 	pmainwin = new MainWindow();

@@ -52,7 +52,7 @@ bool Gpio_UnInit(void)
 bool Gpio_set(int pin, int val)
 {
 #if TEST_NEW
-    printf("Gpio_set   pin ==%d val == %d \r\n", pin , val);
+	//printf("Gpio_set   pin ==%d val == %d \r\n", pin , val);
 	gpio_set( pin, val);
 #else
     static QMutex mutex;

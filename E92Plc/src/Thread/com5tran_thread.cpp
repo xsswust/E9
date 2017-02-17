@@ -82,10 +82,10 @@ void Com5Tran_Thread::sys_Save_St()
     file.write((char*)&g_mpn_test_val, sizeof(g_mpn_test_val));
     printf("\n<><><><><><><>< g_test_st ===== %d \r\n", g_test_st);
     printf("\n[sys_Save_St] g_mpn_test_st == %d g_mpn_test_mui = %d", g_mpn_test_st, g_mpn_test_mui);
-	file.write((char*)&gst_Test_Info, sizeof(ST_TEST_INFO)*MAX_TEST_NUM);
+	//file.write((char*)&gst_Test_Info, sizeof(ST_TEST_INFO)*MAX_TEST_NUM);
 	file.write((char*)&gst_His_Info_to_plc, sizeof(ST_HISTORY_DATA)*BOTTLE_MAX_NUM);
 	file.write((char*)&g_work_Test_type, sizeof(g_work_Test_type));
-	file.write((char*)&gst_His_Info, sizeof(gst_His_Info));
+	//file.write((char*)&gst_His_Info, sizeof(gst_His_Info));
 
 
 	QDateTime time= QDateTime::currentDateTime();
@@ -140,35 +140,9 @@ int Com5Tran_Thread::Get_system_st(int bottleno)
 	{
 		return -1;
 	}
-	for(i = 0; i < MAX_ONE_GROUP_NUM; i++)
-	{
-		id = i + MAX_ONE_GROUP_NUM*(bottleno -1);
-//		printf("\n gst_Test_Info[%d] = %d \r\n", id + TOLCOLI_START_NUM, gst_Test_Info[id + TOLCOLI_START_NUM]);
-//		printf("\n gst_Test_Info[%d] = %d \r\n", id + FECCOLI_START_NUM, gst_Test_Info[id + TOLCOLI_START_NUM]);
-//		printf("\n gst_Test_Info[%d] = %d \r\n", id + TPCCOLI_START_NUM, gst_Test_Info[id + TOLCOLI_START_NUM]);
-//		printf("\n gst_Test_Info[%d] = %d \r\n", id + ECOLI_START_NUM, gst_Test_Info[id + TOLCOLI_START_NUM]);
 
-		if((TEST_ST_TESTING == gst_Test_Info[id + TOLCOLI_START_NUM].Test_st)||
-			(TEST_ST_TESTING == gst_Test_Info[id + FECCOLI_START_NUM].Test_st)||
-			(TEST_ST_TESTING == gst_Test_Info[id + TPCCOLI_START_NUM].Test_st)||
-			(TEST_ST_TESTING == gst_Test_Info[id + ECOLI_START_NUM].Test_st)
-			)
-		{
-			flag = true;
-		}
-	}
 
-#if 0
-	for(i = 0; i < MAX_TEST_NUM; i++)
-	{
-		if( (TEST_ST_ZERO == gst_Test_Info[i].Test_st) || (TEST_ST_TESTING == gst_Test_Info[i].Test_st))
-		{
-			flag = true;
 
-			break;
-		}
-	}
-#endif
 	//printf("flag === %d \r\n", flag);
 	return flag;
 }
@@ -639,54 +613,12 @@ bool Com5Tran_Thread::Get_com5_data(uchar cmd)
 						{
 							int id = 0;
 							memset(&(gst_His_Info_to_plc[bootle_no-1]), 0, sizeof(ST_HISTORY_DATA));
-							for(int i = 0; i < MAX_ONE_GROUP_NUM; i++)
-							{
 
-								id = i + MAX_ONE_GROUP_NUM*(bootle_no -1);
-
-								if(PLC_TOLCOIL_ID == test_type)
-								{
-									g_work_Test_type[bootle_no-1] = TOL_COLI_ID;
-									gst_Test_Info[id + TOLCOLI_START_NUM].Test_st = TEST_ST_ZERO;
-									gst_Test_Info[id + TOLCOLI_START_NUM].BottleId = id+1;
-									memset(&(gst_His_Info[id+TOLCOLI_START_NUM]), 0, sizeof(ST_HISTORY_DATA));
-								}
-								else if(PLC_FECCOIL_ID == test_type)
-								{
-									g_work_Test_type[bootle_no-1] = FEC_COLI_ID;
-									//g_work_Test_type = FEC_COLI_ID;
-									gst_Test_Info[id + FECCOLI_START_NUM].Test_st = TEST_ST_ZERO;
-									gst_Test_Info[id + FECCOLI_START_NUM].BottleId = id+1;
-									memset(&(gst_His_Info[id+FECCOLI_START_NUM]), 0, sizeof(ST_HISTORY_DATA));
-								}
-								else if(PLC_TPCCOIL_ID == test_type)
-								{
-									g_work_Test_type[bootle_no-1] = TPC_COLI_ID;
-									gst_Test_Info[id + TPCCOLI_START_NUM].Test_st = TEST_ST_ZERO;
-									gst_Test_Info[id + TPCCOLI_START_NUM].BottleId = id+1;
-									memset(&(gst_His_Info[id+TPCCOLI_START_NUM]), 0, sizeof(ST_HISTORY_DATA));
-								}
-								else if(PLC_ECOIL_ID == test_type)
-								{
-									g_work_Test_type[bootle_no-1] = E_COLI_ID;
-									gst_Test_Info[id + ECOLI_START_NUM].Test_st = TEST_ST_ZERO;
-									gst_Test_Info[id + ECOLI_START_NUM].BottleId = id+1;
-									memset(&(gst_His_Info[id+ECOLI_START_NUM]), 0, sizeof(ST_HISTORY_DATA));
-								}
-								printf("\n gst_Test_Info[%d] = %d \r\n", id + TOLCOLI_START_NUM, gst_Test_Info[id + TOLCOLI_START_NUM].Test_st);
-								printf("\n gst_Test_Info[%d] = %d \r\n", id + FECCOLI_START_NUM, gst_Test_Info[id + FECCOLI_START_NUM].Test_st);
-								printf("\n gst_Test_Info[%d] = %d \r\n", id + TPCCOLI_START_NUM, gst_Test_Info[id + TPCCOLI_START_NUM].Test_st);
-								printf("\n gst_Test_Info[%d] = %d \r\n", id + ECOLI_START_NUM, gst_Test_Info[id + ECOLI_START_NUM].Test_st);
-							}
                             Set_Bottle_Temp(bootle_no, test_type);  // 设置温度
 						}
 						else if(PLC_STOP_TESTTING == data[5])  // 停止测试
 						{
-							for(int i = 0; i < MAX_TEST_NUM; i++)
-							{
-								gst_Test_Info[i].Test_st = TEST_ST_IDEL;
-								memset(&(gst_His_Info[i]), 0, sizeof(ST_HISTORY_DATA));
-							}
+
 							memset(&(gst_His_Info_to_plc), 0, sizeof(ST_HISTORY_DATA)*BOTTLE_MAX_NUM);
 							memset(g_work_Test_type, 0 , sizeof(g_work_Test_type));
 

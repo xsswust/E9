@@ -13,7 +13,7 @@ Debugging::Debugging(QWidget *parent) :
 {
     ui->setupUi(this);
     //Backgroud Setting
-	QPixmap pixmap(PIC_BACKGROUND_SYSTEMTEST_JPG);
+	QPixmap pixmap(PIC_BACKGROUND_SYSTEMTEST_PNG);
 	QPalette palette;
 	palette.setBrush(backgroundRole(), QBrush(pixmap));
 	setPalette(palette);

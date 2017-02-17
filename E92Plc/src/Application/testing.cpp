@@ -142,283 +142,6 @@ Testing::~Testing()
 void Testing::show_Bottle_St(int bottleId, int st, int sampleId, int mode)
 {
 
-	//qDebug()<<"[show_Bottle_St]= g_start_num = "<<g_Start_num<<"bottleId = "<<bottleId<<"num = "<<g_Start_num*MAX_ONE_GROUP_NUM + 1;
-	switch(bottleId)
-	{
-		case BOTTLE1_ID:
-		ui->lb_Bottle1->setText(QString("%1%2").arg(g_Start_num*MAX_ONE_GROUP_NUM + 1).arg(STR_TEST_BOTTLE_NUM));
-		break;
-
-		case BOTTLE2_ID:
-		ui->lb_Bottle2->setText(QString("%1%2").arg(g_Start_num*MAX_ONE_GROUP_NUM + 2).arg(STR_TEST_BOTTLE_NUM));
-		break;
-
-		case BOTTLE3_ID:
-		ui->lb_Bottle3->setText(QString("%1%2").arg(g_Start_num*MAX_ONE_GROUP_NUM + 3).arg(STR_TEST_BOTTLE_NUM));
-		break;
-
-		case BOTTLE4_ID:
-		ui->lb_Bottle4->setText(QString("%1%2").arg(g_Start_num*MAX_ONE_GROUP_NUM + 4).arg(STR_TEST_BOTTLE_NUM));
-		break;
-
-		case BOTTLE5_ID:
-		ui->lb_Bottle5->setText(QString("%1%2").arg(g_Start_num*MAX_ONE_GROUP_NUM + 5).arg(STR_TEST_BOTTLE_NUM));
-		break;
-
-		default:
-		break;
-	}
-
-	if(TEST_ST_IDEL == st)
-	{
-		switch(bottleId)
-		{
-		case BOTTLE1_ID:
-			ui->lb_Bottle1_St->setText(STR_TEST_ST_IDLE);
-			ui->pb_Bottle1->setText(STR_TEST_START);
-			ui->leSampleNo1->setDisabled(false);
-			ui->pb_Bottle1->setDisabled(false);
-			//ui->leSampleNo1->setText(QString::number(sampleId));
-			ui->leSampleNo1->setFocusPolicy(Qt::ClickFocus);
-			ui->leSampleNo1->installEventFilter(im);\
-
-			break;
-
-		case BOTTLE2_ID:
-			ui->lb_Bottle2_St->setText(STR_TEST_ST_IDLE);
-			ui->pb_Bottle2->setText(STR_TEST_START);
-			ui->leSampleNo2->setDisabled(false);
-			ui->pb_Bottle2->setDisabled(false);
-			//ui->leSampleNo2->setText(QString::number(sampleId));
-			ui->leSampleNo2->setFocusPolicy(Qt::ClickFocus);
-			ui->leSampleNo2->installEventFilter(im);
-
-			break;
-
-		case BOTTLE3_ID:
-			ui->lb_Bottle3_St->setText(STR_TEST_ST_IDLE);
-			ui->pb_Bottle3->setText(STR_TEST_START);
-			ui->leSampleNo3->setDisabled(false);
-			ui->pb_Bottle3->setDisabled(false);
-			//ui->leSampleNo3->setText(QString::number(sampleId));
-			ui->leSampleNo3->setFocusPolicy(Qt::ClickFocus);
-			ui->leSampleNo3->installEventFilter(im);
-			break;
-
-		case BOTTLE4_ID:
-			ui->lb_Bottle4_St->setText(STR_TEST_ST_IDLE);
-			ui->pb_Bottle4->setText(STR_TEST_START);
-			ui->leSampleNo4->setDisabled(false);
-			ui->pb_Bottle4->setDisabled(false);
-			//ui->leSampleNo4->setText(QString::number(sampleId));
-			ui->leSampleNo4->setFocusPolicy(Qt::ClickFocus);
-			ui->leSampleNo4->installEventFilter(im);
-			break;
-
-		case BOTTLE5_ID:
-			ui->lb_Bottle5_St->setText(STR_TEST_ST_IDLE);
-			ui->pb_Bottle5->setText(STR_TEST_START);
-			ui->leSampleNo5->setDisabled(false);
-			ui->pb_Bottle5->setDisabled(false);
-			//ui->leSampleNo5->setText(QString::number(sampleId));
-			ui->leSampleNo5->setFocusPolicy(Qt::ClickFocus);
-			ui->leSampleNo5->installEventFilter(im);
-			break;
-
-		default:
-			break;
-		}
-	}
-	else if(TEST_ST_ZERO == st)
-	{
-		switch(bottleId)
-		{
-		case BOTTLE1_ID:
-			ui->lb_Bottle1_St->setText(STR_TEST_ST_ZERO);
-			ui->pb_Bottle1->setText(STR_TEST_STOP);
-			ui->leSampleNo1->setDisabled(true);
-			ui->leSampleNo1->setText(QString::number(sampleId));
-			//ui->leSampleNo1->setFocusPolicy(Qt::TabFocus);
-			ui->leSampleNo1->removeEventFilter(im);
-			if(true == mode)
-			{
-				ui->pb_Bottle1->setDisabled(true);
-			}
-			else
-			{
-				ui->pb_Bottle1->setDisabled(false);
-			}
-			break;
-
-		case BOTTLE2_ID:
-			ui->lb_Bottle2_St->setText(STR_TEST_ST_ZERO);
-			ui->pb_Bottle2->setText(STR_TEST_STOP);
-			ui->leSampleNo2->setDisabled(true);
-			ui->leSampleNo2->setText(QString::number(sampleId));
-			//ui->leSampleNo2->setFocusPolicy(Qt::TabFocus);
-			ui->leSampleNo2->removeEventFilter(im);
-			if(true == mode)
-			{
-				ui->pb_Bottle2->setDisabled(true);
-			}
-			else
-			{
-				ui->pb_Bottle2->setDisabled(false);
-			}
-			break;
-
-		case BOTTLE3_ID:
-			ui->lb_Bottle3_St->setText(STR_TEST_ST_ZERO);
-			ui->pb_Bottle3->setText(STR_TEST_STOP);
-			ui->leSampleNo3->setDisabled(true);
-			ui->leSampleNo3->setText(QString::number(sampleId));
-			//ui->leSampleNo3->setFocusPolicy(Qt::TabFocus);
-			ui->leSampleNo3->removeEventFilter(im);
-
-			if(true == mode)
-			{
-				ui->pb_Bottle3->setDisabled(true);
-			}
-			else
-			{
-				ui->pb_Bottle3->setDisabled(false);
-			}
-			break;
-
-		case BOTTLE4_ID:
-			ui->lb_Bottle4_St->setText(STR_TEST_ST_ZERO);
-			ui->pb_Bottle4->setText(STR_TEST_STOP);
-			ui->leSampleNo4->setDisabled(true);
-			ui->leSampleNo4->setText(QString::number(sampleId));
-			//ui->leSampleNo4->setFocusPolicy(Qt::TabFocus);
-			ui->leSampleNo4->removeEventFilter(im);
-			if(true == mode)
-			{
-				ui->pb_Bottle4->setDisabled(true);
-			}
-			else
-			{
-				ui->pb_Bottle4->setDisabled(false);
-			}
-			break;
-
-		case BOTTLE5_ID:
-			ui->lb_Bottle5_St->setText(STR_TEST_ST_ZERO);
-			ui->pb_Bottle5->setText(STR_TEST_STOP);
-			ui->leSampleNo5->setDisabled(true);
-			ui->leSampleNo5->setText(QString::number(sampleId));
-			//ui->leSampleNo5->setFocusPolicy(Qt::TabFocus);
-			ui->leSampleNo5->removeEventFilter(im);
-			if(true == mode)
-			{
-				ui->pb_Bottle5->setDisabled(true);
-			}
-			else
-			{
-				ui->pb_Bottle5->setDisabled(false);
-			}
-			break;
-
-		default:
-			break;
-		}
-
-	}
-	else if(TEST_ST_TESTING == st)
-	{
-		//qDebug()<<"bottleId = "<<bottleId<<"mode = "<<mode;
-		switch(bottleId)
-		{
-		case BOTTLE1_ID:
-			ui->lb_Bottle1_St->setText(STR_TEST_ST_TESTING);
-			ui->pb_Bottle1->setText(STR_TEST_STOP);
-			ui->leSampleNo1->setDisabled(true);
-			ui->leSampleNo1->setText(QString::number(sampleId));
-			//ui->leSampleNo1->setFocusPolicy(Qt::TabFocus);
-			ui->leSampleNo1->removeEventFilter(im);
-			if(true == mode)
-			{
-				ui->pb_Bottle1->setDisabled(true);
-			}
-			else
-			{
-				ui->pb_Bottle1->setDisabled(false);
-			}
-			break;
-
-		case BOTTLE2_ID:
-			ui->lb_Bottle2_St->setText(STR_TEST_ST_TESTING);
-			ui->pb_Bottle2->setText(STR_TEST_STOP);
-			ui->leSampleNo2->setDisabled(true);
-			ui->leSampleNo2->setText(QString::number(sampleId));
-			//ui->leSampleNo2->setFocusPolicy(Qt::TabFocus);
-			ui->leSampleNo2->removeEventFilter(im);
-			if(true == mode)
-			{
-				ui->pb_Bottle2->setDisabled(true);
-			}
-			else
-			{
-				ui->pb_Bottle2->setDisabled(false);
-			}
-			break;
-
-		case BOTTLE3_ID:
-			ui->lb_Bottle3_St->setText(STR_TEST_ST_TESTING);
-			ui->pb_Bottle3->setText(STR_TEST_STOP);
-			ui->leSampleNo3->setDisabled(true);
-			ui->leSampleNo3->setText(QString::number(sampleId));
-			//ui->leSampleNo3->setFocusPolicy(Qt::TabFocus);
-			ui->leSampleNo3->removeEventFilter(im);
-			if(true == mode)
-			{
-				ui->pb_Bottle3->setDisabled(true);
-			}
-			else
-			{
-				ui->pb_Bottle3->setDisabled(false);
-			}
-			break;
-
-		case BOTTLE4_ID:
-			ui->lb_Bottle4_St->setText(STR_TEST_ST_TESTING);
-			ui->pb_Bottle4->setText(STR_TEST_STOP);
-			ui->leSampleNo4->setDisabled(true);
-			ui->leSampleNo4->setText(QString::number(sampleId));
-			//ui->leSampleNo4->setFocusPolicy(Qt::TabFocus);
-			ui->leSampleNo4->removeEventFilter(im);
-			if(true == mode)
-			{
-				ui->pb_Bottle4->setDisabled(true);
-			}
-			else
-			{
-				ui->pb_Bottle4->setDisabled(false);
-			}
-			break;
-
-		case BOTTLE5_ID:
-			ui->lb_Bottle5_St->setText(STR_TEST_ST_TESTING);
-			ui->pb_Bottle5->setText(STR_TEST_STOP);
-			ui->leSampleNo5->setDisabled(true);
-			ui->leSampleNo5->setText(QString::number(sampleId));
-			//ui->leSampleNo5->setFocusPolicy(Qt::TabFocus);
-			ui->leSampleNo5->removeEventFilter(im);
-			if(true == mode)
-			{
-				ui->pb_Bottle5->setDisabled(true);
-			}
-			else
-			{
-				ui->pb_Bottle5->setDisabled(false);
-			}
-			break;
-
-		default:
-			break;
-		}
-
-	}
 }
 
 /*
@@ -572,165 +295,7 @@ void Testing::timeUpData()
 	// 显示瓶的状态
 	if(TOL_COLI_ID == gTest_Mode)  // 总大肠
 	{
-		for(int i = 0; i < MAX_ONE_GROUP_NUM;i ++)
-		{
-//			qDebug()<<QString("gst_Test_Info[%1].Test_st = %2 ").arg(i+TOLCOLI_START_NUM + g_Start_num*MAX_ONE_GROUP_NUM).arg(gst_Test_Info[i+TOLCOLI_START_NUM + g_Start_num*MAX_ONE_GROUP_NUM].Test_st);
-//			qDebug()<<QString("gst_Test_Info[%1].Test_st = %2 ").arg(i+FECCOLI_START_NUM + g_Start_num*MAX_ONE_GROUP_NUM).arg(gst_Test_Info[i+FECCOLI_START_NUM + g_Start_num*MAX_ONE_GROUP_NUM].Test_st);
-//			qDebug()<<QString("gst_Test_Info[%1].Test_st = %2 ").arg(i+TPCCOLI_START_NUM + g_Start_num*MAX_ONE_GROUP_NUM).arg(gst_Test_Info[i+TPCCOLI_START_NUM + g_Start_num*MAX_ONE_GROUP_NUM].Test_st);
-//			qDebug()<<QString("gst_Test_Info[%1].Test_st = %2 ").arg(i+ECOLI_START_NUM + g_Start_num*MAX_ONE_GROUP_NUM).arg(gst_Test_Info[i+ECOLI_START_NUM + g_Start_num*MAX_ONE_GROUP_NUM].Test_st);
 
-			if((TEST_ST_IDEL == gst_Test_Info[i+TOLCOLI_START_NUM + g_Start_num*MAX_ONE_GROUP_NUM].Test_st)&&
-				(TEST_ST_IDEL == gst_Test_Info[i+FECCOLI_START_NUM + g_Start_num*MAX_ONE_GROUP_NUM].Test_st)&&
-				(TEST_ST_IDEL == gst_Test_Info[i+TPCCOLI_START_NUM + g_Start_num*MAX_ONE_GROUP_NUM].Test_st)&&
-				(TEST_ST_IDEL == gst_Test_Info[i+ECOLI_START_NUM + g_Start_num*MAX_ONE_GROUP_NUM].Test_st)
-				)
-			{
-			// 注意 瓶号是从 1开始 此处应+ 1
-				show_Bottle_St(i, gst_Test_Info[i+TOLCOLI_START_NUM + g_Start_num*MAX_ONE_GROUP_NUM].Test_st, gst_Test_Info[i+TOLCOLI_START_NUM + g_Start_num*MAX_ONE_GROUP_NUM].SampleID, false);
-//				qDebug()<<"11111111111111111111111111";
-			}
-			else if((TEST_ST_ZERO == gst_Test_Info[i+TOLCOLI_START_NUM + g_Start_num*MAX_ONE_GROUP_NUM].Test_st)||
-					(TEST_ST_ZERO == gst_Test_Info[i+FECCOLI_START_NUM + g_Start_num*MAX_ONE_GROUP_NUM].Test_st)||
-					(TEST_ST_ZERO == gst_Test_Info[i+TPCCOLI_START_NUM + g_Start_num*MAX_ONE_GROUP_NUM].Test_st)||
-					(TEST_ST_ZERO == gst_Test_Info[i+ECOLI_START_NUM + g_Start_num*MAX_ONE_GROUP_NUM].Test_st))
-			{
-				if(TEST_ST_TESTING == gst_Test_Info[i+TOLCOLI_START_NUM + g_Start_num*MAX_ONE_GROUP_NUM].Test_st){
-					show_Bottle_St(i, gst_Test_Info[i+TOLCOLI_START_NUM + g_Start_num*MAX_ONE_GROUP_NUM].Test_st, gst_Test_Info[i+TOLCOLI_START_NUM + g_Start_num*MAX_ONE_GROUP_NUM].SampleID, false);
-				}
-				else
-				{
-					show_Bottle_St(i, TEST_ST_ZERO, 0, true);
-				}
-			}
-			else
-			{
-//				qDebug()<<"00000000000000000000000000";
-				if(TEST_ST_TESTING == gst_Test_Info[i+TOLCOLI_START_NUM + g_Start_num*MAX_ONE_GROUP_NUM].Test_st)
-				{
-					show_Bottle_St(i, gst_Test_Info[i+TOLCOLI_START_NUM + g_Start_num*MAX_ONE_GROUP_NUM].Test_st, gst_Test_Info[i+TOLCOLI_START_NUM + g_Start_num*MAX_ONE_GROUP_NUM].SampleID, false);
-				}
-				else
-				{
-					show_Bottle_St(i, TEST_ST_TESTING, 0, true);
-				}
-			}
-		}
-	}
-	else if(FEC_COLI_ID == gTest_Mode)  // 耐热
-	{
-		for(int i = 0; i < MAX_ONE_GROUP_NUM;i ++)
-		{
-
-			if((TEST_ST_IDEL == gst_Test_Info[i+TOLCOLI_START_NUM + g_Start_num*MAX_ONE_GROUP_NUM].Test_st)&&
-					(TEST_ST_IDEL == gst_Test_Info[i+FECCOLI_START_NUM + g_Start_num*MAX_ONE_GROUP_NUM].Test_st)&&
-					(TEST_ST_IDEL == gst_Test_Info[i+TPCCOLI_START_NUM + g_Start_num*MAX_ONE_GROUP_NUM].Test_st)&&
-					(TEST_ST_IDEL == gst_Test_Info[i+ECOLI_START_NUM + g_Start_num*MAX_ONE_GROUP_NUM].Test_st))
-			{
-				show_Bottle_St(i, gst_Test_Info[i+FECCOLI_START_NUM + g_Start_num*MAX_ONE_GROUP_NUM].Test_st, gst_Test_Info[i+FECCOLI_START_NUM + g_Start_num*MAX_ONE_GROUP_NUM].SampleID, false);
-			}
-			else if((TEST_ST_ZERO == gst_Test_Info[i+TOLCOLI_START_NUM + g_Start_num*MAX_ONE_GROUP_NUM].Test_st)||
-					(TEST_ST_ZERO == gst_Test_Info[i+FECCOLI_START_NUM + g_Start_num*MAX_ONE_GROUP_NUM].Test_st)||
-					(TEST_ST_ZERO == gst_Test_Info[i+TPCCOLI_START_NUM + g_Start_num*MAX_ONE_GROUP_NUM].Test_st)||
-					(TEST_ST_ZERO == gst_Test_Info[i+ECOLI_START_NUM + g_Start_num*MAX_ONE_GROUP_NUM].Test_st))
-			{
-				if(TEST_ST_TESTING == gst_Test_Info[i+FECCOLI_START_NUM + g_Start_num*MAX_ONE_GROUP_NUM].Test_st)
-				{
-					show_Bottle_St(i, gst_Test_Info[i+FECCOLI_START_NUM + g_Start_num*MAX_ONE_GROUP_NUM].Test_st, gst_Test_Info[i+FECCOLI_START_NUM + g_Start_num*MAX_ONE_GROUP_NUM].SampleID, false);
-				}
-				else{
-					show_Bottle_St(i, TEST_ST_ZERO, 0, true);
-				}
-			}
-
-			else
-			{
-				if(TEST_ST_TESTING == gst_Test_Info[i+FECCOLI_START_NUM + g_Start_num*MAX_ONE_GROUP_NUM].Test_st)
-				{
-					show_Bottle_St(i, gst_Test_Info[i+FECCOLI_START_NUM + g_Start_num*MAX_ONE_GROUP_NUM].Test_st, gst_Test_Info[i+FECCOLI_START_NUM + g_Start_num*MAX_ONE_GROUP_NUM].SampleID, false);
-				}
-				else
-				{
-					show_Bottle_St(i, TEST_ST_TESTING, 0, true);
-				}
-			}
-		}
-	}
-	else if(TPC_COLI_ID == gTest_Mode) // 菌落总数
-	{
-		for(int i = 0; i < MAX_ONE_GROUP_NUM;i ++)
-		{
-
-			if((TEST_ST_IDEL == gst_Test_Info[i+TOLCOLI_START_NUM + g_Start_num*MAX_ONE_GROUP_NUM].Test_st)&&
-					(TEST_ST_IDEL == gst_Test_Info[i+FECCOLI_START_NUM + g_Start_num*MAX_ONE_GROUP_NUM].Test_st)&&
-					(TEST_ST_IDEL == gst_Test_Info[i+TPCCOLI_START_NUM + g_Start_num*MAX_ONE_GROUP_NUM].Test_st)&&
-					(TEST_ST_IDEL == gst_Test_Info[i+ECOLI_START_NUM + g_Start_num*MAX_ONE_GROUP_NUM].Test_st))
-			{
-				show_Bottle_St(i, gst_Test_Info[i+TPCCOLI_START_NUM + g_Start_num*MAX_ONE_GROUP_NUM].Test_st, gst_Test_Info[i+TPCCOLI_START_NUM + g_Start_num*MAX_ONE_GROUP_NUM].SampleID, false);
-			}
-			else if((TEST_ST_ZERO == gst_Test_Info[i+TOLCOLI_START_NUM + g_Start_num*MAX_ONE_GROUP_NUM].Test_st)||
-					(TEST_ST_ZERO == gst_Test_Info[i+FECCOLI_START_NUM + g_Start_num*MAX_ONE_GROUP_NUM].Test_st)||
-					(TEST_ST_ZERO == gst_Test_Info[i+TPCCOLI_START_NUM + g_Start_num*MAX_ONE_GROUP_NUM].Test_st)||
-					(TEST_ST_ZERO == gst_Test_Info[i+ECOLI_START_NUM + g_Start_num*MAX_ONE_GROUP_NUM].Test_st))
-			{
-				if(TEST_ST_TESTING == gst_Test_Info[i+TPCCOLI_START_NUM + g_Start_num*MAX_ONE_GROUP_NUM].Test_st)
-				{
-					show_Bottle_St(i, gst_Test_Info[i+TPCCOLI_START_NUM + g_Start_num*MAX_ONE_GROUP_NUM].Test_st, gst_Test_Info[i+TPCCOLI_START_NUM + g_Start_num*MAX_ONE_GROUP_NUM].SampleID, false);
-				}
-				else
-				{
-					show_Bottle_St(i, TEST_ST_ZERO, 0, true);
-				}
-			}
-			else
-			{
-				if(TEST_ST_TESTING == gst_Test_Info[i+TPCCOLI_START_NUM + g_Start_num*MAX_ONE_GROUP_NUM].Test_st)
-				{
-					show_Bottle_St(i, gst_Test_Info[i+TPCCOLI_START_NUM + g_Start_num*MAX_ONE_GROUP_NUM].Test_st, gst_Test_Info[i+TPCCOLI_START_NUM + g_Start_num*MAX_ONE_GROUP_NUM].SampleID, false);
-				}
-				else
-				{
-					show_Bottle_St(i, TEST_ST_TESTING, 0, true);
-				}
-			}
-		}
-	}
-	else if(E_COLI_ID == gTest_Mode)	// 埃希氏
-	{
-		for(int i = 0; i < MAX_ONE_GROUP_NUM;i ++)
-		{
-
-			if((TEST_ST_IDEL == gst_Test_Info[i+TOLCOLI_START_NUM + g_Start_num*MAX_ONE_GROUP_NUM].Test_st)&&
-					(TEST_ST_IDEL == gst_Test_Info[i+FECCOLI_START_NUM + g_Start_num*MAX_ONE_GROUP_NUM].Test_st)&&
-					(TEST_ST_IDEL == gst_Test_Info[i+TPCCOLI_START_NUM + g_Start_num*MAX_ONE_GROUP_NUM].Test_st)&&
-					(TEST_ST_IDEL == gst_Test_Info[i+ECOLI_START_NUM + g_Start_num*MAX_ONE_GROUP_NUM].Test_st))
-			{
-				show_Bottle_St(i, gst_Test_Info[i+ECOLI_START_NUM + g_Start_num*MAX_ONE_GROUP_NUM].Test_st, gst_Test_Info[i+ECOLI_START_NUM + g_Start_num*MAX_ONE_GROUP_NUM].SampleID, false);
-			}
-			else if((TEST_ST_ZERO == gst_Test_Info[i+TOLCOLI_START_NUM + g_Start_num*MAX_ONE_GROUP_NUM].Test_st)||
-					(TEST_ST_ZERO == gst_Test_Info[i+FECCOLI_START_NUM + g_Start_num*MAX_ONE_GROUP_NUM].Test_st)||
-					(TEST_ST_ZERO == gst_Test_Info[i+TPCCOLI_START_NUM + g_Start_num*MAX_ONE_GROUP_NUM].Test_st)||
-					(TEST_ST_ZERO == gst_Test_Info[i+ECOLI_START_NUM + g_Start_num*MAX_ONE_GROUP_NUM].Test_st))
-			{
-				if(TEST_ST_TESTING == gst_Test_Info[i+ECOLI_START_NUM + g_Start_num*MAX_ONE_GROUP_NUM].Test_st)
-				{
-					show_Bottle_St(i, gst_Test_Info[i+ECOLI_START_NUM + g_Start_num*MAX_ONE_GROUP_NUM].Test_st, gst_Test_Info[i+ECOLI_START_NUM + g_Start_num*MAX_ONE_GROUP_NUM].SampleID, false);
-				}
-				else
-				{
-					show_Bottle_St(i, TEST_ST_ZERO, 0, true);
-				}
-			}
-			else{
-				if(TEST_ST_TESTING == gst_Test_Info[i+ECOLI_START_NUM + g_Start_num*MAX_ONE_GROUP_NUM].Test_st)
-				{
-					show_Bottle_St(i, gst_Test_Info[i+ECOLI_START_NUM + g_Start_num*MAX_ONE_GROUP_NUM].Test_st, gst_Test_Info[i+ECOLI_START_NUM + g_Start_num*MAX_ONE_GROUP_NUM].SampleID, false);
-				}
-				else
-				{
-					show_Bottle_St(i, TEST_ST_TESTING, 0, true);
-				}
-			}
-		}
 	}
 
 }
@@ -817,14 +382,7 @@ void Testing::Button_Prev_clicked()
 */
 void Testing::Button_Next_clicked()
 {
-	if(g_Start_num < (MAX_ONE_GROUP_NUM -1))
-	{
-		g_Start_num ++;
-	}
-	else
-	{
-		g_Start_num = 0;
-	}
+
 	ui->leSampleNo1->setText("");
 	ui->leSampleNo2->setText("");
 	ui->leSampleNo3->setText("");
@@ -849,40 +407,7 @@ void Testing::pb_Bottle1_Reless()
 	txt = ui->pb_Bottle1->text();
 	if(operator ==(txt,QString(STR_TEST_START)))  //开始测试
 	{
-
-		if(TOL_COLI_ID == gTest_Mode)  // 总大肠
-		{
-			id = BOTTLE1_ID + TOLCOLI_START_NUM + g_Start_num*MAX_ONE_GROUP_NUM;
-			memset(&gst_Test_Info[id], 0, sizeof(ST_TEST_INFO));
-			gst_Test_Info[id].Test_st = TEST_ST_ZERO;
-			gst_Test_Info[id].SampleID = ui->leSampleNo1->text().toInt();
-			gst_Test_Info[id].BottleId  = REAL_BOTTLE1_ID + g_Start_num*MAX_ONE_GROUP_NUM;
-		}
-		else if(FEC_COLI_ID == gTest_Mode)  // 耐热
-		{
-			id = BOTTLE1_ID + FECCOLI_START_NUM + g_Start_num*MAX_ONE_GROUP_NUM;
-			memset(&gst_Test_Info[id], 0, sizeof(ST_TEST_INFO));
-			gst_Test_Info[id].Test_st = TEST_ST_ZERO;
-			gst_Test_Info[id].SampleID = ui->leSampleNo1->text().toInt();
-			gst_Test_Info[id].BottleId  = REAL_BOTTLE1_ID + g_Start_num*MAX_ONE_GROUP_NUM;
-		}
-		else if(TPC_COLI_ID == gTest_Mode) // 菌落总数
-		{
-			id = BOTTLE1_ID + TPCCOLI_START_NUM + g_Start_num*MAX_ONE_GROUP_NUM;
-			memset(&gst_Test_Info[id], 0, sizeof(ST_TEST_INFO));
-			gst_Test_Info[id].Test_st = TEST_ST_ZERO;
-			gst_Test_Info[id].SampleID = ui->leSampleNo1->text().toInt();
-			gst_Test_Info[id].BottleId  = REAL_BOTTLE1_ID + g_Start_num*MAX_ONE_GROUP_NUM;
-		}
-		else if(E_COLI_ID == gTest_Mode)	// 埃希氏
-		{
-			id = BOTTLE1_ID + ECOLI_START_NUM + g_Start_num*MAX_ONE_GROUP_NUM;
-			memset(&gst_Test_Info[id], 0, sizeof(ST_TEST_INFO));
-			gst_Test_Info[id].Test_st = TEST_ST_ZERO;
-			gst_Test_Info[id].SampleID = ui->leSampleNo1->text().toInt();
-			gst_Test_Info[id].BottleId  = REAL_BOTTLE1_ID + g_Start_num*MAX_ONE_GROUP_NUM;
-		}
-		qDebug()<<"start gTest_Mode = "<<gTest_Mode <<"num = "<< g_Start_num*MAX_ONE_GROUP_NUM;
+		//qDebug()<<"start gTest_Mode = "<<gTest_Mode <<"num = "<< g_Start_num*MAX_ONE_GROUP_NUM;
 	}
 	else if(operator ==(txt, QString(STR_TEST_STOP)))// 停止测试
 	{
@@ -891,30 +416,7 @@ void Testing::pb_Bottle1_Reless()
 									 QMessageBox::Cancel))
 		{
 			case QMessageBox::Ok:
-				if(TOL_COLI_ID == gTest_Mode)  // 总大肠
-				{
-					id = BOTTLE1_ID + TOLCOLI_START_NUM + g_Start_num*MAX_ONE_GROUP_NUM;
-					memset(&gst_Test_Info[id], 0, sizeof(ST_TEST_INFO));
-					gst_Test_Info[id].Test_st = TEST_ST_IDEL;
-				}
-				else if(FEC_COLI_ID == gTest_Mode)  // 耐热
-				{
-					id = BOTTLE1_ID + FECCOLI_START_NUM + g_Start_num*MAX_ONE_GROUP_NUM;
-					memset(&gst_Test_Info[id], 0, sizeof(ST_TEST_INFO));
-					gst_Test_Info[id].Test_st = TEST_ST_IDEL;
-				}
-				else if(TPC_COLI_ID == gTest_Mode) // 菌落总数
-				{
-					id = BOTTLE1_ID + TPCCOLI_START_NUM + g_Start_num*MAX_ONE_GROUP_NUM;
-					memset(&gst_Test_Info[id], 0, sizeof(ST_TEST_INFO));
-					gst_Test_Info[id].Test_st = TEST_ST_IDEL;
-				}
-				else if(E_COLI_ID == gTest_Mode)	// 埃希氏
-				{
-					id = BOTTLE1_ID + ECOLI_START_NUM + g_Start_num*MAX_ONE_GROUP_NUM;
-					memset(&gst_Test_Info[id], 0, sizeof(ST_TEST_INFO));
-					gst_Test_Info[id].Test_st = TEST_ST_IDEL;
-				}
+
 				break;
 
 			case QMessageBox::Cancel:
@@ -942,40 +444,7 @@ void Testing::pb_Bottle2_Reless()
 	txt = ui->pb_Bottle2->text();
 	if(operator ==(txt,QString(STR_TEST_START)))  //开始测试
 	{
-		if(TOL_COLI_ID == gTest_Mode)  // 总大肠
-		{
-			id = BOTTLE2_ID + TOLCOLI_START_NUM  + g_Start_num*MAX_ONE_GROUP_NUM;
-			memset(&gst_Test_Info[id], 0, sizeof(ST_TEST_INFO));
-			gst_Test_Info[id].Test_st = TEST_ST_ZERO;
-			gst_Test_Info[id].SampleID = ui->leSampleNo2->text().toInt();
-			gst_Test_Info[id].BottleId  = REAL_BOTTLE2_ID + g_Start_num*MAX_ONE_GROUP_NUM;
-		}
-		else if(FEC_COLI_ID == gTest_Mode)  // 耐热
-		{
-			id = BOTTLE2_ID + FECCOLI_START_NUM  + g_Start_num*MAX_ONE_GROUP_NUM;
 
-			memset(&gst_Test_Info[id], 0, sizeof(ST_TEST_INFO));
-			gst_Test_Info[id].Test_st = TEST_ST_ZERO;
-			gst_Test_Info[id].SampleID = ui->leSampleNo2->text().toInt();
-			gst_Test_Info[id].BottleId  = REAL_BOTTLE2_ID+ g_Start_num*MAX_ONE_GROUP_NUM;
-		}
-		else if(TPC_COLI_ID == gTest_Mode) // 菌落总数
-		{
-			id = BOTTLE2_ID + TPCCOLI_START_NUM  + g_Start_num*MAX_ONE_GROUP_NUM;
-			memset(&gst_Test_Info[id], 0, sizeof(ST_TEST_INFO));
-			gst_Test_Info[id].Test_st = TEST_ST_ZERO;
-			gst_Test_Info[id].SampleID = ui->leSampleNo2->text().toInt();
-			gst_Test_Info[id].BottleId  = REAL_BOTTLE2_ID + g_Start_num*MAX_ONE_GROUP_NUM;
-		}
-		else if(E_COLI_ID == gTest_Mode)	// 埃希氏
-		{
-			id = BOTTLE2_ID + ECOLI_START_NUM  + g_Start_num*MAX_ONE_GROUP_NUM;
-
-			memset(&gst_Test_Info[ id], 0, sizeof(ST_TEST_INFO));
-			gst_Test_Info[id].Test_st = TEST_ST_ZERO;
-			gst_Test_Info[id].SampleID = ui->leSampleNo2->text().toInt();
-			gst_Test_Info[id].BottleId  = REAL_BOTTLE2_ID + g_Start_num*MAX_ONE_GROUP_NUM;
-		}
 		qDebug()<<"start";
 	}
 	else if(operator ==(txt, QString(STR_TEST_STOP)))// 停止测试
@@ -985,31 +454,7 @@ void Testing::pb_Bottle2_Reless()
 									 QMessageBox::Cancel))
 		{
 			case QMessageBox::Ok:
-				if(TOL_COLI_ID == gTest_Mode)  // 总大肠
-				{
-					id = BOTTLE2_ID + TOLCOLI_START_NUM  + g_Start_num*MAX_ONE_GROUP_NUM;
-					memset(&gst_Test_Info[ id], 0, sizeof(ST_TEST_INFO));
-					gst_Test_Info[id].Test_st = TEST_ST_IDEL;
-				}
-				else if(FEC_COLI_ID == gTest_Mode)  // 耐热
-				{
-					id = BOTTLE2_ID + FECCOLI_START_NUM + g_Start_num*MAX_ONE_GROUP_NUM;
-					memset(&gst_Test_Info[ id ], 0, sizeof(ST_TEST_INFO));
-					gst_Test_Info[id].Test_st = TEST_ST_IDEL;
-				}
-				else if(TPC_COLI_ID == gTest_Mode) // 菌落总数
-				{
-					id =  BOTTLE2_ID + TPCCOLI_START_NUM + g_Start_num*MAX_ONE_GROUP_NUM;
-					memset(&gst_Test_Info[ id], 0, sizeof(ST_TEST_INFO));
-					gst_Test_Info[id].Test_st = TEST_ST_IDEL;
-				}
-				else if(E_COLI_ID == gTest_Mode)	// 埃希氏
-				{
-					id =  BOTTLE2_ID + ECOLI_START_NUM + g_Start_num*MAX_ONE_GROUP_NUM;
-					memset(&gst_Test_Info[ id], 0, sizeof(ST_TEST_INFO));
-					gst_Test_Info[id].Test_st = TEST_ST_IDEL;
-				}
-				break;
+
 
 			case QMessageBox::Cancel:
 				break;
@@ -1035,39 +480,7 @@ void Testing::pb_Bottle3_Reless()
 	txt = ui->pb_Bottle3->text();
 	if(operator ==(txt,QString(STR_TEST_START)))  //开始测试
 	{
-		if(TOL_COLI_ID == gTest_Mode)  // 总大肠
-		{
-			id = BOTTLE3_ID + TOLCOLI_START_NUM + g_Start_num*MAX_ONE_GROUP_NUM;
-			memset(&gst_Test_Info[ id], 0, sizeof(ST_TEST_INFO));
-			gst_Test_Info[id].Test_st = TEST_ST_ZERO;
-			gst_Test_Info[id].SampleID = ui->leSampleNo3->text().toInt();
-			gst_Test_Info[id].BottleId  = REAL_BOTTLE3_ID + g_Start_num*MAX_ONE_GROUP_NUM;
-		}
-		else if(FEC_COLI_ID == gTest_Mode)  // 耐热
-		{
-			id = BOTTLE3_ID + FECCOLI_START_NUM + g_Start_num*MAX_ONE_GROUP_NUM;
-			memset(&gst_Test_Info[id], 0, sizeof(ST_TEST_INFO));
-			gst_Test_Info[id].Test_st = TEST_ST_ZERO;
-			gst_Test_Info[id].SampleID = ui->leSampleNo3->text().toInt();
-			gst_Test_Info[id].BottleId  = REAL_BOTTLE3_ID  + g_Start_num*MAX_ONE_GROUP_NUM;;
-		}
-		else if(TPC_COLI_ID == gTest_Mode) // 菌落总数
-		{
-			id = BOTTLE3_ID + TPCCOLI_START_NUM + g_Start_num*MAX_ONE_GROUP_NUM;
-			memset(&gst_Test_Info[id], 0, sizeof(ST_TEST_INFO));
-			gst_Test_Info[id].Test_st = TEST_ST_ZERO;
-			gst_Test_Info[id].SampleID = ui->leSampleNo3->text().toInt();
-			gst_Test_Info[id].BottleId  = REAL_BOTTLE3_ID + g_Start_num*MAX_ONE_GROUP_NUM;;
-		}
-		else if(E_COLI_ID == gTest_Mode)	// 埃希氏
-		{
-			id = BOTTLE3_ID + ECOLI_START_NUM + g_Start_num*MAX_ONE_GROUP_NUM;
-			memset(&gst_Test_Info[id], 0, sizeof(ST_TEST_INFO));
-			gst_Test_Info[id].Test_st = TEST_ST_ZERO;
-			gst_Test_Info[id].SampleID = ui->leSampleNo3->text().toInt();
-			gst_Test_Info[id].BottleId  = REAL_BOTTLE3_ID + g_Start_num*MAX_ONE_GROUP_NUM;;
-		}
-		qDebug()<<"start";
+
 	}
 	else if(operator ==(txt, QString(STR_TEST_STOP)))// 停止测试
 	{
@@ -1076,31 +489,7 @@ void Testing::pb_Bottle3_Reless()
 									 QMessageBox::Cancel))
 		{
 			case QMessageBox::Ok:
-				if(TOL_COLI_ID == gTest_Mode)  // 总大肠
-				{
-					id = BOTTLE3_ID + TOLCOLI_START_NUM + g_Start_num*MAX_ONE_GROUP_NUM;
-					memset(&gst_Test_Info[id], 0, sizeof(ST_TEST_INFO));
-					gst_Test_Info[id].Test_st = TEST_ST_IDEL;
-				}
-				else if(FEC_COLI_ID == gTest_Mode)  // 耐热
-				{
-					id = BOTTLE3_ID + FECCOLI_START_NUM + g_Start_num*MAX_ONE_GROUP_NUM;
-					memset(&gst_Test_Info[id], 0, sizeof(ST_TEST_INFO));
-					gst_Test_Info[id].Test_st = TEST_ST_IDEL;
-				}
-				else if(TPC_COLI_ID == gTest_Mode) // 菌落总数
-				{
-					id = BOTTLE3_ID + TPCCOLI_START_NUM + g_Start_num*MAX_ONE_GROUP_NUM;
-					memset(&gst_Test_Info[id], 0, sizeof(ST_TEST_INFO));
-					gst_Test_Info[id].Test_st = TEST_ST_IDEL;
-				}
-				else if(E_COLI_ID == gTest_Mode)	// 埃希氏
-				{
-					id = BOTTLE3_ID + ECOLI_START_NUM + g_Start_num*MAX_ONE_GROUP_NUM;
-					memset(&gst_Test_Info[id], 0, sizeof(ST_TEST_INFO));
-					gst_Test_Info[id].Test_st = TEST_ST_IDEL;
-				}
-				break;
+
 
 			case QMessageBox::Cancel:
 				break;
@@ -1127,41 +516,7 @@ void Testing::pb_Bottle4_Reless()
 	txt = ui->pb_Bottle4->text();
 	if(operator ==(txt,QString(STR_TEST_START)))  //开始测试
 	{
-		if(TOL_COLI_ID == gTest_Mode)  // 总大肠
-		{
-			id = BOTTLE4_ID + TOLCOLI_START_NUM + g_Start_num*MAX_ONE_GROUP_NUM;
-			memset(&gst_Test_Info[id], 0, sizeof(ST_TEST_INFO));
-			gst_Test_Info[id].Test_st = TEST_ST_ZERO;
-			gst_Test_Info[id].SampleID = ui->leSampleNo4->text().toInt();
-			gst_Test_Info[id].BottleId  = REAL_BOTTLE4_ID  + g_Start_num*MAX_ONE_GROUP_NUM;
-		}
-		else if(FEC_COLI_ID == gTest_Mode)  // 耐热
-		{
-			id = BOTTLE4_ID + FECCOLI_START_NUM + g_Start_num*MAX_ONE_GROUP_NUM;
-			memset(&gst_Test_Info[id], 0, sizeof(ST_TEST_INFO));
-			gst_Test_Info[id].Test_st = TEST_ST_ZERO;
-			gst_Test_Info[id].SampleID = ui->leSampleNo4->text().toInt();
-			gst_Test_Info[id].BottleId  = REAL_BOTTLE4_ID + g_Start_num*MAX_ONE_GROUP_NUM;
 
-		}
-		else if(TPC_COLI_ID == gTest_Mode) // 菌落总数
-		{
-			id = BOTTLE4_ID + TPCCOLI_START_NUM + g_Start_num*MAX_ONE_GROUP_NUM;
-			memset(&gst_Test_Info[id], 0, sizeof(ST_TEST_INFO));
-			gst_Test_Info[id].Test_st = TEST_ST_ZERO;
-			gst_Test_Info[id].SampleID = ui->leSampleNo4->text().toInt();
-			gst_Test_Info[id].BottleId  = REAL_BOTTLE4_ID  + g_Start_num*MAX_ONE_GROUP_NUM;
-
-		}
-		else if(E_COLI_ID == gTest_Mode)	// 埃希氏
-		{
-			id = BOTTLE4_ID + ECOLI_START_NUM + g_Start_num*MAX_ONE_GROUP_NUM;
-			memset(&gst_Test_Info[id], 0, sizeof(ST_TEST_INFO));
-			gst_Test_Info[id].Test_st = TEST_ST_ZERO;
-			gst_Test_Info[id].SampleID = ui->leSampleNo4->text().toInt();
-			gst_Test_Info[id].BottleId  = REAL_BOTTLE4_ID + g_Start_num*MAX_ONE_GROUP_NUM;
-
-		}
 		qDebug()<<"start";
 	}
 	else if(operator ==(txt, QString(STR_TEST_STOP)))// 停止测试
@@ -1171,31 +526,7 @@ void Testing::pb_Bottle4_Reless()
 									 QMessageBox::Cancel))
 		{
 			case QMessageBox::Ok:
-				if(TOL_COLI_ID == gTest_Mode)  // 总大肠
-				{
-					id = BOTTLE4_ID + TOLCOLI_START_NUM + g_Start_num*MAX_ONE_GROUP_NUM;
-					memset(&gst_Test_Info[id], 0, sizeof(ST_TEST_INFO));
-					gst_Test_Info[id].Test_st = TEST_ST_IDEL;
-				}
-				else if(FEC_COLI_ID == gTest_Mode)  // 耐热
-				{
-					id = BOTTLE4_ID + FECCOLI_START_NUM + g_Start_num*MAX_ONE_GROUP_NUM;
-					memset(&gst_Test_Info[id], 0, sizeof(ST_TEST_INFO));
-					gst_Test_Info[id].Test_st = TEST_ST_IDEL;
-				}
-				else if(TPC_COLI_ID == gTest_Mode) // 菌落总数
-				{
-					id = BOTTLE4_ID + TPCCOLI_START_NUM + g_Start_num*MAX_ONE_GROUP_NUM;
-					memset(&gst_Test_Info[ id], 0, sizeof(ST_TEST_INFO));
-					gst_Test_Info[id].Test_st = TEST_ST_IDEL;
-				}
-				else if(E_COLI_ID == gTest_Mode)	// 埃希氏
-				{
-					id = BOTTLE4_ID + ECOLI_START_NUM + g_Start_num*MAX_ONE_GROUP_NUM;
-					memset(&gst_Test_Info[ id], 0, sizeof(ST_TEST_INFO));
-					gst_Test_Info[id].Test_st = TEST_ST_IDEL;
-				}
-				break;
+
 
 			case QMessageBox::Cancel:
 				break;
@@ -1222,42 +553,7 @@ void Testing::pb_Bottle5_Reless()
 	txt = ui->pb_Bottle5->text();
 	if(operator ==(txt,QString(STR_TEST_START)))  //开始测试
 	{
-		if(TOL_COLI_ID == gTest_Mode)  // 总大肠
-		{
-			id = BOTTLE5_ID + TOLCOLI_START_NUM + g_Start_num*MAX_ONE_GROUP_NUM;
-			memset(&gst_Test_Info[id], 0, sizeof(ST_TEST_INFO));
-			gst_Test_Info[id].Test_st = TEST_ST_ZERO;
-			gst_Test_Info[id].SampleID = ui->leSampleNo5->text().toInt();
-			gst_Test_Info[id].BottleId  = REAL_BOTTLE5_ID + g_Start_num*MAX_ONE_GROUP_NUM;
 
-		}
-		else if(FEC_COLI_ID == gTest_Mode)  // 耐热
-		{
-			id = BOTTLE5_ID + FECCOLI_START_NUM + g_Start_num*MAX_ONE_GROUP_NUM;
-			memset(&gst_Test_Info[id], 0, sizeof(ST_TEST_INFO));
-			gst_Test_Info[id].Test_st = TEST_ST_ZERO;
-			gst_Test_Info[id].SampleID = ui->leSampleNo5->text().toInt();
-			gst_Test_Info[id].BottleId  = REAL_BOTTLE5_ID+ g_Start_num*MAX_ONE_GROUP_NUM;
-
-		}
-		else if(TPC_COLI_ID == gTest_Mode) // 菌落总数
-		{
-			id = BOTTLE5_ID + TPCCOLI_START_NUM + g_Start_num*MAX_ONE_GROUP_NUM;
-			memset(&gst_Test_Info[id], 0, sizeof(ST_TEST_INFO));
-			gst_Test_Info[id].Test_st = TEST_ST_ZERO;
-			gst_Test_Info[id].SampleID = ui->leSampleNo5->text().toInt();
-			gst_Test_Info[id].BottleId  = REAL_BOTTLE5_ID+ g_Start_num*MAX_ONE_GROUP_NUM;
-
-		}
-		else if(E_COLI_ID == gTest_Mode)	// 埃希氏
-		{
-			id = BOTTLE5_ID + ECOLI_START_NUM + g_Start_num*MAX_ONE_GROUP_NUM;
-			memset(&gst_Test_Info[id], 0, sizeof(ST_TEST_INFO));
-			gst_Test_Info[id].Test_st = TEST_ST_ZERO;
-			gst_Test_Info[id].SampleID = ui->leSampleNo5->text().toInt();
-			gst_Test_Info[id].BottleId  = REAL_BOTTLE5_ID+ g_Start_num*MAX_ONE_GROUP_NUM;
-
-		}
 		qDebug()<<"start";
 	}
 	else if(operator ==(txt, QString(STR_TEST_STOP)))// 停止测试
@@ -1267,30 +563,7 @@ void Testing::pb_Bottle5_Reless()
 									 QMessageBox::Cancel))
 		{
 			case QMessageBox::Ok:
-				if(TOL_COLI_ID == gTest_Mode)  // 总大肠
-				{
-					id = BOTTLE5_ID + TOLCOLI_START_NUM + g_Start_num*MAX_ONE_GROUP_NUM;
-					memset(&gst_Test_Info[id], 0, sizeof(ST_TEST_INFO));
-					gst_Test_Info[id].Test_st = TEST_ST_IDEL;
-				}
-				else if(FEC_COLI_ID == gTest_Mode)  // 耐热
-				{
-					id = BOTTLE5_ID + FECCOLI_START_NUM + g_Start_num*MAX_ONE_GROUP_NUM;
-					memset(&gst_Test_Info[id], 0, sizeof(ST_TEST_INFO));
-					gst_Test_Info[id].Test_st = TEST_ST_IDEL;
-				}
-				else if(TPC_COLI_ID == gTest_Mode) // 菌落总数
-				{
-					id = BOTTLE5_ID + TPCCOLI_START_NUM + g_Start_num*MAX_ONE_GROUP_NUM;
-					memset(&gst_Test_Info[id], 0, sizeof(ST_TEST_INFO));
-					gst_Test_Info[id].Test_st = TEST_ST_IDEL;
-				}
-				else if(E_COLI_ID == gTest_Mode)	// 埃希氏
-				{
-					id = BOTTLE5_ID + ECOLI_START_NUM + g_Start_num*MAX_ONE_GROUP_NUM;
-					memset(&gst_Test_Info[id], 0, sizeof(ST_TEST_INFO));
-					gst_Test_Info[id].Test_st = TEST_ST_IDEL;
-				}
+
 				break;
 
 			case QMessageBox::Cancel:

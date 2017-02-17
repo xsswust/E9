@@ -10,54 +10,6 @@ typedef union _CRC
 	uchar by[2];
 }CRC;
 
-int mpn_0[][6] = {{0,2,4,5,7,9},
-                {2,4,6,7,9,11},
-                {4,6,7,9,11,13},
-                {6,7,9,11,13,15},
-                {8,9,11,13,15,17},
-                {9,11,13,15,17,19},
-                };
-
-int mpn_1[][6] = {{2,4,6,8,10,12},
-                {4,6,8,10,12,14},
-                {6,8,10,12,15,17},
-                {8,10,12,15,17,19},
-                {11,13,15,17,19,22},
-                {13,15,17,19,22,24},
-                };
-
-int mpn_2[][6] = {{5,7,9,12,14,16},
-                {7,9,12,14,17,19},
-                {9,12,14,17,19,22},
-                {12,14,17,20,22,25},
-                {15,17,20,23,25,28},
-                {17,20,23,26,29,32},
-                };
-
-int mpn_3[][6] = {{8,11,13,16,20,23},
-                {11,14,17,20,23,27},
-                {14,17,20,24,27,31},
-                {17,21,24,28,32,36},
-                {21,24,28,32,36,40},
-                {25,29,32,37,41,45},
-                };
-
-int mpn_4[][6] = {{13,17,21,25,30,36},
-                {17,21,26,31,36,42},
-                {22,26,32,38,44,50},
-                {27,33,39,45,52,59},
-                {34,40,47,54,62,69},
-                {41,48,56,64,72,81},
-                };
-
-int mpn_5[][6] = {{23,31,43,58,76,95},
-                {33,46,63,84,110,130},
-                {49,70,94,120,150,180},
-                {79,110,140,180,210,250},
-                {130,170,220,280,350,430},
-                {240,350,540,920,1600,16000},
-                };
-
 
 int unsigned g_Test_Over_Time = FAST_TIME_LIMIT;  // 超时时间
 int g_workmode = WORK_MODE_TEST;  // 工作模式
@@ -69,11 +21,12 @@ int g_mpn_test_mui = 1;  // 稀释倍数
 int g_mpn_test_val[MPN_MAX_NUM] ={0};   //记录测试结果 查表用
 
 int g_work_Test_type[BOTTLE_MAX_NUM] ={ NULL_ID, NULL_ID,NULL_ID, NULL_ID, NULL_ID};  // 测试菌
-
+// 接口板 IO
 int gpio_out[] = {MAIN_GPIO_OUT0, MAIN_GPIO_OUT1,MAIN_GPIO_OUT2, MAIN_GPIO_OUT3,MAIN_GPIO_OUT4, MAIN_GPIO_OUT5,MAIN_GPIO_OUT6, MAIN_GPIO_OUT7};
 int gpio_in[] = {MAIN_GPIO_IN0, MAIN_GPIO_IN1,MAIN_GPIO_IN2, MAIN_GPIO_IN3,MAIN_GPIO_IN4, MAIN_GPIO_IN5,MAIN_GPIO_IN6, MAIN_GPIO_IN7};
-UINT8 gExt_out[MAX_EXT_OUT_GPIO];
-UINT8 gExt_in[MAX_EXT_IN_GPIO];
+
+UINT8 gExt_out[MAX_EXT_OUT_GPIO + 1];
+UINT8 gExt_in[MAX_EXT_IN_GPIO + 1];
 
 float g_temp1 = 0.0;		// 实时温度1
 float g_temp2 = 0.0;		// 实时温度2
@@ -83,7 +36,7 @@ float g_temp5 = 0.0;		// 实时温度1
 float g_temp_nor = 0.0;		// 实时温度2
 
 
-ST_HISTORY_DATA gst_His_Info[MAX_TEST_NUM];  // 浓度保存
+//ST_HISTORY_DATA gst_His_Info[MAX_TEST_NUM];  // 浓度保存
 ST_HISTORY_DATA gst_His_Info_to_plc[BOTTLE_MAX_NUM];  // 发送给 PLC 数据
 int g_System_Info = SYSTEM_OK;  // 系统状态
 // log 记录信息
@@ -172,8 +125,8 @@ void HardWare_Init(void)
 	int i = 0;
 	// 打开 gpio 驱动
 	Gpio_Init(); // 打开gpio 驱动
-	LED_Power(0, 0); // 关闭 EN 引脚
-	Gpio_set(TOL_FEC_TPC_AD_EN, GPIO_LOW);  //关闭 EN2
+//	LED_Power(0, 0); // 关闭 EN 引脚
+//	Gpio_set(TOL_FEC_TPC_AD_EN, GPIO_LOW);  //关闭 EN2
 
 #if 0
 	// 打开ad 驱动
@@ -183,18 +136,18 @@ void HardWare_Init(void)
 
     Gpio_set(AD_EN, GPIO_LOW);  //使能 EN
 // 初始化扩展板输入状态
-	for(i = 0 ; i < MAX_EXT_IN_GPIO; i++){
+	for(i = 0 ; i < MAX_EXT_IN_GPIO; i++){   // 默认全部为低
 		gExt_in[i] = 0;
 	}
 // 初始化扩展板输出状态
-	for(i = 0 ; i < MAX_EXT_OUT_GPIO; i++){
+	for(i = 0 ; i < MAX_EXT_OUT_GPIO; i++){  // 默认输入全为0
 		gExt_out[i] = 0;
 	}
 // 初始化 接口板输出状态
 	for(i = 0; i < MAX_MAIN_OUT_GPIO; i++){
 		Set_Main_Gpio(i, GPIO_LOW);
 	}
-
+	UpdateExtOutGpio();
 }
 // 硬件解除
 void HardWare_UnInit(void)
@@ -202,303 +155,7 @@ void HardWare_UnInit(void)
 	Gpio_UnInit();  // 关闭gpio
 	ead_deinit();   // 关闭 ad
 }
-
-//LED 控制
-// num --> led 号
-// val --> led 状态 0--> 全灭   1--> 亮
-void LED_Power(unsigned int num, unsigned int val)
-{
-	unsigned char addr;
-
-	//qDebug()<<QString("LED_Power=num = %1 val=  %2 ").arg(num).arg(val);
-	//addr = num % GPIO_ZU_NUM;
-
-//	/usleep(1000);// 1ms
-	if(GPIO_HIGH == val)
-	{
-        //Gpio_set(LED_EN, GPIO_HIGH);  // 打开EN
-        Gpio_set(LED_EN, GPIO_LOW);  // 打开EN
-		addr = num % MAX_ONE_GROUP_NUM;
-		if(num >= ECOLI_START_NUM) // 埃希氏
-		{
-			addr = addr * 3;
-		}
-		else if(num >= TPCCOLI_START_NUM)  // 菌落总数
-		{
-			addr = addr * 3 + 2;
-		}
-		else if(num >= FECCOLI_START_NUM)	 // 耐热
-		{
-			addr = addr * 3 + 1;
-		}
-		else if(num >= TOLCOLI_START_NUM) // 总大肠
-		{
-			addr = addr * 3 + 1;
-		}
-#if 0
-		if(addr >= 15)//
-		{
-			addr = 5;
-		}
-#endif
-//		qDebug()<<QString("LED_Power === addr = %1 ").arg(addr);
-		//addr = addr + 1;
-		if(addr&0x01){
-			Gpio_set(LED_A0, GPIO_HIGH);
-//			qDebug()<<"LED_A0 === 1 ";
-		}
-		else{
-			Gpio_set(LED_A0, GPIO_LOW);
-            //qDebug()<<"LED_A0 ===  0";
-		}
-		if(addr&0x02){
-			Gpio_set(LED_A1, GPIO_HIGH);
-            //qDebug()<<"LED_A1 === 1 ";
-		}
-		else{
-			Gpio_set(LED_A1, GPIO_LOW);
-            //qDebug()<<"LED_A1 === 0 ";
-		}
-		if(addr&0x04){
-			Gpio_set(LED_A2, GPIO_HIGH);
-            //qDebug()<<"LED_A2 === 1 ";
-		}
-		else{
-			Gpio_set(LED_A2, GPIO_LOW);
-            //qDebug()<<"LED_A2 === 0 ";
-		}
-		if(addr&0x08){
-			Gpio_set(LED_A3, GPIO_HIGH);
-            //qDebug()<<"LED_A3 === 1 ";
-		}
-		else{
-			Gpio_set(LED_A3, GPIO_LOW);
-            //qDebug()<<"LED_A3 === 0 ";
-		}
-        Gpio_set(LED_EN, GPIO_HIGH);  // 打开EN
-
-	}
-	else
-	{
-		Gpio_set(LED_EN, GPIO_LOW);  //关闭 EN
-	}
-}
-//获取 AD 值
-int Get_ad(unsigned int num)
-{
-	unsigned int chanel= 0, addr = 0;
-	double ad_val = 0, ad_val1 = 0, ad_val2 = 0;
-
-	if(num > MAX_TEST_NUM)
-	{
-		return  ad_val;
-	}
-
-#if HARDWARE_V101
-    Gpio_set(AD_EN, GPIO_HIGH);  // dis
-#endif
-
-#if HARDWARE_V100
-	Gpio_set(AD_EN, GPIO_LOW);  //使能 EN
-#endif
-	usleep(1*1000); //10ms
-	chanel = (num%MAX_ONE_TEST_NUM)/ MAX_ONE_GROUP_NUM;  // 需要 采集的AD 通道
-	addr = num % MAX_ONE_GROUP_NUM;  // 需要 采集的是那一路
-//    printf("num == %d addr = %d \r\n", num, addr);
-
-
-	if(num >= ECOLI_START_NUM)  // 埃希氏
-	{
-		gpio_set(E_AD_EN, GPIO_HIGH);
-	}
-	else{
-		gpio_set(E_AD_EN, GPIO_LOW);
-	}
-	addr = addr*2 ;
-
-//    printf("\r\n num == %d addr = %d \r\n", num, addr);
-
-
-	if(addr&0x01){
-		Gpio_set(AD_A0, GPIO_HIGH);
-//        qDebug()<<"AD_A0 === 1 ";
-	}
-	else{
-		Gpio_set(AD_A0, GPIO_LOW);
-//        qDebug()<<"AD_A0 === 0 ";
-	}
-	if(addr&0x02){
-		Gpio_set(AD_A1, GPIO_HIGH);
-//        qDebug()<<"AD_A1 === 1 ";
-	}
-	else{
-		Gpio_set(AD_A1, GPIO_LOW);
-//        qDebug()<<"AD_A1 === 0 ";
-	}
-	if(addr&0x04){
-		Gpio_set(AD_A2, GPIO_HIGH);
-//        qDebug()<<"AD_A2 === 1 ";
-	}
-	else{
-		Gpio_set(AD_A2, GPIO_LOW);
-//        qDebug()<<"AD_A2 === 0 ";
-	}
-	if(addr&0x08){
-		Gpio_set(AD_A3, GPIO_HIGH);
-//        qDebug()<<"AD_A3 === 1 ";
-	}
-	else{
-		Gpio_set(AD_A3, GPIO_LOW);
-//        qDebug()<<"AD_A3 === 0 ";
-	}
-	usleep(2*1000);
-#if HARDWARE_V101
-    Gpio_set(AD_EN, GPIO_LOW);  //使能 EN
-#endif
-#if HARDWARE_V100
-	Gpio_set(AD_EN, GPIO_HIGH);  //使能 EN
-#endif
-	//printf("chanel =[]= %d\r\n", chanel);
-
-#if 1//!HARDWARE_V101
-    usleep(200*1000);  // 200ms
-#endif
-
-
-	ead_read_raw(chanel,&ad_val);
-    //printf("<<1>>addr = %d ad_val == %f\r\n \r\n",addr, ad_val);
-#if 1
-	ead_read_raw(chanel,&ad_val1);
-    //printf("<<1>>addr = %d ad_val == %f\r\n \r\n",addr, ad_val1);
-	ead_read_raw(chanel,&ad_val2);
-    //printf("<<1>>addr = %d ad_val == %f\r\n \r\n", addr,ad_val1);
-	ad_val = (ad_val + ad_val1 + ad_val2)/3;
-#endif
-    //printf("<<11>>addr = %d ad_val == %f\r\n \r\n",addr, ad_val);
-#if HARDWARE_V101
-    Gpio_set(AD_EN, GPIO_HIGH);  //使能 EN
-#endif
-#if HARDWARE_V100
-	Gpio_set(AD_EN, GPIO_LOW);  //使能 EN
-#endif
-
-
-
-	return (int)ad_val;
-}
-
-//获取 AD 值 电压值
-double Get_val(unsigned int num)
-{
-	unsigned int chanel= 0, addr = 0;
-	double ad_val = 0.0, ad_val1 = 0.0, ad_val2 = 0.0;
-
-	if(num > MAX_TEST_NUM)
-	{
-		return  ad_val;
-	}
-#if 0
-#if HARDWARE_V101
-    Gpio_set(AD_EN, GPIO_HIGH);  // dis
-#endif
-#if HARDWARE_V100
-    Gpio_set(AD_EN, GPIO_LOW);  //使能 EN
-#endif
-#endif
-	usleep(1*1000); //10ms
-	chanel = (num%MAX_ONE_TEST_NUM)/ MAX_ONE_GROUP_NUM;  // 需要 采集的AD 通道
-	addr = num % MAX_ONE_GROUP_NUM;  // 需要 采集的是那一路
-    //printf("num == %d addr = %d \r\n", num, addr);
-
-
-    if(num >= ECOLI_START_NUM)  // 埃希氏
-    {
-        gpio_set(E_AD_EN, GPIO_HIGH);
-    }
-    else{
-        gpio_set(E_AD_EN, GPIO_LOW);
-    }
-    addr = addr*2 ;
-
-    //printf("\r\n num == %d addr = %d \r\n", num, addr);
-#if 0
-#if HARDWARE_V101
-    Gpio_set(AD_EN, GPIO_LOW);  //使能 EN
-#endif
-#if HARDWARE_V100
-    Gpio_set(AD_EN, GPIO_HIGH);  //使能 EN
-#endif
-#endif
-    usleep(1*1000); //10ms
-	if(addr&0x01){
-		Gpio_set(AD_A0, GPIO_HIGH);
-		//qDebug()<<"AD_A0 === 1 ";
-		printf("AD_A0 === 1 \r\n");
-	}
-	else{
-		Gpio_set(AD_A0, GPIO_LOW);
-        //qDebug()<<"AD_A0 === 0 ";
-		printf("AD_A0 === 0 \r\n");
-	}
-	if(addr&0x02){
-		Gpio_set(AD_A1, GPIO_HIGH);
-        //qDebug()<<"AD_A1 === 1 ";
-	}
-	else{
-		Gpio_set(AD_A1, GPIO_LOW);
-        //qDebug()<<"AD_A1 === 0 ";
-	}
-	if(addr&0x04){
-		Gpio_set(AD_A2, GPIO_HIGH);
-        //qDebug()<<"AD_A2 === 1 ";
-	}
-	else{
-		Gpio_set(AD_A2, GPIO_LOW);
-        //qDebug()<<"AD_A2 === 0 ";
-	}
-	if(addr&0x08){
-		Gpio_set(AD_A3, GPIO_HIGH);
-        //qDebug()<<"AD_A3 === 1 ";
-	}
-	else{
-		Gpio_set(AD_A3, GPIO_LOW);
-        //qDebug()<<"AD_A3 === 0 ";
-	}
-    usleep(2*1000);
-#if HARDWARE_V101
-    Gpio_set(AD_EN, GPIO_LOW);  //使能 EN
-#endif
-#if HARDWARE_V100
-    Gpio_set(AD_EN, GPIO_HIGH);  //使能 EN
-#endif
-    //Gpio_set(AD_EN, GPIO_HIGH);  //使能 EN
-    //printf("chanel == %d\r\n", chanel);
-
-    usleep(200*1000);  // 200ms
-
-    ead_read_adc(chanel,&ad_val);
-    //printf("<<1>>addr = %d ad_val == %f\r\n \r\n",addr, ad_val);
-#if 1
-	ead_read_adc(chanel,&ad_val1);
-    //printf("<<1>>addr = %d ad_val == %f\r\n \r\n",addr, ad_val1);
-	ead_read_adc(chanel,&ad_val2);
-    //printf("<<1>>addr = %d ad_val == %f\r\n \r\n", addr,ad_val1);
-	ad_val = (ad_val + ad_val1 + ad_val2)/3;
-#endif
-    //printf("<<11>>addr = %d ad_val == %f\r\n \r\n",addr, ad_val);
-#if 1
-#if HARDWARE_V101
-    Gpio_set(AD_EN, GPIO_HIGH);  //使能 EN
-#endif
-#if HARDWARE_V100
-    Gpio_set(AD_EN, GPIO_LOW);  //使能 EN
-#endif
-#endif
-
-	return ad_val;
-}
-
-
+// 设置系统时间
 void set_system_time(int year, uchar mon, uchar day, uchar hour, uchar min, uchar sec)
 {
 	struct tm nowtime;
@@ -522,9 +179,6 @@ void set_system_time(int year, uchar mon, uchar day, uchar hour, uchar min, ucha
 		printf("hwclock failed\n");
 	}
 }
-
-
-
 
 //#define N 10             //N为要拟合的数据的个数
 
@@ -677,12 +331,13 @@ int gPwm1_flag = false;
 // flag -> true  正转    flag--->false 反转
 void SetMaDa1_Dir(bool flag)
 {
+	printf("\r\n [SetMaDa1_Dir]  flag = %d \r\n ", flag);
 	if(flag == true){
-		Gpio_set(gpio_out[0], 1);
+		Gpio_set(gpio_out[1], 1);
 		gPwm1_flag = false;
 	}
 	else{
-		Gpio_set(gpio_out[0], 0);
+		Gpio_set(gpio_out[1], 0);
 		gPwm1_flag = true;
 	}
 }
@@ -692,12 +347,13 @@ int gPwm2_flag = false;
 //电机2 转向控制
 void SetMaDa2_Dir(bool flag)
 {
+	printf("\r\n [SetMaDa2_Dir]  flag = %d \r\n ", flag);
 	if(flag == true){
-		Gpio_set(gpio_out[1], 1);
+		Gpio_set(gpio_out[3], 1);
 		gPwm2_flag = false;
 	}
 	else{
-		Gpio_set(gpio_out[1], 0);
+		Gpio_set(gpio_out[3], 0);
 		gPwm2_flag = true;
 	}
 }
@@ -746,7 +402,7 @@ void Set_Main_Gpio(int num, int val){
 	Gpio_set(gpio_out[num], val);
 }
 
-// 设置接口板GPIO值
+// 获取接口板GPIO值
 //num ---> 接口板gpio号 0----7
 // val --> 数值
 
@@ -761,11 +417,12 @@ int Get_Main_Gpio(int num){
 
 // 设置扩展口输出
 bool Set_Ext_Gpio(int num, int val){
-
+	printf("\r\n[1] [S]   num == %d  val = %d \r\n", num, val);
 	if((num < 0) || (num >= MAX_EXT_OUT_GPIO)){
 		return false;
 	}
 	gExt_out[num] = val;
+	printf("\r\n[2] [Set_Ext_Gpio]   num == %d  val = %d \r\n", num, val);
 	UpdateExtOutGpio();
 	return true;
 }
@@ -774,12 +431,15 @@ bool Set_Ext_Gpio(int num, int val){
 void UpdateExtOutGpio(){
 	int i = 0;
 
+	//qDebug<<gExt_out;
 	for(i = 0; i < MAX_EXT_OUT_GPIO; i++)
 	{
 		Gpio_set(OUT_SDI, gExt_out[i]);
 		Gpio_set(OUT_CLK, GPIO_HIGH);
 
 		Gpio_set(OUT_CLK, GPIO_LOW);
+
+		printf("gExt_out[%d] === %d \r\n", i, gExt_out[i]);
 	}
 
 	Gpio_set(OUT_LE, GPIO_HIGH);
