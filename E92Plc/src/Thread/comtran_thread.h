@@ -99,15 +99,6 @@ public:
 #endif
 // end for com
 
-public slots:
-	void timeUp1_1Minute();
-	void timeUp2_100Ms();
-	void timeUp3_100Ms();
-	void timeUp4_100Ms();
-	void timeUp5_100Ms();
-	void timeNor_100Ms();
-	void time_addr_1s();
-
 
 private:
 	QTimer *timeForGetTEMP1_1Minute;

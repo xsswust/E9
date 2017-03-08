@@ -23,7 +23,7 @@ debug_signal::~debug_signal()
 {
 	delete ui;
 }
-// 初始化
+// 初始化 界面
 void debug_signal::Init()
 {
 	exit_flag = false;
@@ -42,12 +42,8 @@ void debug_signal::Init()
 
 	//timeForGetTEMP_1Minute->start(TIMER_LEN_1MINUTE);
 
-#if HARDWARE_V101
      timeForGetTEMP_1Minute->start(250);
-#endif
-#if HARDWARE_V100
-    timeForGetTEMP_1Minute->start(500);
-#endif
+
     //timeUp_1Minute();
 }
 
@@ -84,12 +80,12 @@ void debug_signal::on_pB_Exit_clicked()
 //	getFullScree("signal.jpg");
 	if(false == exit_flag)
 	{
-		Uninit();
-		this->close();
+//		Uninit();
+//		this->close();
 	}
 }
 
-// 设置试剂阀状态
+// 设置 试剂阀 状态
 void debug_signal::on_pB_shiji_released()
 {
 	if(gExt_out[FA_SHIJI] == 0){  // 关闭的
@@ -113,7 +109,7 @@ void debug_signal::on_pB_shuiyangfa_released()
 		Set_Ext_Gpio(FA_SHUIYANG, GPIO_LOW);
 	}
 }
-
+// 次氯酸阀
 void debug_signal::on_pB_cilvsuan_released()
 {
 	int pin = FA_XIAODUYE;
@@ -412,3 +408,18 @@ void debug_signal::on_pB_shajundeng_released()
 }
 
 
+// 全部停止
+void debug_signal::on_pB_StopAll_released()
+{
+	StopAll();
+}
+// 返回上一级界面
+void debug_signal::on_pB_Exit_released()
+{
+	//	getFullScree("signal.jpg");
+		//if(false == exit_flag)
+		{
+	//		Uninit();
+			this->close();
+		}
+}

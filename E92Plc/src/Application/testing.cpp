@@ -5,7 +5,7 @@
 #include "src/HardWare/com_trandata.h"
 #include "src/Thread/comtran_thread.h"
 #include "NumberKeyBoard.h"
-#include "testmode.h"
+#include "debug_zuhe.h"
 #include <QTextCodec>
 #include <QPalette>
 #include <QFont>
@@ -256,41 +256,6 @@ void Testing::timeUpData()
 	QString strDate= time.toString("yyyy-MM-dd hh:mm:ss ddd");
 	ui->leDataTime->setText(strDate);
 	// 上一平 下一屏 数据
-	switch(g_Start_num)
-	{
-		case 0:
-			ui->pb_Prev->hide();
-			ui->pb_Next->show();
-			ui->leTempDis->setText(QString::number(g_Sp1)); // 显示36.5
-		break;
-
-		case 1:
-			ui->pb_Prev->show();
-			ui->pb_Next->show();
-			ui->leTempDis->setText(QString::number(g_Sp2)); // 显示36.5
-		break;
-
-		case 2:
-			ui->pb_Prev->show();
-			ui->pb_Next->show();
-			ui->leTempDis->setText(QString::number(g_Sp3)); // 显示36.5
-		break;
-
-		case 3:
-			ui->pb_Prev->show();
-			ui->pb_Next->show();
-			ui->leTempDis->setText(QString::number(g_Sp4)); // 显示36.5
-		break;
-
-		case 4:
-			ui->pb_Prev->show();
-			ui->pb_Next->hide();
-			ui->leTempDis->setText(QString::number(g_Sp5)); // 显示36.5
-		break;
-
-		default:
-		break;
-	}
 
 	// 显示瓶的状态
 	if(TOL_COLI_ID == gTest_Mode)  // 总大肠

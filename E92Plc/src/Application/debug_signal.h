@@ -83,6 +83,10 @@ private slots:
 
 	void on_pB_rongdongbengfan_released();
 
+	void on_pB_StopAll_released();
+
+	void on_pB_Exit_released();
+
 private:
 	Ui::debug_signal *ui;
 

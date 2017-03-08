@@ -6,6 +6,7 @@
 #include <QFont>
 #include "common.h"
 #include "debug_signal.h"
+#include "debug_zuhe.h"
 
 Debugging::Debugging(QWidget *parent) :
     QWidget(parent),
@@ -88,4 +89,12 @@ void Debugging::on_pb_single_clicked()
 {
 	debug_signal *mDebugsingle = new debug_signal();
 	mDebugsingle->showFullScreen();
+}
+
+// 打开组合开关
+void Debugging::on_pb_com_released()
+{
+	debug_zuhe * mDebug_zuhe = new debug_zuhe();
+
+	mDebug_zuhe->showFullScreen();
 }

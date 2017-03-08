@@ -19,8 +19,6 @@
 #include "e92plc_cfg.h"
 #include "pwm.h"
 
-#define HARDWARE_V101			1                  //版本 V1.0.1
-#define HARDWARE_V100			0                //版本 V1.0.0
 
 #define DEBUD_TEST              0               // 测试
 
@@ -99,6 +97,10 @@
 #define MAX_EXT_NUM				2 // 接口板上 扩展板数量
 #define MAX_EXT_IN_GPIO			(MAX_EXT_NUM*ONE_EXT_IN_GPIO) // 扩展板上 最多输入IO数
 #define MAX_EXT_OUT_GPIO		(MAX_EXT_NUM*ONE_EXT_OUT_GPIO) // 扩展板上 最多输出IO数
+// 进液和排液瓶最大个数
+#define MAX_JINYE_NUM		6//
+#define MAX_PAIYEYE_NUM		6//
+
 
 // 保存IO口状态
 extern UINT8 gExt_out[MAX_EXT_OUT_GPIO + 1]; // 扩展板输出IO数
@@ -143,6 +145,10 @@ extern UINT8 gExt_in[MAX_EXT_IN_GPIO + 1];	// 扩展板输入IO数
 #define FA_NULL4		(MAX_EXT_OUT_GPIO - 30)   // 扩展输出 20号pin
 #define FA_NULL5		(MAX_EXT_OUT_GPIO - 31)   // 扩展输出 19号pin
 #define FA_NULL6		(MAX_EXT_OUT_GPIO - 32)   // 扩展输出 20号pin
+//声明
+extern UINT8 gJinYeFa[];
+extern UINT8 gPaiYeFa[];
+
 
 
 extern int g_System_Info;  // 系统状态
@@ -192,19 +198,6 @@ extern int g_System_Info;  // 系统状态
 
 #define CMD_PID__GET_ADDR			0x16  // 写命令
 
-#if HARDWARE_V100
-#define CMD_PID_CHANEL5			1   // PID 1 号通道
-#define CMD_PID_CHANEL6			2   // PID 2 号通道
-#define CMD_PID_CHANEL7			3   // PID 3 号通道
-#define CMD_PID_CHANEL8			4   // PID 4 号通道
-
-#define CMD_PID_CHANEL1			10   // PID 1 号通道
-#define CMD_PID_CHANEL2			11   // PID 2 号通道
-#define CMD_PID_CHANEL3			12   // PID 3 号通道
-#define CMD_PID_CHANEL4			13   // PID 4 号通道
-#endif
-
-#if HARDWARE_V101
 #define CMD_PID_CHANEL5			5   // PID 1 号通道
 #define CMD_PID_CHANEL6			6   // PID 2 号通道
 #define CMD_PID_CHANEL7			7   // PID 3 号通道
@@ -214,7 +207,7 @@ extern int g_System_Info;  // 系统状态
 #define CMD_PID_CHANEL2			2   // PID 2 号通道
 #define CMD_PID_CHANEL3			3   // PID 3 号通道
 #define CMD_PID_CHANEL4			4   // PID 4 号通道
-#endif
+
 
 
 //AIJ仪表通讯协议请求帧帧格式  发送命令格式
@@ -261,22 +254,6 @@ typedef struct tagANS_FRM_T
 #define STR_TEMP_32		"制冷区"  // 注意 table中不可以有数字
 #define STR_TEMP_nor	"常温"
 #endif
-extern float g_temp1;		// 实时温度1
-extern float g_temp2;		// 实时温度2
-extern float g_temp3;		// 实时温度1
-extern float g_temp4;		// 实时温度2
-extern float g_temp5;		// 实时温度1
-extern float g_temp_nor;		// 实时温度2
-
-
-extern float g_Sp1	;
-extern float g_Sp2	;
-extern float g_Sp3	;
-extern float g_Sp4	;
-extern float g_Sp5	;
-extern float g_Sp6	;
-extern float g_Sp7	;
-extern float g_Sp8	;
 
 
 #define TEMP_RS485_DELEY	(500*1000)  // usleep 200ms
@@ -324,6 +301,7 @@ typedef struct Para_setting
 #define	PIC_BACKGROUND_SYSTEMTEST_JPG			"/home/root/appData/pic-plc/systemTest.jpg"  // 背景图片
 #define	PIC_BACKGROUND_SYSTEMTEST_PNG			"/home/root/appData/pic-plc/systemTest.png"  // 背景图片
 #define	PIC_BACKGROUND_SINGLETEST_PNG			"/home/root/appData/pic-plc/singleTest.png"  // 背景图片
+#define	PIC_BACKGROUND_SINGLEZUHE_PNG			"/home/root/appData/pic-plc/comTest.png"  // 背景图片
 
 
 #define LEN_TEMP_DATA			10 // 温度数据长度
@@ -644,6 +622,13 @@ typedef struct test_info
 #define AD_ZERO						0x8000  //
 #define AD_GET_TIME						(200*1000)  // 200ms
 #define AD_GET_TIME2						(20*1000)  // 10ms
+
+//阀执行超时时间 300秒
+#define  TIMEOUT_LIMIT              300
+
+extern int unsigned g_TIMEOUT ;
+
+
 //有效数据(判断数据的变化率不超过正负10%) 则转到完成
 #define THOU_DATA_STANARD		20	// 上下波动范围
 
@@ -693,6 +678,7 @@ extern void outputMessage(QtMsgType type, const QMessageLogContext &context, con
 // for hardware **************************
 void HardWare_Init(void);  // 硬件初始化
 void HardWare_UnInit(void); //接触硬件
+void msleep(unsigned int msec);
 
 void set_system_time(int year, uchar mon, uchar day, uchar hour, uchar min, uchar sec);
 
@@ -717,4 +703,6 @@ void SetMaDa2_Start(bool flag);
 void SetMaDa1_Start(bool flag);
 void SetMaDa1_Dir(bool flag);
 void SetMaDa2_Dir(bool flag);
+// 停止所有阀
+void StopAll();
 #endif // COMMON_H

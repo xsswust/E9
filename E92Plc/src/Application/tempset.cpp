@@ -104,20 +104,7 @@ void TempSet::Init()  // 初始化
 	ui->le_Ch6->setFocusPolicy(Qt::ClickFocus);
 	ui->le_Ch6->installEventFilter(im);
 
-	ui->le_Ch1->setText(QString::number(g_Sp1));
-	ui->le_Ch2->setText(QString::number(g_Sp2));
-	ui->le_Ch3->setText(QString::number(g_Sp3));
-	ui->le_Ch4->setText(QString::number(g_Sp4));
-	ui->le_Ch5->setText(QString::number(g_Sp5));
-	ui->le_Ch6->setText(QString::number(g_Sp6));
-	//ui->le_Ch1->removeEventFilter(im);
 
-	ui->lb_temp_1->setText(QString::number(g_temp1));
-	ui->lb_temp_2->setText(QString::number(g_temp2));
-	ui->lb_temp_3->setText(QString::number(g_temp3));
-	ui->lb_temp_4->setText(QString::number(g_temp4));
-	ui->lb_temp_5->setText(QString::number(g_temp5));
-	ui->lb_temp_nor->setText(QString::number(g_temp_nor));
 
 	// 1s 定时
 	pUpdateTime = new QTimer();
@@ -167,60 +154,11 @@ void TempSet::UnInit()  // 界面跳转
 //更新显示
 void TempSet::UpdateShow()
 {
-	ui->lb_temp_1->setText(QString::number(g_temp1));
-	ui->lb_temp_2->setText(QString::number(g_temp2));
-	ui->lb_temp_3->setText(QString::number(g_temp3));
-	ui->lb_temp_4->setText(QString::number(g_temp4));
-	ui->lb_temp_5->setText(QString::number(g_temp5));
-	ui->lb_temp_nor->setText(QString::number(g_temp_nor));
-
 	double t;
 
-#if 1
+
 	t = (ui->le_Ch1->text()).toDouble();
-	if(t == 0.0)
-	{
-		ui->le_Ch1->setText(QString::number(g_Sp1));
-	}
 
-	t = (ui->le_Ch2->text()).toDouble();
-	if(t == 0.0)
-	{
-		ui->le_Ch2->setText(QString::number(g_Sp2));
-	}
-
-	t = (ui->le_Ch3->text()).toDouble();
-	if(t == 0.0)
-	{
-		ui->le_Ch3->setText(QString::number(g_Sp3));
-	}
-
-	t = (ui->le_Ch4->text()).toDouble();
-	if(t == 0.0)
-	{
-		ui->le_Ch4->setText(QString::number(g_Sp4));
-	}
-
-	t = (ui->le_Ch5->text()).toDouble();
-	if(t == 0.0)
-	{
-		ui->le_Ch5->setText(QString::number(g_Sp5));
-	}
-
-	t = (ui->le_Ch6->text()).toDouble();
-	if(t == 0.0)
-	{
-		ui->le_Ch6->setText(QString::number(g_Sp6));
-	}
-#else
-	ui->le_Ch1->setText(QString::number(g_Sp1));
-	ui->le_Ch2->setText(QString::number(g_Sp2));
-	ui->le_Ch3->setText(QString::number(g_Sp3));
-	ui->le_Ch4->setText(QString::number(g_Sp4));
-	ui->le_Ch5->setText(QString::number(g_Sp5));
-	ui->le_Ch6->setText(QString::number(g_Sp6));
-
-#endif
 }
 
 // 退出

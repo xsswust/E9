@@ -67,7 +67,6 @@ SOURCES       = src/Application/aculatedata.cpp \
 		src/Application/syssetting.cpp \
 		src/Application/tansmittance.cpp \
 		src/Application/testing.cpp \
-		src/Application/testmode.cpp \
 		src/Application/timecalibrate.cpp \
 		src/HardWare/ad.cpp \
 		src/HardWare/app.cpp \
@@ -82,7 +81,8 @@ SOURCES       = src/Application/aculatedata.cpp \
 		src/Application/debug_signal.cpp \
 		src/Application/tempset.cpp \
 		src/Thread/com5tran_thread.cpp \
-		src/HardWare/pwm.cpp qrc_resource.cpp \
+		src/HardWare/pwm.cpp \
+		src/Application/debug_zuhe.cpp qrc_resource.cpp \
 		moc_aculatedata.cpp \
 		moc_comtran.cpp \
 		moc_debugging.cpp \
@@ -102,7 +102,6 @@ SOURCES       = src/Application/aculatedata.cpp \
 		moc_syssetting.cpp \
 		moc_tansmittance.cpp \
 		moc_testing.cpp \
-		moc_testmode.cpp \
 		moc_timecalibrate.cpp \
 		moc_keyboard_dependence.cpp \
 		moc_qextserialbase.cpp \
@@ -110,7 +109,8 @@ SOURCES       = src/Application/aculatedata.cpp \
 		moc_testing_thread.cpp \
 		moc_debug_signal.cpp \
 		moc_tempset.cpp \
-		moc_com5tran_thread.cpp
+		moc_com5tran_thread.cpp \
+		moc_debug_zuhe.cpp
 OBJECTS       = aculatedata.o \
 		common.o \
 		comtran.o \
@@ -133,7 +133,6 @@ OBJECTS       = aculatedata.o \
 		syssetting.o \
 		tansmittance.o \
 		testing.o \
-		testmode.o \
 		timecalibrate.o \
 		ad.o \
 		app.o \
@@ -149,6 +148,7 @@ OBJECTS       = aculatedata.o \
 		tempset.o \
 		com5tran_thread.o \
 		pwm.o \
+		debug_zuhe.o \
 		qrc_resource.o \
 		moc_aculatedata.o \
 		moc_comtran.o \
@@ -169,7 +169,6 @@ OBJECTS       = aculatedata.o \
 		moc_syssetting.o \
 		moc_tansmittance.o \
 		moc_testing.o \
-		moc_testmode.o \
 		moc_timecalibrate.o \
 		moc_keyboard_dependence.o \
 		moc_qextserialbase.o \
@@ -177,7 +176,8 @@ OBJECTS       = aculatedata.o \
 		moc_testing_thread.o \
 		moc_debug_signal.o \
 		moc_tempset.o \
-		moc_com5tran_thread.o
+		moc_com5tran_thread.o \
+		moc_debug_zuhe.o
 DIST          = /opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/lib/qt5/mkspecs/features/spec_pre.prf \
 		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/lib/qt5/mkspecs/common/shell-unix.conf \
 		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/lib/qt5/mkspecs/common/unix.conf \
@@ -323,7 +323,6 @@ DIST          = /opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/us
 		src/Application/syssetting.cpp \
 		src/Application/tansmittance.cpp \
 		src/Application/testing.cpp \
-		src/Application/testmode.cpp \
 		src/Application/timecalibrate.cpp \
 		src/HardWare/ad.cpp \
 		src/HardWare/app.cpp \
@@ -338,7 +337,8 @@ DIST          = /opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/us
 		src/Application/debug_signal.cpp \
 		src/Application/tempset.cpp \
 		src/Thread/com5tran_thread.cpp \
-		src/HardWare/pwm.cpp
+		src/HardWare/pwm.cpp \
+		src/Application/debug_zuhe.cpp
 QMAKE_TARGET  = E92Plc
 DESTDIR       = #avoid trailing-slash linebreak
 TARGET        = E92Plc
@@ -368,7 +368,7 @@ first: all
 
 all: Makefile $(TARGET)
 
-$(TARGET): ui_aculatedata.h ui_comtran.h ui_debugging.h ui_exporthisdata.h ui_hisdatadis.h ui_hisdatasearch.h ui_hisdatatemp.h ui_login.h ui_netsetting.h ui_NumberKeyBoard.h ui_paratable.h ui_syshelp.h ui_syssetting.h ui_tansmittance.h ui_testing.h ui_timecalibrate.h ui_tempset.h ui_debug_signal.h ui_hisdata.h ui_mainwindow.h ui_paracalibrate.h ui_parasetting.h ui_testmode.h $(OBJECTS)  
+$(TARGET): ui_aculatedata.h ui_comtran.h ui_debugging.h ui_exporthisdata.h ui_hisdatadis.h ui_hisdatasearch.h ui_hisdatatemp.h ui_login.h ui_netsetting.h ui_NumberKeyBoard.h ui_paratable.h ui_syshelp.h ui_syssetting.h ui_tansmittance.h ui_testing.h ui_timecalibrate.h ui_tempset.h ui_debug_signal.h ui_hisdata.h ui_mainwindow.h ui_paracalibrate.h ui_parasetting.h ui_debug_zuhe.h $(OBJECTS)  
 	$(LINK) $(LFLAGS) -o $(TARGET) $(OBJECTS) $(OBJCOMP) $(LIBS)
 
 Makefile: E92Plc.pro /opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/lib/qt5/mkspecs/linux-oe-g++/qmake.conf /opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/lib/qt5/mkspecs/features/spec_pre.prf \
@@ -641,7 +641,7 @@ qmake_all: FORCE
 
 dist: 
 	@test -d .tmp/E92Plc1.0.0 || mkdir -p .tmp/E92Plc1.0.0
-	$(COPY_FILE) --parents $(DIST) .tmp/E92Plc1.0.0/ && $(COPY_FILE) --parents resource.qrc resource.qrc .tmp/E92Plc1.0.0/ && $(COPY_FILE) --parents src/Application/aculatedata.h src/Application/common.h src/Application/comtran.h src/Application/debugging.h src/Application/exporthisdata.h src/Application/hisdata.h src/Application/hisdatadis.h src/Application/hisdatasearch.h src/Application/hisdatatemp.h src/Application/login.h src/Application/mainwindow.h src/Application/netsetting.h src/Application/NumberKeyBoard.h src/Application/paracalibrate.h src/Application/parasetting.h src/Application/paratable.h src/Application/sql_control.h src/Application/syshelp.h src/Application/syssetting.h src/Application/tansmittance.h src/Application/testing.h src/Application/testmode.h src/Application/timecalibrate.h src/HardWare/app.h src/HardWare/keyboard_dependence.h src/HardWare/posix_qextserialport.h src/HardWare/qextserialbase.h src/HardWare/UdpCommunication.h src/Thread/comtran_thread.h src/HardWare/ad.h src/HardWare/gpio.h src/HardWare/com_trandata.h src/Thread/testing_thread.h src/Application/debug_signal.h src/Application/tempset.h src/HardWare/libFoo.h src/Thread/com5tran_thread.h src/Application/e92plc_cfg.h src/HardWare/pwm.h .tmp/E92Plc1.0.0/ && $(COPY_FILE) --parents src/Application/aculatedata.cpp src/Application/common.cpp src/Application/comtran.cpp src/Application/debugging.cpp src/Application/exporthisdata.cpp src/Application/hisdata.cpp src/Application/hisdatadis.cpp src/Application/hisdatasearch.cpp src/Application/hisdatatemp.cpp src/Application/login.cpp src/Application/main.cpp src/Application/mainwindow.cpp src/Application/netsetting.cpp src/Application/NumberKeyBoard.cpp src/Application/paracalibrate.cpp src/Application/parasetting.cpp src/Application/paratable.cpp src/Application/sql_control.cpp src/Application/syshelp.cpp src/Application/syssetting.cpp src/Application/tansmittance.cpp src/Application/testing.cpp src/Application/testmode.cpp src/Application/timecalibrate.cpp src/HardWare/ad.cpp src/HardWare/app.cpp src/HardWare/keyboard_dependence.cpp src/HardWare/posix_qextserialport.cpp src/HardWare/qextserialbase.cpp src/HardWare/UdpCommunication.cpp src/Thread/comtran_thread.cpp src/HardWare/gpio.cpp src/HardWare/com_trandata.cpp src/Thread/testing_thread.cpp src/Application/debug_signal.cpp src/Application/tempset.cpp src/Thread/com5tran_thread.cpp src/HardWare/pwm.cpp .tmp/E92Plc1.0.0/ && $(COPY_FILE) --parents src/Designer/aculatedata.ui src/Designer/comtran.ui src/Designer/debugging.ui src/Designer/exporthisdata.ui src/Designer/hisdatadis.ui src/Designer/hisdatasearch.ui src/Designer/hisdatatemp.ui src/Designer/login.ui src/Designer/netsetting.ui src/Designer/NumberKeyBoard.ui src/Designer/paratable.ui src/Designer/syshelp.ui src/Designer/syssetting.ui src/Designer/tansmittance.ui src/Designer/testing.ui src/Designer/timecalibrate.ui src/Designer/tempset.ui src/Designer/only/debug_signal.ui src/Designer/only/hisdata.ui src/Designer/only/mainwindow.ui src/Designer/only/paracalibrate.ui src/Designer/only/parasetting.ui src/Designer/only/testmode.ui .tmp/E92Plc1.0.0/ && (cd `dirname .tmp/E92Plc1.0.0` && $(TAR) E92Plc1.0.0.tar E92Plc1.0.0 && $(COMPRESS) E92Plc1.0.0.tar) && $(MOVE) `dirname .tmp/E92Plc1.0.0`/E92Plc1.0.0.tar.gz . && $(DEL_FILE) -r .tmp/E92Plc1.0.0
+	$(COPY_FILE) --parents $(DIST) .tmp/E92Plc1.0.0/ && $(COPY_FILE) --parents resource.qrc resource.qrc .tmp/E92Plc1.0.0/ && $(COPY_FILE) --parents src/Application/aculatedata.h src/Application/common.h src/Application/comtran.h src/Application/debugging.h src/Application/exporthisdata.h src/Application/hisdata.h src/Application/hisdatadis.h src/Application/hisdatasearch.h src/Application/hisdatatemp.h src/Application/login.h src/Application/mainwindow.h src/Application/netsetting.h src/Application/NumberKeyBoard.h src/Application/paracalibrate.h src/Application/parasetting.h src/Application/paratable.h src/Application/sql_control.h src/Application/syshelp.h src/Application/syssetting.h src/Application/tansmittance.h src/Application/testing.h src/Application/timecalibrate.h src/HardWare/app.h src/HardWare/keyboard_dependence.h src/HardWare/posix_qextserialport.h src/HardWare/qextserialbase.h src/HardWare/UdpCommunication.h src/Thread/comtran_thread.h src/HardWare/ad.h src/HardWare/gpio.h src/HardWare/com_trandata.h src/Thread/testing_thread.h src/Application/debug_signal.h src/Application/tempset.h src/HardWare/libFoo.h src/Thread/com5tran_thread.h src/Application/e92plc_cfg.h src/HardWare/pwm.h src/Application/debug_zuhe.h .tmp/E92Plc1.0.0/ && $(COPY_FILE) --parents src/Application/aculatedata.cpp src/Application/common.cpp src/Application/comtran.cpp src/Application/debugging.cpp src/Application/exporthisdata.cpp src/Application/hisdata.cpp src/Application/hisdatadis.cpp src/Application/hisdatasearch.cpp src/Application/hisdatatemp.cpp src/Application/login.cpp src/Application/main.cpp src/Application/mainwindow.cpp src/Application/netsetting.cpp src/Application/NumberKeyBoard.cpp src/Application/paracalibrate.cpp src/Application/parasetting.cpp src/Application/paratable.cpp src/Application/sql_control.cpp src/Application/syshelp.cpp src/Application/syssetting.cpp src/Application/tansmittance.cpp src/Application/testing.cpp src/Application/timecalibrate.cpp src/HardWare/ad.cpp src/HardWare/app.cpp src/HardWare/keyboard_dependence.cpp src/HardWare/posix_qextserialport.cpp src/HardWare/qextserialbase.cpp src/HardWare/UdpCommunication.cpp src/Thread/comtran_thread.cpp src/HardWare/gpio.cpp src/HardWare/com_trandata.cpp src/Thread/testing_thread.cpp src/Application/debug_signal.cpp src/Application/tempset.cpp src/Thread/com5tran_thread.cpp src/HardWare/pwm.cpp src/Application/debug_zuhe.cpp .tmp/E92Plc1.0.0/ && $(COPY_FILE) --parents src/Designer/aculatedata.ui src/Designer/comtran.ui src/Designer/debugging.ui src/Designer/exporthisdata.ui src/Designer/hisdatadis.ui src/Designer/hisdatasearch.ui src/Designer/hisdatatemp.ui src/Designer/login.ui src/Designer/netsetting.ui src/Designer/NumberKeyBoard.ui src/Designer/paratable.ui src/Designer/syshelp.ui src/Designer/syssetting.ui src/Designer/tansmittance.ui src/Designer/testing.ui src/Designer/timecalibrate.ui src/Designer/tempset.ui src/Designer/only/debug_signal.ui src/Designer/only/hisdata.ui src/Designer/only/mainwindow.ui src/Designer/only/paracalibrate.ui src/Designer/only/parasetting.ui src/Designer/only/debug_zuhe.ui .tmp/E92Plc1.0.0/ && (cd `dirname .tmp/E92Plc1.0.0` && $(TAR) E92Plc1.0.0.tar E92Plc1.0.0 && $(COMPRESS) E92Plc1.0.0.tar) && $(MOVE) `dirname .tmp/E92Plc1.0.0`/E92Plc1.0.0.tar.gz . && $(DEL_FILE) -r .tmp/E92Plc1.0.0
 
 
 clean:compiler_clean 
@@ -783,9 +783,9 @@ qrc_resource.cpp: resource.qrc \
 		image/plc/systemSt.png
 	/opt/poky/1.7/sysroots/x86_64-pokysdk-linux/usr/bin/qt5/rcc -name resource resource.qrc -o qrc_resource.cpp
 
-compiler_moc_header_make_all: moc_aculatedata.cpp moc_comtran.cpp moc_debugging.cpp moc_exporthisdata.cpp moc_hisdata.cpp moc_hisdatadis.cpp moc_hisdatasearch.cpp moc_hisdatatemp.cpp moc_login.cpp moc_mainwindow.cpp moc_netsetting.cpp moc_NumberKeyBoard.cpp moc_paracalibrate.cpp moc_parasetting.cpp moc_paratable.cpp moc_syshelp.cpp moc_syssetting.cpp moc_tansmittance.cpp moc_testing.cpp moc_testmode.cpp moc_timecalibrate.cpp moc_keyboard_dependence.cpp moc_qextserialbase.cpp moc_comtran_thread.cpp moc_testing_thread.cpp moc_debug_signal.cpp moc_tempset.cpp moc_com5tran_thread.cpp
+compiler_moc_header_make_all: moc_aculatedata.cpp moc_comtran.cpp moc_debugging.cpp moc_exporthisdata.cpp moc_hisdata.cpp moc_hisdatadis.cpp moc_hisdatasearch.cpp moc_hisdatatemp.cpp moc_login.cpp moc_mainwindow.cpp moc_netsetting.cpp moc_NumberKeyBoard.cpp moc_paracalibrate.cpp moc_parasetting.cpp moc_paratable.cpp moc_syshelp.cpp moc_syssetting.cpp moc_tansmittance.cpp moc_testing.cpp moc_timecalibrate.cpp moc_keyboard_dependence.cpp moc_qextserialbase.cpp moc_comtran_thread.cpp moc_testing_thread.cpp moc_debug_signal.cpp moc_tempset.cpp moc_com5tran_thread.cpp moc_debug_zuhe.cpp
 compiler_moc_header_clean:
-	-$(DEL_FILE) moc_aculatedata.cpp moc_comtran.cpp moc_debugging.cpp moc_exporthisdata.cpp moc_hisdata.cpp moc_hisdatadis.cpp moc_hisdatasearch.cpp moc_hisdatatemp.cpp moc_login.cpp moc_mainwindow.cpp moc_netsetting.cpp moc_NumberKeyBoard.cpp moc_paracalibrate.cpp moc_parasetting.cpp moc_paratable.cpp moc_syshelp.cpp moc_syssetting.cpp moc_tansmittance.cpp moc_testing.cpp moc_testmode.cpp moc_timecalibrate.cpp moc_keyboard_dependence.cpp moc_qextserialbase.cpp moc_comtran_thread.cpp moc_testing_thread.cpp moc_debug_signal.cpp moc_tempset.cpp moc_com5tran_thread.cpp
+	-$(DEL_FILE) moc_aculatedata.cpp moc_comtran.cpp moc_debugging.cpp moc_exporthisdata.cpp moc_hisdata.cpp moc_hisdatadis.cpp moc_hisdatasearch.cpp moc_hisdatatemp.cpp moc_login.cpp moc_mainwindow.cpp moc_netsetting.cpp moc_NumberKeyBoard.cpp moc_paracalibrate.cpp moc_parasetting.cpp moc_paratable.cpp moc_syshelp.cpp moc_syssetting.cpp moc_tansmittance.cpp moc_testing.cpp moc_timecalibrate.cpp moc_keyboard_dependence.cpp moc_qextserialbase.cpp moc_comtran_thread.cpp moc_testing_thread.cpp moc_debug_signal.cpp moc_tempset.cpp moc_com5tran_thread.cpp moc_debug_zuhe.cpp
 moc_aculatedata.cpp: /opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtWidgets/QWidget \
 		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtWidgets/qwidget.h \
 		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtGui/qwindowdefs.h \
@@ -3260,109 +3260,6 @@ moc_testing.cpp: /opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/u
 		src/Application/testing.h
 	/opt/poky/1.7/sysroots/x86_64-pokysdk-linux/usr/bin/qt5/moc $(DEFINES) -I/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/lib/qt5/mkspecs/linux-oe-g++ -I/home/zbc/work/E9/E92Plc -I/home/zbc/work/E9/E92Plc -I/home/zbc/work/E9/E92Plc/src/HardWare -I/home/zbc/work/E9/E92Plc -I/home/zbc/work/E9/E92Plc/src/Application -I/home/zbc/work/E9/E92Plc -I/home/zbc/work/E9/E92Plc/src/Thread -I/home/zbc/work/E9/E92Plc -I/home/zbc/work/E9/E92Plc/src -I/home/zbc/work/E9/E92Plc -I/home/zbc/work/E9/E92Plc/src/HardWare -I/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5 -I/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtWidgets -I/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtSql -I/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtSerialPort -I/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtNetwork -I/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtGui -I/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore -I/home/hx/Public/yocto/fsl-release-bsp/build/tmp/sysroots/imx6qsabresd/usr/include/c++/4.9.1 -I/home/hx/Public/yocto/fsl-release-bsp/build/tmp/sysroots/imx6qsabresd/usr/include/c++/4.9.1/arm-poky-linux-gnueabi -I/home/hx/Public/yocto/fsl-release-bsp/build/tmp/sysroots/imx6qsabresd/usr/include/c++/4.9.1/backward -I/home/hx/Public/yocto/fsl-release-bsp/build/tmp/sysroots/x86_64-linux/usr/lib/arm-poky-linux-gnueabi/gcc/arm-poky-linux-gnueabi/4.9.1/include -I/home/hx/Public/yocto/fsl-release-bsp/build/tmp/sysroots/x86_64-linux/usr/lib/arm-poky-linux-gnueabi/gcc/arm-poky-linux-gnueabi/4.9.1/include-fixed -I/home/hx/Public/yocto/fsl-release-bsp/build/tmp/sysroots/imx6qsabresd/usr/include src/Application/testing.h -o moc_testing.cpp
 
-moc_testmode.cpp: /opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtWidgets/QWidget \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtWidgets/qwidget.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtGui/qwindowdefs.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qglobal.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qconfig.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qfeatures.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qsystemdetection.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qprocessordetection.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qcompilerdetection.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qtypeinfo.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qtypetraits.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qsysinfo.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qlogging.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qflags.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qatomic.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qbasicatomic.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qatomic_bootstrap.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qgenericatomic.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qatomic_msvc.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qatomic_armv7.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qatomic_armv6.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qatomic_armv5.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qatomic_ia64.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qatomic_mips.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qatomic_x86.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qatomic_cxx11.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qatomic_gcc.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qatomic_unix.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qglobalstatic.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qmutex.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qnumeric.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qobjectdefs.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qnamespace.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qobjectdefs_impl.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtGui/qwindowdefs_win.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qobject.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qstring.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qchar.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qbytearray.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qrefcount.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qarraydata.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qstringbuilder.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qlist.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qalgorithms.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qiterator.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qcoreevent.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qscopedpointer.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qmetatype.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qvarlengtharray.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qcontainerfwd.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qisenum.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qobject_impl.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qmargins.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtGui/qpaintdevice.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qrect.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qsize.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qpoint.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtGui/qpalette.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtGui/qcolor.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtGui/qrgb.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qstringlist.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qdatastream.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qiodevice.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qpair.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qregexp.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qstringmatcher.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtGui/qbrush.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qvector.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtGui/qmatrix.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtGui/qpolygon.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtGui/qregion.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qline.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtGui/qtransform.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtGui/qpainterpath.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtGui/qimage.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtGui/qpixmap.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qsharedpointer.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qshareddata.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qsharedpointer_impl.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qhash.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtGui/qfont.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtGui/qfontmetrics.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtGui/qfontinfo.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtWidgets/qsizepolicy.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtGui/qcursor.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtGui/qkeysequence.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtGui/qevent.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qvariant.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qmap.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qdebug.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qtextstream.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qlocale.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qset.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qcontiguouscache.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qurl.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qurlquery.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qfile.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qfiledevice.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtGui/qvector2d.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtGui/qtouchdevice.h \
-		src/Application/testmode.h
-	/opt/poky/1.7/sysroots/x86_64-pokysdk-linux/usr/bin/qt5/moc $(DEFINES) -I/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/lib/qt5/mkspecs/linux-oe-g++ -I/home/zbc/work/E9/E92Plc -I/home/zbc/work/E9/E92Plc -I/home/zbc/work/E9/E92Plc/src/HardWare -I/home/zbc/work/E9/E92Plc -I/home/zbc/work/E9/E92Plc/src/Application -I/home/zbc/work/E9/E92Plc -I/home/zbc/work/E9/E92Plc/src/Thread -I/home/zbc/work/E9/E92Plc -I/home/zbc/work/E9/E92Plc/src -I/home/zbc/work/E9/E92Plc -I/home/zbc/work/E9/E92Plc/src/HardWare -I/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5 -I/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtWidgets -I/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtSql -I/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtSerialPort -I/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtNetwork -I/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtGui -I/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore -I/home/hx/Public/yocto/fsl-release-bsp/build/tmp/sysroots/imx6qsabresd/usr/include/c++/4.9.1 -I/home/hx/Public/yocto/fsl-release-bsp/build/tmp/sysroots/imx6qsabresd/usr/include/c++/4.9.1/arm-poky-linux-gnueabi -I/home/hx/Public/yocto/fsl-release-bsp/build/tmp/sysroots/imx6qsabresd/usr/include/c++/4.9.1/backward -I/home/hx/Public/yocto/fsl-release-bsp/build/tmp/sysroots/x86_64-linux/usr/lib/arm-poky-linux-gnueabi/gcc/arm-poky-linux-gnueabi/4.9.1/include -I/home/hx/Public/yocto/fsl-release-bsp/build/tmp/sysroots/x86_64-linux/usr/lib/arm-poky-linux-gnueabi/gcc/arm-poky-linux-gnueabi/4.9.1/include-fixed -I/home/hx/Public/yocto/fsl-release-bsp/build/tmp/sysroots/imx6qsabresd/usr/include src/Application/testmode.h -o moc_testmode.cpp
-
 moc_timecalibrate.cpp: /opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtWidgets/QWidget \
 		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtWidgets/qwidget.h \
 		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtGui/qwindowdefs.h \
@@ -5062,11 +4959,114 @@ moc_com5tran_thread.cpp: src/HardWare/posix_qextserialport.h \
 		src/Thread/com5tran_thread.h
 	/opt/poky/1.7/sysroots/x86_64-pokysdk-linux/usr/bin/qt5/moc $(DEFINES) -I/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/lib/qt5/mkspecs/linux-oe-g++ -I/home/zbc/work/E9/E92Plc -I/home/zbc/work/E9/E92Plc -I/home/zbc/work/E9/E92Plc/src/HardWare -I/home/zbc/work/E9/E92Plc -I/home/zbc/work/E9/E92Plc/src/Application -I/home/zbc/work/E9/E92Plc -I/home/zbc/work/E9/E92Plc/src/Thread -I/home/zbc/work/E9/E92Plc -I/home/zbc/work/E9/E92Plc/src -I/home/zbc/work/E9/E92Plc -I/home/zbc/work/E9/E92Plc/src/HardWare -I/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5 -I/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtWidgets -I/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtSql -I/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtSerialPort -I/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtNetwork -I/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtGui -I/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore -I/home/hx/Public/yocto/fsl-release-bsp/build/tmp/sysroots/imx6qsabresd/usr/include/c++/4.9.1 -I/home/hx/Public/yocto/fsl-release-bsp/build/tmp/sysroots/imx6qsabresd/usr/include/c++/4.9.1/arm-poky-linux-gnueabi -I/home/hx/Public/yocto/fsl-release-bsp/build/tmp/sysroots/imx6qsabresd/usr/include/c++/4.9.1/backward -I/home/hx/Public/yocto/fsl-release-bsp/build/tmp/sysroots/x86_64-linux/usr/lib/arm-poky-linux-gnueabi/gcc/arm-poky-linux-gnueabi/4.9.1/include -I/home/hx/Public/yocto/fsl-release-bsp/build/tmp/sysroots/x86_64-linux/usr/lib/arm-poky-linux-gnueabi/gcc/arm-poky-linux-gnueabi/4.9.1/include-fixed -I/home/hx/Public/yocto/fsl-release-bsp/build/tmp/sysroots/imx6qsabresd/usr/include src/Thread/com5tran_thread.h -o moc_com5tran_thread.cpp
 
+moc_debug_zuhe.cpp: /opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtWidgets/QWidget \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtWidgets/qwidget.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtGui/qwindowdefs.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qglobal.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qconfig.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qfeatures.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qsystemdetection.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qprocessordetection.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qcompilerdetection.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qtypeinfo.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qtypetraits.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qsysinfo.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qlogging.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qflags.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qatomic.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qbasicatomic.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qatomic_bootstrap.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qgenericatomic.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qatomic_msvc.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qatomic_armv7.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qatomic_armv6.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qatomic_armv5.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qatomic_ia64.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qatomic_mips.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qatomic_x86.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qatomic_cxx11.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qatomic_gcc.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qatomic_unix.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qglobalstatic.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qmutex.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qnumeric.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qobjectdefs.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qnamespace.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qobjectdefs_impl.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtGui/qwindowdefs_win.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qobject.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qstring.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qchar.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qbytearray.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qrefcount.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qarraydata.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qstringbuilder.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qlist.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qalgorithms.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qiterator.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qcoreevent.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qscopedpointer.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qmetatype.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qvarlengtharray.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qcontainerfwd.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qisenum.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qobject_impl.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qmargins.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtGui/qpaintdevice.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qrect.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qsize.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qpoint.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtGui/qpalette.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtGui/qcolor.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtGui/qrgb.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qstringlist.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qdatastream.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qiodevice.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qpair.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qregexp.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qstringmatcher.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtGui/qbrush.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qvector.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtGui/qmatrix.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtGui/qpolygon.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtGui/qregion.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qline.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtGui/qtransform.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtGui/qpainterpath.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtGui/qimage.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtGui/qpixmap.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qsharedpointer.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qshareddata.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qsharedpointer_impl.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qhash.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtGui/qfont.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtGui/qfontmetrics.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtGui/qfontinfo.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtWidgets/qsizepolicy.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtGui/qcursor.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtGui/qkeysequence.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtGui/qevent.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qvariant.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qmap.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qdebug.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qtextstream.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qlocale.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qset.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qcontiguouscache.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qurl.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qurlquery.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qfile.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qfiledevice.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtGui/qvector2d.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtGui/qtouchdevice.h \
+		src/Application/debug_zuhe.h
+	/opt/poky/1.7/sysroots/x86_64-pokysdk-linux/usr/bin/qt5/moc $(DEFINES) -I/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/lib/qt5/mkspecs/linux-oe-g++ -I/home/zbc/work/E9/E92Plc -I/home/zbc/work/E9/E92Plc -I/home/zbc/work/E9/E92Plc/src/HardWare -I/home/zbc/work/E9/E92Plc -I/home/zbc/work/E9/E92Plc/src/Application -I/home/zbc/work/E9/E92Plc -I/home/zbc/work/E9/E92Plc/src/Thread -I/home/zbc/work/E9/E92Plc -I/home/zbc/work/E9/E92Plc/src -I/home/zbc/work/E9/E92Plc -I/home/zbc/work/E9/E92Plc/src/HardWare -I/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5 -I/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtWidgets -I/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtSql -I/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtSerialPort -I/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtNetwork -I/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtGui -I/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore -I/home/hx/Public/yocto/fsl-release-bsp/build/tmp/sysroots/imx6qsabresd/usr/include/c++/4.9.1 -I/home/hx/Public/yocto/fsl-release-bsp/build/tmp/sysroots/imx6qsabresd/usr/include/c++/4.9.1/arm-poky-linux-gnueabi -I/home/hx/Public/yocto/fsl-release-bsp/build/tmp/sysroots/imx6qsabresd/usr/include/c++/4.9.1/backward -I/home/hx/Public/yocto/fsl-release-bsp/build/tmp/sysroots/x86_64-linux/usr/lib/arm-poky-linux-gnueabi/gcc/arm-poky-linux-gnueabi/4.9.1/include -I/home/hx/Public/yocto/fsl-release-bsp/build/tmp/sysroots/x86_64-linux/usr/lib/arm-poky-linux-gnueabi/gcc/arm-poky-linux-gnueabi/4.9.1/include-fixed -I/home/hx/Public/yocto/fsl-release-bsp/build/tmp/sysroots/imx6qsabresd/usr/include src/Application/debug_zuhe.h -o moc_debug_zuhe.cpp
+
 compiler_moc_source_make_all:
 compiler_moc_source_clean:
-compiler_uic_make_all: ui_aculatedata.h ui_comtran.h ui_debugging.h ui_exporthisdata.h ui_hisdatadis.h ui_hisdatasearch.h ui_hisdatatemp.h ui_login.h ui_netsetting.h ui_NumberKeyBoard.h ui_paratable.h ui_syshelp.h ui_syssetting.h ui_tansmittance.h ui_testing.h ui_timecalibrate.h ui_tempset.h ui_debug_signal.h ui_hisdata.h ui_mainwindow.h ui_paracalibrate.h ui_parasetting.h ui_testmode.h
+compiler_uic_make_all: ui_aculatedata.h ui_comtran.h ui_debugging.h ui_exporthisdata.h ui_hisdatadis.h ui_hisdatasearch.h ui_hisdatatemp.h ui_login.h ui_netsetting.h ui_NumberKeyBoard.h ui_paratable.h ui_syshelp.h ui_syssetting.h ui_tansmittance.h ui_testing.h ui_timecalibrate.h ui_tempset.h ui_debug_signal.h ui_hisdata.h ui_mainwindow.h ui_paracalibrate.h ui_parasetting.h ui_debug_zuhe.h
 compiler_uic_clean:
-	-$(DEL_FILE) ui_aculatedata.h ui_comtran.h ui_debugging.h ui_exporthisdata.h ui_hisdatadis.h ui_hisdatasearch.h ui_hisdatatemp.h ui_login.h ui_netsetting.h ui_NumberKeyBoard.h ui_paratable.h ui_syshelp.h ui_syssetting.h ui_tansmittance.h ui_testing.h ui_timecalibrate.h ui_tempset.h ui_debug_signal.h ui_hisdata.h ui_mainwindow.h ui_paracalibrate.h ui_parasetting.h ui_testmode.h
+	-$(DEL_FILE) ui_aculatedata.h ui_comtran.h ui_debugging.h ui_exporthisdata.h ui_hisdatadis.h ui_hisdatasearch.h ui_hisdatatemp.h ui_login.h ui_netsetting.h ui_NumberKeyBoard.h ui_paratable.h ui_syshelp.h ui_syssetting.h ui_tansmittance.h ui_testing.h ui_timecalibrate.h ui_tempset.h ui_debug_signal.h ui_hisdata.h ui_mainwindow.h ui_paracalibrate.h ui_parasetting.h ui_debug_zuhe.h
 ui_aculatedata.h: src/Designer/aculatedata.ui
 	/opt/poky/1.7/sysroots/x86_64-pokysdk-linux/usr/bin/qt5/uic src/Designer/aculatedata.ui -o ui_aculatedata.h
 
@@ -5133,8 +5133,8 @@ ui_paracalibrate.h: src/Designer/only/paracalibrate.ui
 ui_parasetting.h: src/Designer/only/parasetting.ui
 	/opt/poky/1.7/sysroots/x86_64-pokysdk-linux/usr/bin/qt5/uic src/Designer/only/parasetting.ui -o ui_parasetting.h
 
-ui_testmode.h: src/Designer/only/testmode.ui
-	/opt/poky/1.7/sysroots/x86_64-pokysdk-linux/usr/bin/qt5/uic src/Designer/only/testmode.ui -o ui_testmode.h
+ui_debug_zuhe.h: src/Designer/only/debug_zuhe.ui
+	/opt/poky/1.7/sysroots/x86_64-pokysdk-linux/usr/bin/qt5/uic src/Designer/only/debug_zuhe.ui -o ui_debug_zuhe.h
 
 compiler_yacc_decl_make_all:
 compiler_yacc_decl_clean:
@@ -6270,9 +6270,6 @@ debugging.o: src/Application/debugging.cpp src/Application/debugging.h \
 		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtWidgets/qtabwidget.h \
 		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtWidgets/qrubberband.h \
 		ui_debugging.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtWidgets/QFrame \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtWidgets/QLabel \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtWidgets/qlabel.h \
 		src/Application/mainwindow.h \
 		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtWidgets/QMainWindow \
 		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtWidgets/qmainwindow.h \
@@ -8860,7 +8857,7 @@ mainwindow.o: src/Application/mainwindow.cpp src/Application/mainwindow.h \
 		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtWidgets/qpushbutton.h \
 		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtWidgets/qabstractbutton.h \
 		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtWidgets/QWidget \
-		src/Application/testmode.h \
+		src/Application/debug_zuhe.h \
 		src/Application/aculatedata.h \
 		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/QTimer \
 		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qtimer.h \
@@ -12318,342 +12315,11 @@ testing.o: src/Application/testing.cpp src/Application/testing.h \
 		src/Application/e92plc_cfg.h \
 		src/HardWare/pwm.h \
 		src/Thread/comtran_thread.h \
-		src/Application/testmode.h \
+		src/Application/debug_zuhe.h \
 		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/QTextCodec \
 		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtGui/QPalette \
 		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtGui/QFont
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o testing.o src/Application/testing.cpp
-
-testmode.o: src/Application/testmode.cpp src/Application/testmode.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtWidgets/QWidget \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtWidgets/qwidget.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtGui/qwindowdefs.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qglobal.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qconfig.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qfeatures.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qsystemdetection.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qprocessordetection.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qcompilerdetection.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qtypeinfo.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qtypetraits.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qsysinfo.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qlogging.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qflags.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qatomic.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qbasicatomic.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qatomic_bootstrap.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qgenericatomic.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qatomic_msvc.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qatomic_armv7.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qatomic_armv6.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qatomic_armv5.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qatomic_ia64.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qatomic_mips.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qatomic_x86.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qatomic_cxx11.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qatomic_gcc.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qatomic_unix.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qglobalstatic.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qmutex.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qnumeric.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qobjectdefs.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qnamespace.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qobjectdefs_impl.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtGui/qwindowdefs_win.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qobject.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qstring.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qchar.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qbytearray.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qrefcount.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qarraydata.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qstringbuilder.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qlist.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qalgorithms.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qiterator.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qcoreevent.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qscopedpointer.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qmetatype.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qvarlengtharray.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qcontainerfwd.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qisenum.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qobject_impl.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qmargins.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtGui/qpaintdevice.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qrect.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qsize.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qpoint.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtGui/qpalette.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtGui/qcolor.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtGui/qrgb.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qstringlist.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qdatastream.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qiodevice.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qpair.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qregexp.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qstringmatcher.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtGui/qbrush.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qvector.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtGui/qmatrix.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtGui/qpolygon.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtGui/qregion.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qline.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtGui/qtransform.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtGui/qpainterpath.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtGui/qimage.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtGui/qpixmap.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qsharedpointer.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qshareddata.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qsharedpointer_impl.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qhash.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtGui/qfont.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtGui/qfontmetrics.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtGui/qfontinfo.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtWidgets/qsizepolicy.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtGui/qcursor.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtGui/qkeysequence.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtGui/qevent.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qvariant.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qmap.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qdebug.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qtextstream.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qlocale.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qset.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qcontiguouscache.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qurl.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qurlquery.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qfile.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qfiledevice.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtGui/qvector2d.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtGui/qtouchdevice.h \
-		ui_testmode.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/QVariant \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtWidgets/QAction \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtWidgets/qaction.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtGui/qicon.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtWidgets/qactiongroup.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtWidgets/QApplication \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtWidgets/qapplication.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qcoreapplication.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qeventloop.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtWidgets/qdesktopwidget.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtGui/qguiapplication.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtGui/qinputmethod.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtWidgets/QButtonGroup \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtWidgets/qbuttongroup.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtWidgets/QFrame \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtWidgets/qframe.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtWidgets/QHeaderView \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtWidgets/qheaderview.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtWidgets/qabstractitemview.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtWidgets/qabstractscrollarea.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qabstractitemmodel.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qitemselectionmodel.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtWidgets/qabstractitemdelegate.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtWidgets/qstyleoption.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtWidgets/qabstractspinbox.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtGui/qvalidator.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qregularexpression.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtWidgets/qslider.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtWidgets/qabstractslider.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtWidgets/qstyle.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtWidgets/qtabbar.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtWidgets/qtabwidget.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtWidgets/qrubberband.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtWidgets/QPushButton \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtWidgets/qpushbutton.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtWidgets/qabstractbutton.h \
-		src/Application/mainwindow.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtWidgets/QMainWindow \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtWidgets/qmainwindow.h \
-		src/Application/testing.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/QTimer \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qtimer.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qbasictimer.h \
-		src/HardWare/keyboard_dependence.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/QSignalMapper \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qsignalmapper.h \
-		src/Application/NumberKeyBoard.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtWidgets/QLineEdit \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtWidgets/qlineedit.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtGui/qtextcursor.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtGui/qtextformat.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtGui/qpen.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtGui/qtextoption.h \
-		ui_NumberKeyBoard.h \
-		src/Application/testingdis.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/QTextCodec \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qtextcodec.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtGui/QPalette \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtGui/QFont \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/QSettings \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qsettings.h \
-		src/Application/common.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/QString \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtWidgets/QMessageBox \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtWidgets/qmessagebox.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtWidgets/qdialog.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/QDebug \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/QMutex \
-		src/HardWare/UdpCommunication.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtNetwork/QtNetwork \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtNetwork/QtNetworkDepends \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/QtCore \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/QtCoreDepends \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qabstractanimation.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qanimationgroup.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qparallelanimationgroup.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qpauseanimation.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qpropertyanimation.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qvariantanimation.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qeasingcurve.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qsequentialanimationgroup.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qendian.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qlibraryinfo.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qdatetime.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qbuffer.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qdir.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qfileinfo.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qdiriterator.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qfileselector.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/QObject \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/QStringList \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qfilesystemwatcher.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qlockfile.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qloggingcategory.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qprocess.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qresource.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qsavefile.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qstandardpaths.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qtemporarydir.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/QScopedPointer \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qtemporaryfile.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qabstractproxymodel.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qidentityproxymodel.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qsortfilterproxymodel.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qstringlistmodel.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qjsonarray.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qjsonvalue.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qjsondocument.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qjsonobject.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qabstracteventdispatcher.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qabstractnativeeventfilter.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qmath.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qmetaobject.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qmimedata.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qobjectcleanuphandler.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qpointer.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qsharedmemory.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qsocketnotifier.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qsystemsemaphore.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qtranslator.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qwineventnotifier.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qmimedatabase.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qmimetype.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qfactoryinterface.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qlibrary.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qplugin.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qpluginloader.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/quuid.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qabstractstate.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qabstracttransition.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qeventtransition.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qfinalstate.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qhistorystate.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qsignaltransition.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qstate.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qstatemachine.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qexception.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qfuture.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qfutureinterface.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qrunnable.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qresultstore.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qfuturesynchronizer.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qfuturewatcher.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qreadwritelock.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qsemaphore.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qthread.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qthreadpool.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qthreadstorage.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qwaitcondition.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qarraydataops.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qarraydatapointer.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qbitarray.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qbytearraymatcher.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qcache.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qcollator.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qcommandlineoption.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qcommandlineparser.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qcryptographichash.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qelapsedtimer.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qlinkedlist.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qmessageauthenticationcode.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qqueue.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qscopedvaluerollback.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qstack.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qtextboundaryfinder.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qtimeline.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qtimezone.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qxmlstream.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qtcoreversion.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtNetwork/qabstractnetworkcache.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtNetwork/qnetworkrequest.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/QSharedDataPointer \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/QUrl \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtNetwork/qhttpmultipart.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/QByteArray \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/QIODevice \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtNetwork/QNetworkRequest \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtNetwork/qnetworkaccessmanager.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtNetwork/QSslConfiguration \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtNetwork/qsslconfiguration.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtNetwork/qsslsocket.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtNetwork/qtcpsocket.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtNetwork/qabstractsocket.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtNetwork/qsslerror.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtNetwork/qsslcertificate.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtNetwork/qssl.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/QFlags \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtNetwork/qnetworkcookie.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/QList \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/QMetaType \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtNetwork/qnetworkcookiejar.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtNetwork/qnetworkdiskcache.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtNetwork/qnetworkreply.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtNetwork/QNetworkAccessManager \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtNetwork/qnetworkconfigmanager.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtNetwork/qnetworkconfiguration.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtNetwork/qnetworksession.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtNetwork/qnetworkinterface.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtNetwork/qhostaddress.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtNetwork/qauthenticator.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtNetwork/qdnslookup.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtNetwork/qhostinfo.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtNetwork/qnetworkproxy.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtNetwork/qlocalserver.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtNetwork/qlocalsocket.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtNetwork/qtcpserver.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtNetwork/qudpsocket.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtNetwork/qsslcertificateextension.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtNetwork/qsslcipher.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtNetwork/qsslkey.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtNetwork/qtnetworkversion.h \
-		src/HardWare/app.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtWidgets/QTableWidget \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtWidgets/qtablewidget.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtWidgets/qtableview.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/QFile \
-		src/HardWare/gpio.h \
-		src/HardWare/libFoo.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtWidgets/QDesktopWidget \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtGui/QScreen \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtGui/qscreen.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/QRect \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/QSize \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/QSizeF \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtGui/QTransform \
-		src/Application/e92plc_cfg.h \
-		src/HardWare/pwm.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o testmode.o src/Application/testmode.cpp
 
 timecalibrate.o: src/Application/timecalibrate.cpp src/Application/timecalibrate.h \
 		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtWidgets/QWidget \
@@ -15488,9 +15154,6 @@ debug_signal.o: src/Application/debug_signal.cpp src/Application/debug_signal.h 
 		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtGui/qinputmethod.h \
 		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtWidgets/QButtonGroup \
 		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtWidgets/qbuttongroup.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtWidgets/QCheckBox \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtWidgets/qcheckbox.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtWidgets/qabstractbutton.h \
 		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtWidgets/QHeaderView \
 		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtWidgets/qheaderview.h \
 		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtWidgets/qabstractitemview.h \
@@ -15509,18 +15172,9 @@ debug_signal.o: src/Application/debug_signal.cpp src/Application/debug_signal.h 
 		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtWidgets/qtabbar.h \
 		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtWidgets/qtabwidget.h \
 		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtWidgets/qrubberband.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtWidgets/QLabel \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtWidgets/qlabel.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtWidgets/QLineEdit \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtWidgets/qlineedit.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtGui/qtextcursor.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtGui/qtextformat.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtGui/qpen.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtGui/qtextoption.h \
 		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtWidgets/QPushButton \
 		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtWidgets/qpushbutton.h \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtWidgets/QRadioButton \
-		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtWidgets/qradiobutton.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtWidgets/qabstractbutton.h \
 		src/Application/common.h \
 		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/QString \
 		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/QSettings \
@@ -16637,6 +16291,336 @@ pwm.o: src/HardWare/pwm.cpp src/HardWare/pwm.h \
 		src/Application/e92plc_cfg.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o pwm.o src/HardWare/pwm.cpp
 
+debug_zuhe.o: src/Application/debug_zuhe.cpp src/Application/debug_zuhe.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtWidgets/QWidget \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtWidgets/qwidget.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtGui/qwindowdefs.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qglobal.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qconfig.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qfeatures.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qsystemdetection.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qprocessordetection.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qcompilerdetection.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qtypeinfo.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qtypetraits.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qsysinfo.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qlogging.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qflags.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qatomic.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qbasicatomic.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qatomic_bootstrap.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qgenericatomic.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qatomic_msvc.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qatomic_armv7.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qatomic_armv6.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qatomic_armv5.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qatomic_ia64.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qatomic_mips.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qatomic_x86.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qatomic_cxx11.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qatomic_gcc.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qatomic_unix.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qglobalstatic.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qmutex.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qnumeric.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qobjectdefs.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qnamespace.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qobjectdefs_impl.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtGui/qwindowdefs_win.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qobject.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qstring.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qchar.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qbytearray.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qrefcount.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qarraydata.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qstringbuilder.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qlist.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qalgorithms.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qiterator.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qcoreevent.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qscopedpointer.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qmetatype.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qvarlengtharray.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qcontainerfwd.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qisenum.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qobject_impl.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qmargins.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtGui/qpaintdevice.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qrect.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qsize.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qpoint.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtGui/qpalette.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtGui/qcolor.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtGui/qrgb.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qstringlist.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qdatastream.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qiodevice.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qpair.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qregexp.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qstringmatcher.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtGui/qbrush.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qvector.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtGui/qmatrix.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtGui/qpolygon.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtGui/qregion.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qline.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtGui/qtransform.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtGui/qpainterpath.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtGui/qimage.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtGui/qpixmap.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qsharedpointer.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qshareddata.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qsharedpointer_impl.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qhash.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtGui/qfont.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtGui/qfontmetrics.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtGui/qfontinfo.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtWidgets/qsizepolicy.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtGui/qcursor.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtGui/qkeysequence.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtGui/qevent.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qvariant.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qmap.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qdebug.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qtextstream.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qlocale.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qset.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qcontiguouscache.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qurl.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qurlquery.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qfile.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qfiledevice.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtGui/qvector2d.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtGui/qtouchdevice.h \
+		ui_debug_zuhe.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/QVariant \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtWidgets/QAction \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtWidgets/qaction.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtGui/qicon.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtWidgets/qactiongroup.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtWidgets/QApplication \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtWidgets/qapplication.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qcoreapplication.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qeventloop.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtWidgets/qdesktopwidget.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtGui/qguiapplication.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtGui/qinputmethod.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtWidgets/QButtonGroup \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtWidgets/qbuttongroup.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtWidgets/QHeaderView \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtWidgets/qheaderview.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtWidgets/qabstractitemview.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtWidgets/qabstractscrollarea.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtWidgets/qframe.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qabstractitemmodel.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qitemselectionmodel.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtWidgets/qabstractitemdelegate.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtWidgets/qstyleoption.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtWidgets/qabstractspinbox.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtGui/qvalidator.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qregularexpression.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtWidgets/qslider.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtWidgets/qabstractslider.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtWidgets/qstyle.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtWidgets/qtabbar.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtWidgets/qtabwidget.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtWidgets/qrubberband.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtWidgets/QPushButton \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtWidgets/qpushbutton.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtWidgets/qabstractbutton.h \
+		src/Application/mainwindow.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtWidgets/QMainWindow \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtWidgets/qmainwindow.h \
+		src/Application/testing.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/QTimer \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qtimer.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qbasictimer.h \
+		src/HardWare/keyboard_dependence.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/QSignalMapper \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qsignalmapper.h \
+		src/Application/NumberKeyBoard.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtWidgets/QLineEdit \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtWidgets/qlineedit.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtGui/qtextcursor.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtGui/qtextformat.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtGui/qpen.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtGui/qtextoption.h \
+		ui_NumberKeyBoard.h \
+		src/Application/testingdis.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/QTextCodec \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qtextcodec.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtGui/QPalette \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtGui/QFont \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/QSettings \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qsettings.h \
+		src/Application/common.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/QString \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtWidgets/QMessageBox \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtWidgets/qmessagebox.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtWidgets/qdialog.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/QDebug \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/QMutex \
+		src/HardWare/UdpCommunication.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtNetwork/QtNetwork \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtNetwork/QtNetworkDepends \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/QtCore \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/QtCoreDepends \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qabstractanimation.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qanimationgroup.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qparallelanimationgroup.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qpauseanimation.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qpropertyanimation.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qvariantanimation.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qeasingcurve.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qsequentialanimationgroup.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qendian.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qlibraryinfo.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qdatetime.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qbuffer.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qdir.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qfileinfo.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qdiriterator.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qfileselector.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/QObject \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/QStringList \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qfilesystemwatcher.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qlockfile.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qloggingcategory.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qprocess.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qresource.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qsavefile.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qstandardpaths.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qtemporarydir.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/QScopedPointer \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qtemporaryfile.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qabstractproxymodel.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qidentityproxymodel.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qsortfilterproxymodel.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qstringlistmodel.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qjsonarray.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qjsonvalue.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qjsondocument.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qjsonobject.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qabstracteventdispatcher.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qabstractnativeeventfilter.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qmath.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qmetaobject.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qmimedata.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qobjectcleanuphandler.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qpointer.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qsharedmemory.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qsocketnotifier.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qsystemsemaphore.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qtranslator.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qwineventnotifier.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qmimedatabase.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qmimetype.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qfactoryinterface.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qlibrary.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qplugin.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qpluginloader.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/quuid.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qabstractstate.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qabstracttransition.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qeventtransition.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qfinalstate.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qhistorystate.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qsignaltransition.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qstate.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qstatemachine.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qexception.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qfuture.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qfutureinterface.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qrunnable.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qresultstore.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qfuturesynchronizer.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qfuturewatcher.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qreadwritelock.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qsemaphore.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qthread.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qthreadpool.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qthreadstorage.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qwaitcondition.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qarraydataops.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qarraydatapointer.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qbitarray.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qbytearraymatcher.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qcache.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qcollator.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qcommandlineoption.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qcommandlineparser.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qcryptographichash.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qelapsedtimer.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qlinkedlist.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qmessageauthenticationcode.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qqueue.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qscopedvaluerollback.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qstack.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qtextboundaryfinder.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qtimeline.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qtimezone.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qxmlstream.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/qtcoreversion.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtNetwork/qabstractnetworkcache.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtNetwork/qnetworkrequest.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/QSharedDataPointer \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/QUrl \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtNetwork/qhttpmultipart.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/QByteArray \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/QIODevice \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtNetwork/QNetworkRequest \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtNetwork/qnetworkaccessmanager.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtNetwork/QSslConfiguration \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtNetwork/qsslconfiguration.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtNetwork/qsslsocket.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtNetwork/qtcpsocket.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtNetwork/qabstractsocket.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtNetwork/qsslerror.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtNetwork/qsslcertificate.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtNetwork/qssl.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/QFlags \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtNetwork/qnetworkcookie.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/QList \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/QMetaType \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtNetwork/qnetworkcookiejar.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtNetwork/qnetworkdiskcache.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtNetwork/qnetworkreply.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtNetwork/QNetworkAccessManager \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtNetwork/qnetworkconfigmanager.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtNetwork/qnetworkconfiguration.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtNetwork/qnetworksession.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtNetwork/qnetworkinterface.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtNetwork/qhostaddress.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtNetwork/qauthenticator.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtNetwork/qdnslookup.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtNetwork/qhostinfo.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtNetwork/qnetworkproxy.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtNetwork/qlocalserver.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtNetwork/qlocalsocket.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtNetwork/qtcpserver.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtNetwork/qudpsocket.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtNetwork/qsslcertificateextension.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtNetwork/qsslcipher.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtNetwork/qsslkey.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtNetwork/qtnetworkversion.h \
+		src/HardWare/app.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtWidgets/QTableWidget \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtWidgets/qtablewidget.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtWidgets/qtableview.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/QFile \
+		src/HardWare/gpio.h \
+		src/HardWare/libFoo.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtWidgets/QDesktopWidget \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtGui/QScreen \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtGui/qscreen.h \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/QRect \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/QSize \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtCore/QSizeF \
+		/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr/include/qt5/QtGui/QTransform \
+		src/Application/e92plc_cfg.h \
+		src/HardWare/pwm.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o debug_zuhe.o src/Application/debug_zuhe.cpp
+
 qrc_resource.o: qrc_resource.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o qrc_resource.o qrc_resource.cpp
 
@@ -16697,9 +16681,6 @@ moc_tansmittance.o: moc_tansmittance.cpp
 moc_testing.o: moc_testing.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_testing.o moc_testing.cpp
 
-moc_testmode.o: moc_testmode.cpp 
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_testmode.o moc_testmode.cpp
-
 moc_timecalibrate.o: moc_timecalibrate.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_timecalibrate.o moc_timecalibrate.cpp
 
@@ -16723,6 +16704,9 @@ moc_tempset.o: moc_tempset.cpp
 
 moc_com5tran_thread.o: moc_com5tran_thread.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_com5tran_thread.o moc_com5tran_thread.cpp
+
+moc_debug_zuhe.o: moc_debug_zuhe.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_debug_zuhe.o moc_debug_zuhe.cpp
 
 ####### Install
 

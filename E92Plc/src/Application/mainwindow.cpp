@@ -1,6 +1,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-#include "testmode.h"
+#include "debug_zuhe.h"
 #include "aculatedata.h"
 #include "hisdata.h"
 #include "syssetting.h"

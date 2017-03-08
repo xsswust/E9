@@ -48,7 +48,6 @@ HEADERS += \
     src/Application/syssetting.h \
     src/Application/tansmittance.h \
     src/Application/testing.h \
-    src/Application/testmode.h \
     src/Application/timecalibrate.h \
     src/HardWare/app.h \
     src/HardWare/keyboard_dependence.h \
@@ -65,7 +64,8 @@ HEADERS += \
     src/HardWare/libFoo.h \
     src/Thread/com5tran_thread.h \
     src/Application/e92plc_cfg.h \
-    src/HardWare/pwm.h
+    src/HardWare/pwm.h \
+    src/Application/debug_zuhe.h
 FORMS += \
     src/Designer/aculatedata.ui \
     src/Designer/comtran.ui \
@@ -89,7 +89,7 @@ FORMS += \
     src/Designer/only/mainwindow.ui \
     src/Designer/only/paracalibrate.ui \
     src/Designer/only/parasetting.ui \
-    src/Designer/only/testmode.ui
+    src/Designer/only/debug_zuhe.ui
 #    src/Designer/debug_signal.ui \
 SOURCES += \
     src/Application/aculatedata.cpp \
@@ -114,7 +114,6 @@ SOURCES += \
     src/Application/syssetting.cpp \
     src/Application/tansmittance.cpp \
     src/Application/testing.cpp \
-    src/Application/testmode.cpp \
     src/Application/timecalibrate.cpp \
     src/HardWare/ad.cpp \
     src/HardWare/app.cpp \
@@ -129,7 +128,8 @@ SOURCES += \
     src/Application/debug_signal.cpp \
     src/Application/tempset.cpp \
     src/Thread/com5tran_thread.cpp \
-    src/HardWare/pwm.cpp
+    src/HardWare/pwm.cpp \
+    src/Application/debug_zuhe.cpp
 RESOURCES += resource.qrc \
     resource.qrc
 

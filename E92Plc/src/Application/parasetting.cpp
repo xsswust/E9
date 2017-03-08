@@ -222,6 +222,7 @@ void ParaSetting::on_pbParaTable_clicked()
 	Init();
 }
 #endif
+
 void ParaSetting::insertValue(QString nustr)
 {
     p_editer = qobject_cast<QLineEdit*>(focusWidget());

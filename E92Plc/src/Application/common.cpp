@@ -10,6 +10,7 @@ typedef union _CRC
 	uchar by[2];
 }CRC;
 
+int unsigned g_TIMEOUT= TIMEOUT_LIMIT;  // 超时时间
 
 int unsigned g_Test_Over_Time = FAST_TIME_LIMIT;  // 超时时间
 int g_workmode = WORK_MODE_TEST;  // 工作模式
@@ -27,14 +28,9 @@ int gpio_in[] = {MAIN_GPIO_IN0, MAIN_GPIO_IN1,MAIN_GPIO_IN2, MAIN_GPIO_IN3,MAIN_
 
 UINT8 gExt_out[MAX_EXT_OUT_GPIO + 1];
 UINT8 gExt_in[MAX_EXT_IN_GPIO + 1];
-
-float g_temp1 = 0.0;		// 实时温度1
-float g_temp2 = 0.0;		// 实时温度2
-float g_temp3 = 0.0;		// 实时温度1
-float g_temp4 = 0.0;		// 实时温度2
-float g_temp5 = 0.0;		// 实时温度1
-float g_temp_nor = 0.0;		// 实时温度2
-
+// 进液阀
+UINT8 gJinYeFa[] ={ FA_JINYE1, FA_JINYE2,FA_JINYE3, FA_JINYE4, FA_JINYE5, FA_JINYE6};
+UINT8 gPaiYeFa[] ={ FA_PAIYE1, FA_PAIYE2,FA_PAIYE3, FA_PAIYE4, FA_PAIYE5, FA_PAIYE6};
 
 //ST_HISTORY_DATA gst_His_Info[MAX_TEST_NUM];  // 浓度保存
 ST_HISTORY_DATA gst_His_Info_to_plc[BOTTLE_MAX_NUM];  // 发送给 PLC 数据
@@ -359,7 +355,7 @@ void SetMaDa2_Dir(bool flag)
 }
 
 
-// pwm1  设置转速
+// pwm1  设置转速  机械臂
 // flag --> true 开始转  flag---> false 停止转
 void SetMaDa1_Start(bool flag)
 {
@@ -374,7 +370,7 @@ void SetMaDa1_Start(bool flag)
 }
 // pwm2
 
-// pwm2  设置转速
+// pwm2  设置转速  转盘
 // flag --> true 开始转  flag---> false 停止转
 void SetMaDa2_Start(bool flag)
 {
@@ -432,17 +428,23 @@ void UpdateExtOutGpio(){
 	int i = 0;
 
 	//qDebug<<gExt_out;
+//	Gpio_set(OUT_CLK, GPIO_LOW);
+	//sleep(1);
+	Gpio_set(OUT_LE, GPIO_LOW);
+	Gpio_set(OUT_SDI, gExt_out[i]);
 	for(i = 0; i < MAX_EXT_OUT_GPIO; i++)
 	{
+		Gpio_set(OUT_CLK, GPIO_LOW);
 		Gpio_set(OUT_SDI, gExt_out[i]);
 		Gpio_set(OUT_CLK, GPIO_HIGH);
+		//sleep(1);
 
-		Gpio_set(OUT_CLK, GPIO_LOW);
-
-		printf("gExt_out[%d] === %d \r\n", i, gExt_out[i]);
+		//printf("gExt_out[%d] === %d \r\n", i, gExt_out[i]);
 	}
-
+	//sleep(1);
+	//Gpio_set(OUT_CLK, GPIO_HIGH);
 	Gpio_set(OUT_LE, GPIO_HIGH);
+
 }
 
 // 获取扩展口输入值
@@ -460,15 +462,36 @@ void UpdateExtInGpio(){
 	int i = 0;
 
 	Gpio_set(IN_CLK, GPIO_LOW);
+	//sleep(1);
 	Gpio_set(IN_LE, GPIO_HIGH);  // 先置高在置地进行本芯片的数据保存
-//	Sleep(1);
+	//sleep(1);
 	Gpio_set(IN_LE, GPIO_LOW);
 	gExt_in[0] = (bool)Gpio_get(IN_DATA);
 	for(i = 1; i < MAX_EXT_IN_GPIO ; i++)
 	{
 		Gpio_set(IN_CLK, GPIO_HIGH);
 		gExt_in[i] = (bool)Gpio_get(IN_DATA);
+		//sleep(1);
 		Gpio_set(IN_CLK, GPIO_LOW);
 	}
+	//sleep(1);
+	Gpio_set(IN_CLK, GPIO_HIGH);
 }
+
+// 停止所有阀
+void StopAll(){
+// 初始化扩展板输出状态
+	int i = 0;
+
+	for(i = 0 ; i < MAX_EXT_OUT_GPIO; i++){  // 默认输入全为0
+		gExt_out[i] = 0;
+	}
+// 初始化 接口板输出状态
+//	for(i = 0; i < MAX_MAIN_OUT_GPIO; i++){
+//		Set_Main_Gpio(i, GPIO_LOW);
+//	}
+	UpdateExtOutGpio();// 初始化扩展板输出状态
+
+}
+
 

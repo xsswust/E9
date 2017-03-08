@@ -29,8 +29,10 @@ public slots:
 private slots:
     void on_pbExit_clicked();
 
-
+	// 开关量
 	void on_pb_single_clicked();
+	//组合 开关
+	void on_pb_com_released();
 
 private:
     Ui::Debugging *ui;
