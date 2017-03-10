@@ -4,7 +4,6 @@
 #include "src/HardWare/app.h"
 #include "src/HardWare/posix_qextserialport.h"
 #include "src/Thread/comtran_thread.h"
-#include <stdio.h>
 #include <QTextEdit>
 #include <QDebug>
 #include <QByteArray>

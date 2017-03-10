@@ -373,7 +373,7 @@ void debug_signal::on_pB_paiyebeng_released()
 //计量上
 void debug_signal::on_pB_jiliangfashag_released()
 {
-	int pin = FA_JILIANGSHANG;
+	int pin = FA_JILIANKONGQI;
 
 	if(gExt_out[pin] == 0){  // 关闭的
 		Set_Ext_Gpio(pin, GPIO_HIGH);
@@ -385,7 +385,7 @@ void debug_signal::on_pB_jiliangfashag_released()
 // 计量下
 void debug_signal::on_pB_jiliangdaxia_released()
 {
-	int pin = FA_JILIANGXIA;
+	int pin = FA_XIGUAN;
 
 	if(gExt_out[pin] == 0){  // 关闭的
 		Set_Ext_Gpio(pin, GPIO_HIGH);

@@ -41,6 +41,12 @@
       <height>51</height>
      </rect>
     </property>
+    <property name="font">
+     <font>
+      <family>Agency FB</family>
+      <pointsize>12</pointsize>
+     </font>
+    </property>
     <property name="styleSheet">
      <string notr="true">background-image: url(:/image/image/button_key_num.png);
 border-image: url(:/image/image/button_key_num.png);</string>
@@ -58,6 +64,12 @@ border-image: url(:/image/image/button_key_num.png);</string>
       <height>51</height>
      </rect>
     </property>
+    <property name="font">
+     <font>
+      <family>Agency FB</family>
+      <pointsize>12</pointsize>
+     </font>
+    </property>
     <property name="styleSheet">
      <string notr="true">border-image: url(:/image/image/button_key_num.png);</string>
     </property>
@@ -73,6 +85,12 @@ border-image: url(:/image/image/button_key_num.png);</string>
       <width>171</width>
       <height>51</height>
      </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Agency FB</family>
+      <pointsize>12</pointsize>
+     </font>
     </property>
     <property name="styleSheet">
      <string notr="true">border-image: url(:/image/image/button_key_num.png);</string>
@@ -90,6 +108,12 @@ border-image: url(:/image/image/button_key_num.png);</string>
       <height>51</height>
      </rect>
     </property>
+    <property name="font">
+     <font>
+      <family>Agency FB</family>
+      <pointsize>12</pointsize>
+     </font>
+    </property>
     <property name="styleSheet">
      <string notr="true">border-image: url(:/image/image/button_key_num.png);</string>
     </property>
@@ -105,6 +129,12 @@ border-image: url(:/image/image/button_key_num.png);</string>
       <width>161</width>
       <height>51</height>
      </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Agency FB</family>
+      <pointsize>12</pointsize>
+     </font>
     </property>
     <property name="styleSheet">
      <string notr="true">border-image: url(:/image/image/button_key_num.png);</string>
@@ -122,6 +152,12 @@ border-image: url(:/image/image/button_key_num.png);</string>
       <height>51</height>
      </rect>
     </property>
+    <property name="font">
+     <font>
+      <family>Agency FB</family>
+      <pointsize>12</pointsize>
+     </font>
+    </property>
     <property name="styleSheet">
      <string notr="true">border-image: url(:/image/image/button_key_num.png);</string>
     </property>
@@ -137,6 +173,12 @@ border-image: url(:/image/image/button_key_num.png);</string>
       <width>131</width>
       <height>121</height>
      </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Agency FB</family>
+      <pointsize>12</pointsize>
+     </font>
     </property>
     <property name="styleSheet">
      <string notr="true">background-image: url(:/image/image/button_key_backenter.png);

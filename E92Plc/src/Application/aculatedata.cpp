@@ -3,7 +3,6 @@
 //#include "mainwindow.h"
 #include "src/HardWare/com_trandata.h"
 #include "src/Thread/comtran_thread.h"
-#include <stdio.h>
 #include <QFile>
 #include <QTextCodec>
 #include <QFont>

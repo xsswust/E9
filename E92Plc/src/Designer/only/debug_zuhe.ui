@@ -29,7 +29,7 @@
     <bool>false</bool>
    </property>
    <property name="styleSheet">
-    <string notr="true">border-image: url(:/image/image/button_key_backenter.png);</string>
+    <string notr="true"/>
    </property>
    <property name="text">
     <string>返回</string>
@@ -48,7 +48,7 @@
     <bool>false</bool>
    </property>
    <property name="styleSheet">
-    <string notr="true">border-image: url(:/image/image/button_key_backenter.png);</string>
+    <string notr="true"/>
    </property>
    <property name="text">
     <string>全部停止</string>
@@ -67,7 +67,7 @@
     <bool>false</bool>
    </property>
    <property name="styleSheet">
-    <string notr="true">border-image: url(:/image/image/button_key_backenter.png);</string>
+    <string notr="true"/>
    </property>
    <property name="text">
     <string>采样泵进样</string>
@@ -105,7 +105,7 @@
     <bool>false</bool>
    </property>
    <property name="styleSheet">
-    <string notr="true">border-image: url(:/image/image/button_key_backenter.png);</string>
+    <string notr="true"/>
    </property>
    <property name="text">
     <string>检测池到水样？</string>
@@ -124,7 +124,7 @@
     <bool>false</bool>
    </property>
    <property name="styleSheet">
-    <string notr="true">border-image: url(:/image/image/button_key_backenter.png);</string>
+    <string notr="true"/>
    </property>
    <property name="text">
     <string>定量管到检测池？</string>
@@ -162,7 +162,7 @@
     <bool>false</bool>
    </property>
    <property name="styleSheet">
-    <string notr="true">border-image: url(:/image/image/button_key_backenter.png);</string>
+    <string notr="true"/>
    </property>
    <property name="text">
     <string>空气到吸管</string>
@@ -181,7 +181,7 @@
     <bool>false</bool>
    </property>
    <property name="styleSheet">
-    <string notr="true">border-image: url(:/image/image/button_key_backenter.png);</string>
+    <string notr="true"/>
    </property>
    <property name="text">
     <string>载流环到定量管</string>
@@ -200,7 +200,7 @@
     <bool>false</bool>
    </property>
    <property name="styleSheet">
-    <string notr="true">border-image: url(:/image/image/button_key_backenter.png);</string>
+    <string notr="true"/>
    </property>
    <property name="text">
     <string>消毒液到检测池？</string>
@@ -219,7 +219,7 @@
     <bool>false</bool>
    </property>
    <property name="styleSheet">
-    <string notr="true">border-image: url(:/image/image/button_key_backenter.png);</string>
+    <string notr="true"/>
    </property>
    <property name="text">
     <string>无菌水到检测池？</string>
@@ -238,7 +238,7 @@
     <bool>false</bool>
    </property>
    <property name="styleSheet">
-    <string notr="true">border-image: url(:/image/image/button_key_backenter.png);</string>
+    <string notr="true"/>
    </property>
    <property name="text">
     <string>无菌水到载流环？</string>
@@ -257,7 +257,7 @@
     <bool>false</bool>
    </property>
    <property name="styleSheet">
-    <string notr="true">border-image: url(:/image/image/button_key_backenter.png);</string>
+    <string notr="true"/>
    </property>
    <property name="text">
     <string>吸管到定量管</string>
@@ -276,7 +276,7 @@
     <bool>false</bool>
    </property>
    <property name="styleSheet">
-    <string notr="true">border-image: url(:/image/image/button_key_backenter.png);</string>
+    <string notr="true"/>
    </property>
    <property name="text">
     <string>检测池？到废液</string>
@@ -295,7 +295,7 @@
     <bool>false</bool>
    </property>
    <property name="styleSheet">
-    <string notr="true">border-image: url(:/image/image/button_key_backenter.png);</string>
+    <string notr="true"/>
    </property>
    <property name="text">
     <string>消毒液到载流环</string>
@@ -314,7 +314,7 @@
     <bool>false</bool>
    </property>
    <property name="styleSheet">
-    <string notr="true">border-image: url(:/image/image/button_key_backenter.png);</string>
+    <string notr="true"/>
    </property>
    <property name="text">
     <string>采样</string>
@@ -333,10 +333,10 @@
     <bool>false</bool>
    </property>
    <property name="styleSheet">
-    <string notr="true">border-image: url(:/image/image/button_key_backenter.png);</string>
+    <string notr="true"/>
    </property>
    <property name="text">
-    <string>管路清晰</string>
+    <string>管路清洗</string>
    </property>
   </widget>
   <widget class="QPushButton" name="pbJccqx">
@@ -352,7 +352,7 @@
     <bool>false</bool>
    </property>
    <property name="styleSheet">
-    <string notr="true">border-image: url(:/image/image/button_key_backenter.png);</string>
+    <string notr="true"/>
    </property>
    <property name="text">
     <string>检测池清洗</string>
@@ -371,7 +371,7 @@
     <bool>false</bool>
    </property>
    <property name="styleSheet">
-    <string notr="true">border-image: url(:/image/image/button_key_backenter.png);</string>
+    <string notr="true"/>
    </property>
    <property name="text">
     <string>全部清洗</string>
@@ -390,7 +390,7 @@
     <bool>false</bool>
    </property>
    <property name="styleSheet">
-    <string notr="true">border-image: url(:/image/image/button_key_backenter.png);</string>
+    <string notr="true"/>
    </property>
    <property name="text">
     <string>机械臂到初始位</string>
@@ -409,7 +409,7 @@
     <bool>false</bool>
    </property>
    <property name="styleSheet">
-    <string notr="true">border-image: url(:/image/image/button_key_backenter.png);</string>
+    <string notr="true"/>
    </property>
    <property name="text">
     <string>机械臂到吸取位</string>
@@ -428,7 +428,7 @@
     <bool>false</bool>
    </property>
    <property name="styleSheet">
-    <string notr="true">border-image: url(:/image/image/button_key_backenter.png);</string>
+    <string notr="true"/>
    </property>
    <property name="text">
     <string>机械臂到排液位</string>
@@ -447,7 +447,7 @@
     <bool>false</bool>
    </property>
    <property name="styleSheet">
-    <string notr="true">border-image: url(:/image/image/button_key_backenter.png);</string>
+    <string notr="true"/>
    </property>
    <property name="text">
     <string>转盘到排液位</string>
@@ -466,7 +466,7 @@
     <bool>false</bool>
    </property>
    <property name="styleSheet">
-    <string notr="true">border-image: url(:/image/image/button_key_backenter.png);</string>
+    <string notr="true"/>
    </property>
    <property name="text">
     <string>转盘到瓶位？</string>
@@ -484,6 +484,9 @@
    <property name="text">
     <string>1</string>
    </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
   </widget>
   <widget class="QLineEdit" name="le_BottomID">
    <property name="geometry">
@@ -496,6 +499,9 @@
    </property>
    <property name="text">
     <string>1</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
    </property>
   </widget>
   <widget class="QLineEdit" name="le_PlayTime">
@@ -510,6 +516,9 @@
    <property name="text">
     <string>10</string>
    </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
   </widget>
   <widget class="QLineEdit" name="le_Max_Time">
    <property name="geometry">
@@ -522,6 +531,41 @@
    </property>
    <property name="text">
     <string>300</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="le_onoff">
+   <property name="geometry">
+    <rect>
+     <x>490</x>
+     <y>265</y>
+     <width>25</width>
+     <height>35</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>关</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="le_setup">
+   <property name="geometry">
+    <rect>
+     <x>520</x>
+     <y>265</y>
+     <width>30</width>
+     <height>35</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>1</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
    </property>
   </widget>
  </widget>

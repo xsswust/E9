@@ -123,8 +123,8 @@ extern UINT8 gExt_in[MAX_EXT_IN_GPIO + 1];	// 扩展板输入IO数
 
 #define FA_PAIYE1		(MAX_EXT_OUT_GPIO - 13)   // 扩展输出 13号pin		排液阀1
 #define FA_PAIYE2		(MAX_EXT_OUT_GPIO - 14)   // 扩展输出 14号pin		排液阀2
-#define FA_JILIANGSHANG		(MAX_EXT_OUT_GPIO - 15)   // 扩展输出 15号pin	计量阀上
-#define FA_JILIANGXIA		(MAX_EXT_OUT_GPIO - 16)   // 扩展输出 16号pin	计量阀下
+#define FA_JILIANKONGQI		(MAX_EXT_OUT_GPIO - 15)   // 扩展输出 15号pin	计量阀上
+#define FA_XIGUAN		(MAX_EXT_OUT_GPIO - 16)   // 扩展输出 16号pin	计量阀下  吸管
 
 #define FA_PAIYE3		(MAX_EXT_OUT_GPIO - 17)   // 扩展输出 17号pin		排液阀3
 #define FA_PAIYE4		(MAX_EXT_OUT_GPIO - 18)   // 扩展输出 18号pin		排液阀4
@@ -148,6 +148,13 @@ extern UINT8 gExt_in[MAX_EXT_IN_GPIO + 1];	// 扩展板输入IO数
 //声明
 extern UINT8 gJinYeFa[];
 extern UINT8 gPaiYeFa[];
+
+
+#define MODE_GUANLUCLEAN    1   // 管路清洗
+#define MODE_JIANCECHICLEAN    2   // 检测池清洗
+#define MODE_ALLCLEAN    3   // 全部清洗
+
+
 
 
 
@@ -371,10 +378,6 @@ typedef struct Para_setting
 #define	STR_UNIT_MPN_L					"MPN/L"
 #define	STR_UNIT_CFU_ML					"CFU/mL"
 
-//#define	PIC_BACKGROUND_PNG			"/opt/PDA/app/images/Background.png"  // 背景图片
-
-
-//#define	PIC_BACKGROUND_PNG			"/image/Background.png"  // 背景图片
 #define	MAX_MODE_LEN    10		//测试 mode 最大支付长度
 
 #define MAX_HIS_ID					5000 // 最大记录数
@@ -406,6 +409,10 @@ typedef struct Para_setting
 #define	STR_WORK_MODE2							"在线模式"  //
 #define	FILE_NET_SETTING			"/opt/PDA/app/datas/netSetting.bin"   // 网络设置 文件
 
+// 组合动作界面
+#define STR_ZUHE_ON		"开"
+#define STR_ZUHE_OFF		"关"
+#define	STR_STOP_ZUHE		"动作正在执行，是否停止动作？"
 
 //testting 界面
 //#define STR_TEST_START	"开始检测！"   //
